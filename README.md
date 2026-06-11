@@ -1,4 +1,4 @@
-# SYNTHETIC NATION
+# SYNTERRA
 
 > Policy stress-testing platform powered by 10,000 autonomous AI citizens.
 > Test government decisions before real people pay for them.
@@ -7,7 +7,7 @@
 
 ## What It Does
 
-Synthetic Nation lets policymakers stress-test a decision on a simulated city
+Synterra lets policymakers stress-test a decision on a simulated city
 before applying it to real people.
 
 Pick a city, describe a policy, answer a few implementation questions, then
@@ -55,6 +55,24 @@ gaps are shown explicitly in the product and docs.
 - Node.js 20.19.0+ (`nvm use` reads `.nvmrc`)
 - npm 10+
 - Python 3.11+
+
+### ⚠️ Running the Premium Version (Correct Branch)
+The main development containing the premium force-directed social graph, SQLite database, and advanced simulation visualizer lives on the `pulkit-improvements` branch. 
+
+If you or your friends clone this repository, Git will default to the legacy retro screen on the `main` branch. To run the premium dashboard:
+```bash
+git checkout pulkit-improvements
+```
+
+To update the default `main` branch on GitHub so it always shows the new premium screens by default:
+```bash
+# Switch to main and merge the improvements
+git checkout main
+git merge pulkit-improvements
+
+# Push updated main to GitHub
+git push origin main
+```
 
 ### Step-by-Step Instructions
 
@@ -123,7 +141,7 @@ Open `http://localhost:8080`.
 See `frontend/.env.example` and `backend/.env.example` for all required values.
 Never commit `.env`, `.env.local`, or provider API keys.
 
-Frontend code calls only the Synthetic Nation backend. LLM provider keys belong
+Frontend code calls only the Synterra backend. LLM provider keys belong
 only in backend runtime environment variables.
 
 ## Verification

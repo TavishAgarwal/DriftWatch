@@ -32,7 +32,7 @@ class Settings:
 settings = Settings()
 
 app = FastAPI(
-    title="Synthetic Nation API",
+    title="Synterra API",
     description="Policy simulation engine with autonomous multi-tier agents",
     version="1.0.0",
     docs_url="/docs" if settings.debug else None,
