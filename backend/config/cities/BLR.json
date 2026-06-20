@@ -1,0 +1,75 @@
+{
+  "city_id": "BLR",
+  "city_name": "Bengaluru",
+  "state_id": "KA",
+  "population": 13200000,
+  "area_sq_km": 741,
+  "ward_count": 198,
+  "topology_type": "SPRAWL",
+  "transport_network": {
+    "metro_lines": [
+      {
+        "line_id": "BLR_METRO_PURPLE",
+        "name": "Purple Line",
+        "stations": 37,
+        "daily_ridership": 420000,
+        "corridor": "Challaghatta - Whitefield (Kadugodi)",
+        "data_source": "BMRCL ridership data 2023-24; Purple Line extended to Whitefield, ridership surge post-extension"
+      },
+      {
+        "line_id": "BLR_METRO_GREEN",
+        "name": "Green Line",
+        "stations": 30,
+        "daily_ridership": 280000,
+        "corridor": "Nagasandra - Silk Institute (Anjanapura)",
+        "data_source": "BMRCL ridership data 2023-24"
+      }
+    ],
+    "suburban_rail": {
+      "present": false,
+      "note": "Bengaluru Suburban Railway Project (BSRP) approved but not operational as of 2024",
+      "data_source": "K-RIDE (Rail Infrastructure Development Company Karnataka) project status 2024"
+    },
+    "bus_network": {
+      "operator": "BMTC (Bangalore Metropolitan Transport Corporation)",
+      "route_count": 2200,
+      "daily_ridership": 4200000,
+      "data_source": "BMTC annual report 2023-24; BMTC operates one of the largest urban bus fleets in India with approx 6500 buses"
+    },
+    "total_daily_pt_ridership": 4900000,
+    "total_daily_pt_ridership_data_source": "Sum of metro (0.7M) + bus (4.2M); Bengaluru is heavily bus-dependent due to limited metro coverage relative to sprawl"
+  },
+  "economic_baseline": {
+    "median_household_income_monthly": 35000,
+    "gini_coefficient": 0.39,
+    "formal_employment_share": 0.58,
+    "major_employment_sectors": [
+      "information_technology",
+      "manufacturing",
+      "aerospace",
+      "biotechnology",
+      "education"
+    ],
+    "data_source": "Median income estimated from NSSO PLFS 2022-23 Bengaluru urban MPCE (highest among 6 cities due to IT sector); Gini from consumption expenditure distribution; formal employment from EPFO + IT/ITES sector employment data (NASSCOM estimates 1.5M+ IT workers in Bengaluru); sectors from Karnataka Economic Survey 2023-24"
+  },
+  "osm_extract": {
+    "source": "geofabrik",
+    "url": "https://download.geofabrik.de/asia/india/southern-zone-latest.osm.pbf",
+    "bbox": [77.45, 12.85, 77.78, 13.15],
+    "last_updated": "2024-01"
+  },
+  "validation_anchors": [],
+  "validation_anchors_note": "To be populated post-Bengaluru calibration; potential anchors include BMRCL Purple Line extension ridership ramp-up and BMTC Vajra premium service uptake",
+  "confidence_grade": "B",
+  "zones": [
+    "BLR_CENTRAL",
+    "BLR_WHITEFIELD",
+    "BLR_ELECTRONIC_CITY",
+    "BLR_NORTH",
+    "BLR_SOUTH",
+    "BLR_EAST",
+    "BLR_WEST",
+    "BLR_OUTER_RING",
+    "BLR_PERIURBAN"
+  ]
+}

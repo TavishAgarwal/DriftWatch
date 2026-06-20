@@ -1,0 +1,7 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/driftwatch-backend', '-f', 'backend/Dockerfile', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/driftwatch-backend']
+images:
+  - 'gcr.io/$PROJECT_ID/driftwatch-backend'

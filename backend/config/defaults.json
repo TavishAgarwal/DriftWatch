@@ -1,0 +1,18 @@
+{
+  "loss_aversion_coefficient": 0.74,
+  "information_diffusion_speed": 0.61,
+  "collective_action_threshold": 0.45,
+  "institutional_trust_railways": 0.58,
+  "institutional_trust_examinations": 0.65,
+  "political_mobilisation_index": 0.52,
+  "informal_employment_rate": 0.47,
+  "avg_connections_tier1": 35,
+  "clustering_coefficient": 0.58,
+  "fare_sensitivity_score": 0.55,
+  "examination_sensitivity_score": 0.50,
+  "cross_income_bridge_frequency": 0.18,
+  "tier2_agent_density": 0.040,
+  "car_ownership_rate": 0.22,
+  "metro_dependency_score": 0.40,
+  "data_source": "National averages from NSSO 78th Round, Census 2011, Lokniti-CSDS 2024, World Values Survey India Wave 7"
+}

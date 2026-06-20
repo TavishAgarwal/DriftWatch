@@ -1,0 +1,128 @@
+{
+  "zone_id": "KOL_EAST",
+  "zone_name": "Salt Lake – Rajarhat (IT Corridor / New Town)",
+  "city_id": "KOL",
+  "state_id": "WB",
+  "geography": {
+    "centroid_lat": 22.5800,
+    "centroid_lng": 88.4300,
+    "area_sq_km": 45,
+    "ward_ids": [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103],
+    "geojson_path": "geojson/KOL/KOL_EAST.geojson",
+    "data_source": "KMC ward map + NKDA (New Town Kolkata Development Authority) boundary, Salt Lake Sector V and Rajarhat New Town delineation"
+  },
+  "demographics": {
+    "population": 550000,
+    "population_density_per_sqkm": 12222,
+    "average_household_size": 3.3,
+    "literacy_rate": 0.94,
+    "sc_st_population_share": 0.06,
+    "data_source": "Census 2011 North 24 Parganas district tables (Salt Lake/Rajarhat area), rapid growth at 5.8% CAGR in New Town, NKDA population estimates"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.04,
+      "decile_2": 0.05,
+      "decile_3": 0.06,
+      "decile_4": 0.07,
+      "decile_5": 0.08,
+      "decile_6": 0.10,
+      "decile_7": 0.13,
+      "decile_8": 0.15,
+      "decile_9": 0.16,
+      "decile_10": 0.16
+    },
+    "median_monthly_income": 45000,
+    "informal_employment_rate": 0.18,
+    "primary_occupations": [
+      "IT_software",
+      "IT_services",
+      "professional_services",
+      "education",
+      "government_services",
+      "retail"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) West Bengal urban tables, NASSCOM Bengal IT industry data, Sector V tech park employment, PLFS 2022-23"
+  },
+  "commute_profile": {
+    "primary_mode": "bus",
+    "secondary_mode": "private_car",
+    "metro_dependency_score": 0.28,
+    "avg_commute_distance_km": 12.5,
+    "avg_commute_time_min": 42,
+    "nearest_metro_lines": ["green_line"],
+    "nearest_metro_stations": ["Salt Lake Sector V", "Karunamoyee", "Central Park"],
+    "car_ownership_rate": 0.38,
+    "data_source": "Kolkata Metro Green Line (East-West Corridor) partial operation data 2023, planned stations for Salt Lake/Rajarhat extension, AC bus service data"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.18,
+    "examination_sensitivity_score": 0.58,
+    "collective_action_threshold": 0.58,
+    "information_diffusion_speed": 0.78,
+    "loss_aversion_coefficient": 0.45,
+    "institutional_trust_railways": 0.60,
+    "institutional_trust_examinations": 0.65,
+    "political_mobilisation_index": 0.42,
+    "data_source": "Estimated from mid-high income IT corridor, low fare sensitivity, high digital diffusion, lower political mobilisation than old Kolkata due to migrant professional population"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 42,
+    "clustering_coefficient": 0.48,
+    "cross_income_bridge_frequency": 0.14,
+    "tier2_agent_density": 0.035,
+    "dominant_network_type": "workplace_apartment",
+    "data_source": "Estimated from IT corridor and new township patterns, workplace networks dominant, weaker neighbourhood bonds than old Kolkata"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "KOL_EAST_SECTOR_V_FOOD_CLUSTER",
+      "type": "food_service_cluster",
+      "location": [22.5720, 88.4320],
+      "daily_footfall": 28000,
+      "transit_dependency": 0.48,
+      "employment_generated": 3800,
+      "data_source": "Estimated from Sector V tech park food court and restaurant cluster footfall"
+    },
+    {
+      "node_id": "KOL_EAST_CITY_CENTRE_MALL",
+      "type": "commercial_cluster",
+      "location": [22.5750, 88.4280],
+      "daily_footfall": 35000,
+      "transit_dependency": 0.52,
+      "employment_generated": 4500,
+      "data_source": "Estimated from City Centre New Town / Salt Lake commercial hub activity"
+    },
+    {
+      "node_id": "KOL_EAST_NEWTOWN_MARKET",
+      "type": "planned_market",
+      "location": [22.5850, 88.4400],
+      "daily_footfall": 12000,
+      "transit_dependency": 0.38,
+      "employment_generated": 1800,
+      "data_source": "Estimated from New Town planned commercial zone, NKDA commercial area survey"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "tech_knowledge_worker": 0.38,
+    "formal_sector_employee": 0.18,
+    "homemaker": 0.12,
+    "student": 0.10,
+    "gig_economy_worker": 0.08,
+    "small_business_owner": 0.06,
+    "retired": 0.04,
+    "government_employee": 0.02,
+    "journalist_tier1": 0.01,
+    "daily_wage_worker": 0.01,
+    "data_source": "Adjusted IT Corridor template for Salt Lake/Rajarhat — reduced tech_knowledge_worker from 0.52 to 0.38 (Kolkata IT sector smaller than Bangalore/Hyderabad), increased formal_sector_employee and government (West Bengal government offices in Salt Lake)"
+  },
+  "tier2_agent_types": {
+    "local_politician": 2,
+    "IT_industry_body_representative": 2,
+    "journalist": 1,
+    "rwa_president": 3,
+    "nkda_official": 1,
+    "school_principal": 1,
+    "data_source": "Estimated from NKDA governance, NASSCOM Bengal chapter, RWA presence in planned townships"
+  }
+}

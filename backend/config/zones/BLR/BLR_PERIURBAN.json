@@ -1,0 +1,112 @@
+{
+  "zone_id": "BLR_PERIURBAN",
+  "zone_name": "Peri-Urban Bengaluru",
+  "city_id": "BLR",
+  "state_id": "KA",
+  "geography": {
+    "centroid_lat": 13.0800,
+    "centroid_lng": 77.4800,
+    "area_sq_km": 185,
+    "ward_ids": [190, 191, 192, 193, 194, 195, 196, 197, 198],
+    "geojson_path": "geojson/BLR/BLR_PERIURBAN.geojson",
+    "data_source": "BBMP ward boundaries 2023 extended with BDA peripheral area notifications; includes villages absorbed under BBMP 2007 expansion"
+  },
+  "demographics": {
+    "population": 650000,
+    "population_density_per_sqkm": 3514,
+    "average_household_size": 4.8,
+    "literacy_rate": 0.72,
+    "sc_st_population_share": 0.24,
+    "data_source": "Census 2011 ward-level data for Bangalore Urban peripheral wards; household size from NSSO 78th Round rural-urban fringe category; literacy from Karnataka DISE 2021-22 for peri-urban taluks; SC/ST share from Census 2011 SC/ST tables Bangalore North taluk"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.16,
+      "decile_2": 0.14,
+      "decile_3": 0.13,
+      "decile_4": 0.12,
+      "decile_5": 0.11,
+      "decile_6": 0.09,
+      "decile_7": 0.08,
+      "decile_8": 0.07,
+      "decile_9": 0.06,
+      "decile_10": 0.04
+    },
+    "median_monthly_income": 15000,
+    "informal_employment_rate": 0.65,
+    "primary_occupations": [
+      "agriculture",
+      "construction",
+      "domestic_work",
+      "small_trade"
+    ],
+    "data_source": "NSSO 78th Round PLFS for urban fringe Karnataka; median income estimated from MGNREGA wage data 2023 and NSSO consumer expenditure survey; informal rate from ILO India Employment Report 2024 for peri-urban zones"
+  },
+  "commute_profile": {
+    "primary_mode": "bus",
+    "secondary_mode": "auto",
+    "metro_dependency_score": 0.05,
+    "avg_commute_distance_km": 22,
+    "avg_commute_time_min": 75,
+    "nearest_metro_lines": [],
+    "nearest_metro_stations": [],
+    "car_ownership_rate": 0.12,
+    "data_source": "DULT Bengaluru Comprehensive Mobility Plan 2020 for peripheral zones; BMTC route network coverage map 2023; no metro stations within 5km radius; car ownership from RTO Bangalore Rural registration data 2023"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.78,
+    "examination_sensitivity_score": 0.48,
+    "collective_action_threshold": 0.42,
+    "information_diffusion_speed": 0.45,
+    "loss_aversion_coefficient": 0.82,
+    "institutional_trust_railways": 0.42,
+    "institutional_trust_examinations": 0.55,
+    "political_mobilisation_index": 0.58,
+    "data_source": "fare_sensitivity high due to low incomes and bus dependency (NSSO 78th Round); loss_aversion high — limited financial buffer; diffusion_speed low due to lower digital penetration (TRAI rural broadband data 2023); political_mobilisation from Lokniti-CSDS Karnataka Assembly Election Study 2023 peri-urban turnout data"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 48,
+    "clustering_coefficient": 0.75,
+    "cross_income_bridge_frequency": 0.08,
+    "tier2_agent_density": 0.028,
+    "dominant_network_type": "residential_colony",
+    "data_source": "High clustering from village-origin social structures persisting in peri-urban areas; high avg_connections due to extended family and caste networks; low cross-income bridging due to occupational homogeneity; estimated from IHDS-II household social network module for Karnataka peri-urban"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "PERIURBAN_MARKET_1",
+      "type": "weekly_market",
+      "location": [13.082, 77.478],
+      "daily_footfall": 5000,
+      "transit_dependency": 0.35,
+      "employment_generated": 150,
+      "data_source": "Estimated from BBMP weekly market license records 2022; footfall averaged across market days (2 per week); employment includes temporary vendors and helpers"
+    },
+    {
+      "node_id": "PERIURBAN_MARKET_2",
+      "type": "street_market",
+      "location": [13.078, 77.485],
+      "daily_footfall": 3000,
+      "transit_dependency": 0.42,
+      "employment_generated": 80,
+      "data_source": "Estimated from BBMP street vendor survey 2022 for peripheral wards; transit dependency moderate — vendors travel from nearby villages by BMTC bus"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "homemaker": 0.22,
+    "daily_wage_worker": 0.21,
+    "formal_sector_employee": 0.18,
+    "small_business_owner": 0.12,
+    "migrant_worker": 0.10,
+    "student": 0.09,
+    "street_vendor": 0.05,
+    "retired": 0.03
+  },
+  "tier2_agent_types": {
+    "village_head": 1,
+    "school_principal": 1,
+    "small_business_owner": 3,
+    "rwa_president": 1
+  },
+  "data_source": "Composite zone config built from Census 2011 (demographics), NSSO PLFS 78th Round (income/employment), DULT CMP 2020 (commute), BMTC 2023 (bus network), BBMP 2023 (ward boundaries), IHDS-II (social networks), MGNREGA wage records 2023"
+}

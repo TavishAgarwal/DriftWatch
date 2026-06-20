@@ -1,0 +1,30 @@
+{
+  "state_id": "KA",
+  "state_name": "Karnataka",
+  "language_primary": "Kannada",
+  "language_secondary": ["English", "Hindi", "Telugu", "Tamil"],
+  "language_network_multiplier": 0.85,
+  "ruling_party_trust_index": 0.56,
+  "union_legal_framework": "moderate",
+  "state_gdp_per_capita": 302650,
+  "state_informal_economy_share": 0.44,
+  "examination_board": "both",
+  "political_contestation_index": 0.72,
+  "media_penetration": {
+    "tv": 0.86,
+    "print": 0.38,
+    "digital": 0.68,
+    "radio": 0.25
+  },
+  "cities": ["BLR"],
+  "data_sources": {
+    "state_gdp_per_capita": "MoSPI State GDP estimates 2022-23, current prices; Karnataka ranked 4th in per-capita GSDP",
+    "state_informal_economy_share": "NSSO PLFS 2022-23, estimated; Karnataka's IT sector raises formal share but rural economy remains largely informal",
+    "ruling_party_trust_index": "Estimated from Lokniti-CSDS post-2023 Karnataka election survey; Congress government satisfaction index",
+    "political_contestation_index": "ECI 2023 Karnataka Assembly election data; strong two-party (BJP vs Congress) contest, JDS as swing factor",
+    "language_network_multiplier": "Census 2011; 0.85 reflects multilingual tech corridor where English, Hindi, Telugu, Tamil coexist, dampening Kannada-only information diffusion speed",
+    "media_penetration": "BARC India 2023 (tv), IRS 2022 (print), IAMAI-Kantar 2023 (digital), RAM Ratings 2022 (radio)",
+    "union_legal_framework": "Karnataka Industrial Disputes Act framework assessed as moderate",
+    "examination_board": "Both Karnataka State Board (KSEEB/PUE) and CBSE operate; CBSE particularly popular in Bengaluru urban"
+  }
+}

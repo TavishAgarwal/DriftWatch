@@ -1,0 +1,132 @@
+{
+  "zone_id": "DEL_SOUTH",
+  "zone_name": "South Delhi",
+  "city_id": "DEL",
+  "state_id": "DL",
+
+  "geography": {
+    "centroid_lat": 28.5245,
+    "centroid_lng": 77.2066,
+    "area_sq_km": 250.0,
+    "ward_ids": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111],
+    "geojson_path": "zones/DEL/geojson/DEL_SOUTH.geojson",
+    "data_source": "Census 2011 ward boundary shapefiles, South Delhi district + South East Delhi district combined. Covers Saket, Malviya Nagar, Hauz Khas, Greater Kailash, Lajpat Nagar, Mehrauli, Chattarpur."
+  },
+
+  "demographics": {
+    "population": 1550000,
+    "population_density_per_sqkm": 6200,
+    "average_household_size": 3.9,
+    "literacy_rate": 0.91,
+    "sc_st_population_share": 0.10,
+    "data_source": "Census 2011 South Delhi and South East Delhi district tables combined. Density = 1550000 / 250 = 6200. Lower density due to large area including green belt (Ridge), farmhouse areas, and institutional campuses (JNU, IIT Delhi)."
+  },
+
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.04,
+      "decile_2": 0.05,
+      "decile_3": 0.06,
+      "decile_4": 0.07,
+      "decile_5": 0.08,
+      "decile_6": 0.10,
+      "decile_7": 0.13,
+      "decile_8": 0.15,
+      "decile_9": 0.17,
+      "decile_10": 0.15
+    },
+    "median_monthly_income": 48000,
+    "informal_employment_rate": 0.24,
+    "primary_occupations": ["professional_services", "education", "retail_trade", "hospitality", "government"],
+    "data_source": "NSSO 78th Round MPCE distribution (South Delhi). Right-skewed: affluent colonies (GK, Defence Colony, Vasant Vihar) pull distribution upward. IIT Delhi, JNU campuses create educated workforce concentration."
+  },
+
+  "commute_profile": {
+    "primary_mode": "car",
+    "secondary_mode": "metro",
+    "metro_dependency_score": 0.42,
+    "avg_commute_distance_km": 11.8,
+    "avg_commute_time_min": 40,
+    "nearest_metro_lines": ["YELLOW", "MAGENTA"],
+    "nearest_metro_stations": ["Saket", "Malviya Nagar", "Hauz Khas", "INA", "Green Park"],
+    "car_ownership_rate": 0.52,
+    "data_source": "DMRC Origin-Destination Survey 2022, Census 2011 Table D-13. Higher car ownership (0.52) reflects affluent demographics. Magenta Line added connectivity to airport corridor. Yellow Line serves the Hauz Khas-Saket-Qutab corridor."
+  },
+
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.32,
+    "examination_sensitivity_score": 0.62,
+    "collective_action_threshold": 0.55,
+    "information_diffusion_speed": 0.78,
+    "loss_aversion_coefficient": 0.42,
+    "institutional_trust_railways": 0.65,
+    "institutional_trust_examinations": 0.71,
+    "political_mobilisation_index": 0.72,
+    "data_source": "Composite scores. Low fare sensitivity (0.32) due to high income and car ownership. Moderate exam sensitivity (0.62) — many professional parents with children in competitive exam pipeline. High diffusion (0.78) reflecting digitally connected, educated population. Lokniti-CSDS 2024, ECI 2024 South Delhi constituency data."
+  },
+
+  "social_network_parameters": {
+    "avg_connections_tier1": 30,
+    "clustering_coefficient": 0.45,
+    "cross_income_bridge_frequency": 0.30,
+    "tier2_agent_density": 0.050,
+    "dominant_network_type": "mixed",
+    "data_source": "Estimated from IHDS-II social capital module. Lower clustering (0.45) reflects dispersed, car-oriented suburban structure. Higher cross-income bridging (0.30) due to mixed-class neighbourhoods (GK market workers + GK residents)."
+  },
+
+  "informal_economy_nodes": [
+    {
+      "node_id": "SOUTH_MARKET_1",
+      "type": "commercial_hub",
+      "location": [28.5280, 77.2180],
+      "name": "Saket Select Citywalk / District Centre",
+      "daily_footfall": 30000,
+      "transit_dependency": 0.38,
+      "employment_generated": 520,
+      "data_source": "Estimated from DDA district centre data and mall footfall reports. Major retail and entertainment hub — Select Citywalk + DLF Place + Metropolitan Mall cluster."
+    },
+    {
+      "node_id": "SOUTH_MARKET_2",
+      "type": "street_market",
+      "location": [28.5690, 77.2410],
+      "name": "Lajpat Nagar Central Market",
+      "daily_footfall": 18000,
+      "transit_dependency": 0.52,
+      "employment_generated": 380,
+      "data_source": "Estimated from MCD market data. Major textile and wedding shopping market, high weekend footfall."
+    },
+    {
+      "node_id": "SOUTH_MARKET_3",
+      "type": "street_market",
+      "location": [28.5530, 77.2070],
+      "name": "INA Market",
+      "daily_footfall": 8000,
+      "transit_dependency": 0.48,
+      "employment_generated": 180,
+      "data_source": "Estimated from MCD market data. Specialty food and grocery market near INA metro station."
+    }
+  ],
+
+  "tier1_agent_archetype_weights": {
+    "tech_knowledge_worker": 0.38,
+    "formal_sector_employee": 0.18,
+    "homemaker": 0.12,
+    "student": 0.10,
+    "retired": 0.06,
+    "small_business_owner": 0.07,
+    "gig_economy_worker": 0.05,
+    "government_employee": 0.03,
+    "journalist_tier1": 0.01,
+    "data_source": "AGENT_SPEC.md High Income / Professional template (lines 742-752). Sum = 1.00. Tech/knowledge workers (0.38) reflect the South Delhi professional class — consulting, media, IT, and corporate workforce. Higher retired share (0.06) due to established colonies with aging demographics."
+  },
+
+  "tier2_agent_types": {
+    "rwa_president": 3,
+    "local_councillor": 2,
+    "journalist": 2,
+    "small_business_owner": 4,
+    "university_professor": 2,
+    "retired_bureaucrat": 1,
+    "data_source": "Estimated from RWA federation data (South Delhi has some of the most active RWAs in India — GK, Defence Colony, Vasant Vihar), MCD councillor count, and JNU/IIT Delhi faculty directories."
+  }
+}

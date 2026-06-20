@@ -1,0 +1,133 @@
+{
+  "zone_id": "KOL_TRAM_CORRIDOR",
+  "zone_name": "Central-South Tram Corridor (Unique Tram Network Zone)",
+  "city_id": "KOL",
+  "state_id": "WB",
+  "geography": {
+    "centroid_lat": 22.5500,
+    "centroid_lng": 88.3550,
+    "area_sq_km": 18,
+    "ward_ids": [124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141],
+    "geojson_path": "geojson/KOL/KOL_TRAM_CORRIDOR.geojson",
+    "data_source": "KMC ward map 2022, CTC (Calcutta Tramways Company) route overlay mapping, tram corridor zone spans central-south Kolkata along tram tracks"
+  },
+  "demographics": {
+    "population": 440000,
+    "population_density_per_sqkm": 24444,
+    "average_household_size": 3.8,
+    "literacy_rate": 0.86,
+    "sc_st_population_share": 0.13,
+    "data_source": "Census 2011 Kolkata district tables (wards along tram corridor), stable to declining population at -0.1% CAGR"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.08,
+      "decile_2": 0.09,
+      "decile_3": 0.10,
+      "decile_4": 0.10,
+      "decile_5": 0.11,
+      "decile_6": 0.11,
+      "decile_7": 0.11,
+      "decile_8": 0.10,
+      "decile_9": 0.10,
+      "decile_10": 0.10
+    },
+    "median_monthly_income": 21000,
+    "informal_employment_rate": 0.45,
+    "primary_occupations": [
+      "retail_trade",
+      "small_manufacturing",
+      "domestic_work",
+      "transport_operations",
+      "government_services",
+      "artisan_work"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) West Bengal urban tables, PLFS 2022-23, tram corridor area mixed employment patterns"
+  },
+  "commute_profile": {
+    "primary_mode": "tram",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.32,
+    "avg_commute_distance_km": 7.5,
+    "avg_commute_time_min": 45,
+    "nearest_metro_lines": ["blue_line"],
+    "nearest_metro_stations": ["Maidan", "Rabindra Sadan", "Netaji Bhavan"],
+    "car_ownership_rate": 0.12,
+    "tram_dependency_score": 0.42,
+    "tram_routes": ["Esplanade-Gariahat", "Esplanade-Shyambazar", "Esplanade-Ballygunge", "Kalighat-Tollygunge"],
+    "tram_daily_ridership": 35000,
+    "data_source": "CTC (Calcutta Tramways Company) ridership data 2023, UNIQUE: Kolkata is the only Indian city with operational tram network, tram as primary mode along corridor due to low fare and cultural affinity"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.65,
+    "examination_sensitivity_score": 0.48,
+    "collective_action_threshold": 0.35,
+    "information_diffusion_speed": 0.68,
+    "loss_aversion_coefficient": 0.72,
+    "institutional_trust_railways": 0.55,
+    "institutional_trust_examinations": 0.55,
+    "political_mobilisation_index": 0.72,
+    "tram_removal_sensitivity": 0.88,
+    "data_source": "Estimated from mid-lower income transit corridor, high sensitivity to tram route changes — tram removal would trigger extreme community response, Lokniti-CSDS 2024 West Bengal data"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 42,
+    "clustering_coefficient": 0.62,
+    "cross_income_bridge_frequency": 0.22,
+    "tier2_agent_density": 0.048,
+    "dominant_network_type": "tram_commuter_para",
+    "data_source": "Estimated from tram corridor social patterns — daily tram commuters form strong weak-tie networks, para culture along corridor, tram as social space (unique to Kolkata)"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "KOL_TRAM_RASHBEHARI_MARKET",
+      "type": "commercial_cluster",
+      "location": [22.5180, 88.3530],
+      "daily_footfall": 28000,
+      "transit_dependency": 0.58,
+      "employment_generated": 4200,
+      "data_source": "Estimated from Rashbehari Avenue crossing commercial hub, tram stop area footfall"
+    },
+    {
+      "node_id": "KOL_TRAM_MAIDAN_VENDORS",
+      "type": "street_vending_cluster",
+      "location": [22.5550, 88.3500],
+      "daily_footfall": 15000,
+      "transit_dependency": 0.65,
+      "employment_generated": 1800,
+      "data_source": "Estimated from Maidan area street vendor cluster, tram-stop vendors, park-edge vendors"
+    },
+    {
+      "node_id": "KOL_TRAM_CORRIDOR_SHOPS",
+      "type": "tram_track_commercial",
+      "location": [22.5400, 88.3520],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.72,
+      "employment_generated": 2800,
+      "data_source": "Estimated from shops lining tram tracks — unique commercial pattern where shops face tram stops, transit-dependent footfall"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.24,
+    "daily_wage_worker": 0.16,
+    "homemaker": 0.13,
+    "gig_economy_worker": 0.11,
+    "small_business_owner": 0.10,
+    "student": 0.09,
+    "migrant_worker": 0.08,
+    "street_vendor": 0.05,
+    "retired": 0.03,
+    "journalist_tier1": 0.01,
+    "data_source": "Transit Hub/Mixed template from AGENT_SPEC.md, directly applicable — tram corridor is a linear transit hub with mixed income residential along the tracks"
+  },
+  "tier2_agent_types": {
+    "local_politician": 3,
+    "union_representative": 2,
+    "journalist": 2,
+    "ctc_tram_official": 1,
+    "religious_leader": 2,
+    "market_association_head": 2,
+    "cultural_organization_head": 1,
+    "data_source": "Estimated from KMC ward councillors, CTC management, tram workers' union, market associations along corridor"
+  }
+}

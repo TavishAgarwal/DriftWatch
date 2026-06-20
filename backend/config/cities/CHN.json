@@ -1,0 +1,92 @@
+{
+  "city_id": "CHN",
+  "city_name": "Chennai",
+  "state_id": "TN",
+  "population": 11500000,
+  "area_sq_km": 426,
+  "ward_count": 200,
+  "topology_type": "RADIAL",
+  "transport_network": {
+    "metro_lines": [
+      {
+        "line_id": "CHN_METRO_BLUE",
+        "name": "Blue Line (Line 1)",
+        "stations": 22,
+        "daily_ridership": 85000,
+        "corridor": "Wimco Nagar - Chennai Airport",
+        "data_source": "CMRL ridership data 2023-24; Blue Line fully operational since 2019"
+      },
+      {
+        "line_id": "CHN_METRO_GREEN",
+        "name": "Green Line (Line 2)",
+        "stations": 17,
+        "daily_ridership": 45000,
+        "corridor": "CMBT (Chennai Mofussil Bus Terminus) - St Thomas Mount",
+        "data_source": "CMRL ridership data 2023-24; lower ridership than Blue Line due to shorter corridor"
+      }
+    ],
+    "suburban_rail": {
+      "present": true,
+      "lines": [
+        {
+          "line_id": "CHN_SUB_BEACH_TAMBARAM",
+          "name": "Beach - Tambaram Line",
+          "stations": 16,
+          "daily_ridership": 650000,
+          "corridor": "Chennai Beach - Tambaram",
+          "data_source": "Southern Railway Chennai Division ridership data 2023-24"
+        },
+        {
+          "line_id": "CHN_SUB_CENTRAL_ARAKKONAM",
+          "name": "Chennai Central - Arakkonam Line",
+          "stations": 12,
+          "daily_ridership": 280000,
+          "corridor": "Chennai Central - Arakkonam",
+          "data_source": "Southern Railway Chennai Division ridership data 2023-24"
+        }
+      ],
+      "total_daily_ridership": 930000,
+      "data_source": "Combined suburban rail ridership for Chennai Division; MRTS (Mass Rapid Transit System) included in Beach-Tambaram corridor"
+    },
+    "bus_network": {
+      "operator": "MTC (Metropolitan Transport Corporation)",
+      "route_count": 3400,
+      "daily_ridership": 4800000,
+      "data_source": "MTC annual report 2023-24; MTC operates approx 3800 buses, highest route count among the 6 cities reflecting Chennai's bus-dominant transit model"
+    },
+    "total_daily_pt_ridership": 5860000,
+    "total_daily_pt_ridership_data_source": "Sum of metro (0.13M) + suburban rail (0.93M) + bus (4.8M); Chennai is the most bus-dependent major metro in India"
+  },
+  "economic_baseline": {
+    "median_household_income_monthly": 27000,
+    "gini_coefficient": 0.38,
+    "formal_employment_share": 0.52,
+    "major_employment_sectors": [
+      "automobile",
+      "information_technology",
+      "manufacturing",
+      "port_logistics",
+      "healthcare"
+    ],
+    "data_source": "Median income estimated from NSSO PLFS 2022-23 Chennai urban MPCE scaled to household level; Gini from consumption expenditure distribution (lower inequality than Mumbai/Delhi); formal employment from EPFO data; sectors from Tamil Nadu Economic Survey 2023-24 (Chennai called 'Detroit of India' for automobile sector)"
+  },
+  "osm_extract": {
+    "source": "geofabrik",
+    "url": "https://download.geofabrik.de/asia/india/southern-zone-latest.osm.pbf",
+    "bbox": [80.1, 12.9, 80.35, 13.25],
+    "last_updated": "2024-01"
+  },
+  "validation_anchors": [],
+  "validation_anchors_note": "To be populated post-Chennai calibration; potential anchors include CMRL Phase 1 ridership growth and MTC fare restructuring impact",
+  "confidence_grade": "C",
+  "zones": [
+    "CHN_CENTRAL",
+    "CHN_NORTH",
+    "CHN_SOUTH",
+    "CHN_WEST",
+    "CHN_OMR",
+    "CHN_TAMBARAM",
+    "CHN_AMBATTUR",
+    "CHN_PERIURBAN"
+  ]
+}

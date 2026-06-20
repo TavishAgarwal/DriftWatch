@@ -1,0 +1,127 @@
+{
+  "zone_id": "KOL_PERIURBAN",
+  "zone_name": "North 24 Parganas Fringe (Peri-urban Kolkata)",
+  "city_id": "KOL",
+  "state_id": "WB",
+  "geography": {
+    "centroid_lat": 22.6500,
+    "centroid_lng": 88.4500,
+    "area_sq_km": 120,
+    "ward_ids": [142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155],
+    "geojson_path": "geojson/KOL/KOL_PERIURBAN.geojson",
+    "data_source": "KMDA (Kolkata Metropolitan Development Authority) peri-urban zone, North 24 Parganas district fringe municipalities"
+  },
+  "demographics": {
+    "population": 680000,
+    "population_density_per_sqkm": 5667,
+    "average_household_size": 4.5,
+    "literacy_rate": 0.75,
+    "sc_st_population_share": 0.25,
+    "data_source": "Census 2011 North 24 Parganas district tables (fringe municipalities), rapid growth at 4.5% CAGR from Kolkata urban spillover"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.13,
+      "decile_2": 0.13,
+      "decile_3": 0.12,
+      "decile_4": 0.11,
+      "decile_5": 0.11,
+      "decile_6": 0.10,
+      "decile_7": 0.09,
+      "decile_8": 0.08,
+      "decile_9": 0.07,
+      "decile_10": 0.06
+    },
+    "median_monthly_income": 15000,
+    "informal_employment_rate": 0.62,
+    "primary_occupations": [
+      "construction",
+      "agricultural_labour",
+      "domestic_work",
+      "small_trade",
+      "transport_driving",
+      "brick_kiln_work",
+      "fish_market_work"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) West Bengal peri-urban tables, Census 2011 village-level occupation data, PLFS 2022-23, fish market activity from Bengal's fishing community data"
+  },
+  "commute_profile": {
+    "primary_mode": "suburban_rail",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.0,
+    "avg_commute_distance_km": 25.0,
+    "avg_commute_time_min": 80,
+    "nearest_metro_lines": [],
+    "nearest_metro_stations": [],
+    "car_ownership_rate": 0.05,
+    "suburban_rail_dependency": 0.58,
+    "data_source": "Eastern Railway suburban section data for Sealdah-Barrackpore/Kalyani lines, no metro coverage in peri-urban zone, very long commutes"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.85,
+    "examination_sensitivity_score": 0.42,
+    "collective_action_threshold": 0.38,
+    "information_diffusion_speed": 0.42,
+    "loss_aversion_coefficient": 0.88,
+    "institutional_trust_railways": 0.42,
+    "institutional_trust_examinations": 0.48,
+    "political_mobilisation_index": 0.68,
+    "data_source": "Estimated from low-income peri-urban zone, highest fare sensitivity in Kolkata metro area, high political mobilisation characteristic of Bengal but slower information diffusion in sprawl"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 28,
+    "clustering_coefficient": 0.72,
+    "cross_income_bridge_frequency": 0.08,
+    "tier2_agent_density": 0.028,
+    "dominant_network_type": "village_kinship_party",
+    "data_source": "Estimated from peri-urban social patterns — village kinship networks with strong political party (TMC/CPIM) cadre overlay, very high clustering"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "KOL_PERIURBAN_STATION_BAZAAR",
+      "type": "station_commercial_cluster",
+      "location": [22.6480, 88.4480],
+      "daily_footfall": 8000,
+      "transit_dependency": 0.78,
+      "employment_generated": 1200,
+      "data_source": "Estimated from suburban rail station area market activity, fringe municipality station bazaars"
+    },
+    {
+      "node_id": "KOL_PERIURBAN_FISH_MARKET",
+      "type": "wholesale_market",
+      "location": [22.6520, 88.4520],
+      "daily_footfall": 5500,
+      "transit_dependency": 0.52,
+      "employment_generated": 1800,
+      "data_source": "Estimated from Bengal's fish market network in peri-urban areas, fishing community employment"
+    },
+    {
+      "node_id": "KOL_PERIURBAN_CONSTRUCTION_NAKA",
+      "type": "labour_market",
+      "location": [22.6550, 88.4450],
+      "daily_footfall": 3000,
+      "transit_dependency": 0.82,
+      "employment_generated": 2200,
+      "data_source": "Estimated from construction labour gathering points on arterial roads near peri-urban Kolkata"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "homemaker": 0.22,
+    "daily_wage_worker": 0.21,
+    "formal_sector_employee": 0.18,
+    "small_business_owner": 0.12,
+    "migrant_worker": 0.10,
+    "student": 0.09,
+    "street_vendor": 0.05,
+    "retired": 0.03,
+    "data_source": "Periurban/Low Connectivity template from AGENT_SPEC.md, directly applicable to North 24 Parganas fringe"
+  },
+  "tier2_agent_types": {
+    "local_politician": 3,
+    "panchayat_leader": 3,
+    "religious_leader": 2,
+    "labour_contractor": 2,
+    "party_cadre_leader": 2,
+    "data_source": "Estimated from peri-urban governance — mix of municipality and panchayat, very strong TMC/CPIM party cadre presence at village level, Bengal's unique political penetration to rural/peri-urban level"
+  }
+}

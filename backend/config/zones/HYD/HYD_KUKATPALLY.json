@@ -1,0 +1,128 @@
+{
+  "zone_id": "HYD_KUKATPALLY",
+  "zone_name": "Kukatpally – Dense Residential Commuter Zone",
+  "city_id": "HYD",
+  "state_id": "TS",
+  "geography": {
+    "centroid_lat": 17.4947,
+    "centroid_lng": 78.3996,
+    "area_sq_km": 42,
+    "ward_ids": [130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150],
+    "geojson_path": "geojson/HYD/HYD_KUKATPALLY.geojson",
+    "data_source": "GHMC ward map 2020, Kukatpally zone boundary shapefiles, HUDA layout plans"
+  },
+  "demographics": {
+    "population": 1100000,
+    "population_density_per_sqkm": 26190,
+    "average_household_size": 3.8,
+    "literacy_rate": 0.88,
+    "sc_st_population_share": 0.10,
+    "data_source": "Census 2011 Medchal-Malkajgiri district tables, GHMC zone population estimates 2023, rapid residential growth at 3.8% CAGR"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.06,
+      "decile_2": 0.08,
+      "decile_3": 0.09,
+      "decile_4": 0.10,
+      "decile_5": 0.10,
+      "decile_6": 0.11,
+      "decile_7": 0.12,
+      "decile_8": 0.12,
+      "decile_9": 0.12,
+      "decile_10": 0.10
+    },
+    "median_monthly_income": 28000,
+    "informal_employment_rate": 0.35,
+    "primary_occupations": [
+      "IT_support_services",
+      "retail_trade",
+      "domestic_work",
+      "small_business",
+      "education",
+      "government_services"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) Telangana urban tables, PLFS 2022-23, Kukatpally area employment pattern — mix of IT support and traditional occupations"
+  },
+  "commute_profile": {
+    "primary_mode": "metro",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.52,
+    "avg_commute_distance_km": 14.5,
+    "avg_commute_time_min": 48,
+    "nearest_metro_lines": ["green_line"],
+    "nearest_metro_stations": ["Kukatpally", "KPHB Colony", "Miyapur", "Balanagar"],
+    "car_ownership_rate": 0.22,
+    "data_source": "HMR Green Line ridership 2023, TSRTC Kukatpally route data, CMP Hyderabad 2013 mode share adjusted for metro expansion"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.58,
+    "examination_sensitivity_score": 0.55,
+    "collective_action_threshold": 0.44,
+    "information_diffusion_speed": 0.62,
+    "loss_aversion_coefficient": 0.68,
+    "institutional_trust_railways": 0.58,
+    "institutional_trust_examinations": 0.62,
+    "political_mobilisation_index": 0.55,
+    "data_source": "Estimated from middle-income residential zone patterns, moderate fare sensitivity, balanced political mobilisation, Lokniti-CSDS 2024 Telangana data"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 38,
+    "clustering_coefficient": 0.62,
+    "cross_income_bridge_frequency": 0.18,
+    "tier2_agent_density": 0.040,
+    "dominant_network_type": "apartment_rwa_neighbourhood",
+    "data_source": "Estimated from dense apartment colony patterns, RWA-driven networks, WhatsApp colony groups as primary communication channel"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "HYD_KUKAT_MAIN_MARKET",
+      "type": "commercial_cluster",
+      "location": [17.4950, 78.3990],
+      "daily_footfall": 32000,
+      "transit_dependency": 0.55,
+      "employment_generated": 4800,
+      "data_source": "Estimated from Kukatpally main road commercial strip, metro station area footfall"
+    },
+    {
+      "node_id": "HYD_KUKAT_KPHB_COLONY_MARKET",
+      "type": "neighbourhood_market",
+      "location": [17.4870, 78.3920],
+      "daily_footfall": 15000,
+      "transit_dependency": 0.38,
+      "employment_generated": 2200,
+      "data_source": "Estimated from KPHB Colony residential market area activity"
+    },
+    {
+      "node_id": "HYD_KUKAT_STREET_FOOD",
+      "type": "street_food_cluster",
+      "location": [17.4930, 78.4010],
+      "daily_footfall": 12000,
+      "transit_dependency": 0.45,
+      "employment_generated": 1400,
+      "data_source": "Estimated from Kukatpally street food vendor concentration, evening market survey"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.31,
+    "homemaker": 0.16,
+    "student": 0.13,
+    "daily_wage_worker": 0.11,
+    "small_business_owner": 0.10,
+    "gig_economy_worker": 0.07,
+    "government_employee": 0.06,
+    "retired": 0.04,
+    "migrant_worker": 0.01,
+    "journalist_tier1": 0.01,
+    "data_source": "Middle Income Residential template from AGENT_SPEC.md, directly applicable — Kukatpally is a reference zone for this template"
+  },
+  "tier2_agent_types": {
+    "local_politician": 4,
+    "rwa_president": 4,
+    "journalist": 1,
+    "religious_leader": 2,
+    "market_association_head": 1,
+    "school_principal": 2,
+    "data_source": "Estimated from GHMC ward councillor count, strong RWA presence in Kukatpally apartment colonies, school density in residential zone"
+  }
+}

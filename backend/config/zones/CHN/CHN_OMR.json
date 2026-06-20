@@ -1,0 +1,126 @@
+{
+  "zone_id": "CHN_OMR",
+  "zone_name": "Old Mahabalipuram Road – IT Corridor",
+  "city_id": "CHN",
+  "state_id": "TN",
+  "geography": {
+    "centroid_lat": 12.9200,
+    "centroid_lng": 80.2270,
+    "area_sq_km": 55,
+    "ward_ids": [166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190],
+    "geojson_path": "geojson/CHN/CHN_OMR.geojson",
+    "data_source": "Greater Chennai Corporation ward map 2022, GCC boundary shapefiles for OMR IT corridor, CMDA master plan zone delineation"
+  },
+  "demographics": {
+    "population": 650000,
+    "population_density_per_sqkm": 11818,
+    "average_household_size": 3.2,
+    "literacy_rate": 0.94,
+    "sc_st_population_share": 0.06,
+    "data_source": "Census 2011 Chennai/Kancheepuram district tables, rapid growth estimated at 4.5% CAGR post-2015 IT expansion"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.03,
+      "decile_2": 0.04,
+      "decile_3": 0.05,
+      "decile_4": 0.06,
+      "decile_5": 0.07,
+      "decile_6": 0.09,
+      "decile_7": 0.12,
+      "decile_8": 0.16,
+      "decile_9": 0.19,
+      "decile_10": 0.19
+    },
+    "median_monthly_income": 72000,
+    "informal_employment_rate": 0.15,
+    "primary_occupations": [
+      "IT_software",
+      "IT_services",
+      "fintech",
+      "consulting",
+      "gig_delivery",
+      "facility_management"
+    ],
+    "data_source": "NASSCOM Tamil Nadu IT industry report 2023, PLFS 2022-23, Glassdoor/AmbitionBox Chennai IT salary surveys, adjusted for OMR IT park concentration"
+  },
+  "commute_profile": {
+    "primary_mode": "company_cab",
+    "secondary_mode": "private_car",
+    "metro_dependency_score": 0.08,
+    "avg_commute_distance_km": 18.5,
+    "avg_commute_time_min": 55,
+    "nearest_metro_lines": [],
+    "nearest_metro_stations": [],
+    "car_ownership_rate": 0.52,
+    "cab_aggregator_dependency": 0.68,
+    "data_source": "CMP Chennai 2018 mode share, OMR traffic study 2022, CMRL Phase 2 planning documents noting absence of metro on OMR as of 2024"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.12,
+    "examination_sensitivity_score": 0.58,
+    "collective_action_threshold": 0.62,
+    "information_diffusion_speed": 0.82,
+    "loss_aversion_coefficient": 0.42,
+    "institutional_trust_railways": 0.55,
+    "institutional_trust_examinations": 0.68,
+    "political_mobilisation_index": 0.38,
+    "data_source": "Estimated from high-income IT corridor behaviour patterns, very low fare sensitivity, high digital information diffusion, Lokniti-CSDS 2024"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 45,
+    "clustering_coefficient": 0.48,
+    "cross_income_bridge_frequency": 0.12,
+    "tier2_agent_density": 0.035,
+    "dominant_network_type": "workplace_digital",
+    "data_source": "Estimated from IT corridor workplace network patterns, high digital connectivity but low cross-income interaction"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "CHN_OMR_FOOD_COURT_CLUSTER",
+      "type": "food_service_cluster",
+      "location": [12.9350, 80.2280],
+      "daily_footfall": 35000,
+      "transit_dependency": 0.55,
+      "employment_generated": 4500,
+      "data_source": "Estimated from OMR IT park food court and restaurant strip footfall surveys"
+    },
+    {
+      "node_id": "CHN_OMR_SHOLINGANALLUR_MARKET",
+      "type": "commercial_cluster",
+      "location": [12.9010, 80.2260],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.42,
+      "employment_generated": 2800,
+      "data_source": "Estimated from Sholinganallur junction commercial activity"
+    },
+    {
+      "node_id": "CHN_OMR_GATE_VENDORS",
+      "type": "tech_park_gate_vendors",
+      "location": [12.9180, 80.2275],
+      "daily_footfall": 12000,
+      "transit_dependency": 0.72,
+      "employment_generated": 800,
+      "data_source": "Estimated from IT park entrance vendor clusters, dependent on tech worker footfall"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "tech_knowledge_worker": 0.52,
+    "gig_economy_worker": 0.14,
+    "formal_sector_employee": 0.12,
+    "homemaker": 0.08,
+    "student": 0.06,
+    "small_business_owner": 0.05,
+    "journalist_tier1": 0.02,
+    "daily_wage_worker": 0.01,
+    "data_source": "IT Corridor template from AGENT_SPEC.md, directly applicable to OMR IT corridor character"
+  },
+  "tier2_agent_types": {
+    "local_politician": 2,
+    "IT_industry_body_representative": 2,
+    "journalist": 2,
+    "tech_company_hr_head": 2,
+    "rwa_president": 1,
+    "data_source": "Estimated from NASSCOM Chennai chapter, IT park management bodies, reduced local politician density in newer development zone"
+  }
+}

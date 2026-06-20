@@ -1,0 +1,155 @@
+{
+  "zone_id": "MUM_CENTRAL",
+  "zone_name": "Central Mumbai",
+  "city_id": "MUM",
+  "state_id": "MH",
+  "geography": {
+    "centroid_lat": 19.0178,
+    "centroid_lng": 72.8478,
+    "area_sq_km": 28.0,
+    "ward_ids": [21, 22, 23, 24, 25, 26],
+    "geojson_path": "data/geojson/MUM/MUM_CENTRAL.geojson",
+    "data_source": "MCGM ward boundaries (F/North, F/South, G/North, G/South wards mapped to numeric IDs); area from MCGM Development Plan 2034"
+  },
+  "demographics": {
+    "population": 1200000,
+    "population_density_per_sqkm": 42857,
+    "average_household_size": 4.2,
+    "literacy_rate": 0.87,
+    "sc_st_population_share": 0.12,
+    "data_source": "Census 2011 Mumbai suburban district (F and G wards aggregated); density = population/area; household size from NSSO 76th Round Mumbai urban mid-income estimates; literacy from Census 2011; SC/ST from Census 2011 SC/ST tables"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.06,
+      "decile_2": 0.07,
+      "decile_3": 0.08,
+      "decile_4": 0.09,
+      "decile_5": 0.10,
+      "decile_6": 0.11,
+      "decile_7": 0.12,
+      "decile_8": 0.13,
+      "decile_9": 0.13,
+      "decile_10": 0.11
+    },
+    "median_monthly_income": 35000,
+    "informal_employment_rate": 0.38,
+    "primary_occupations": [
+      "healthcare",
+      "textile_trade",
+      "transport_services",
+      "retail",
+      "government_services"
+    ],
+    "data_source": "Median from PLFS 2022-23 Mumbai urban mid-income quintile; distribution reflecting mixed-income character of Dadar-Parel belt (former mill lands redeveloped into premium + retention of working-class pockets); informal rate from NSSO 78th Round; occupations reflect KEM/Sion hospital belt, former textile mill area, Dadar junction commerce"
+  },
+  "commute_profile": {
+    "primary_mode": "suburban_rail",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.25,
+    "avg_commute_distance_km": 12.5,
+    "avg_commute_time_min": 45,
+    "nearest_metro_lines": ["metro_line_3_aqua"],
+    "nearest_metro_stations": ["Dadar", "Parel", "Lower Parel", "Worli"],
+    "car_ownership_rate": 0.22,
+    "data_source": "Dadar is the only station on both Western and Central Railway; MCTS 2016 mode share data for F/G ward TAZs; metro Line 3 stations from MMRDA; car ownership from Census 2011 household assets"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.58,
+    "examination_sensitivity_score": 0.62,
+    "collective_action_threshold": 0.42,
+    "information_diffusion_speed": 0.72,
+    "loss_aversion_coefficient": 0.65,
+    "institutional_trust_railways": 0.55,
+    "institutional_trust_examinations": 0.68,
+    "political_mobilisation_index": 0.75,
+    "data_source": "Mid-range sensitivity reflecting mixed income; high political mobilisation from Dadar's historical union/political activity (Shiv Sena founded here); fare sensitivity from BEST/suburban rail ridership elasticity estimates; institutional trust from Lokniti-CSDS 2024 Mumbai mid-income sub-sample"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 38,
+    "clustering_coefficient": 0.55,
+    "cross_income_bridge_frequency": 0.28,
+    "tier2_agent_density": 0.048,
+    "dominant_network_type": "mixed",
+    "data_source": "Mixed network type reflects transit hub character — commuters from diverse zones interact at Dadar junction; clustering moderate due to mix of old residential colonies and new developments; cross-income bridging higher than dense low-income zones due to gentrification of mill lands"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "CENTRAL_DADAR_FLOWER_MARKET",
+      "type": "wholesale_market",
+      "location": [19.018, 72.844],
+      "daily_footfall": 25000,
+      "transit_dependency": 0.72,
+      "employment_generated": 600,
+      "data_source": "Dadar Phool Gully is Mumbai's largest wholesale flower market; footfall from MCGM market survey and APMC records"
+    },
+    {
+      "node_id": "CENTRAL_DADAR_STATION_VENDORS",
+      "type": "street_market",
+      "location": [19.019, 72.843],
+      "daily_footfall": 40000,
+      "transit_dependency": 0.82,
+      "employment_generated": 350,
+      "data_source": "Vendors surrounding Dadar station (both WR and CR sides); footfall from Western Railway + Central Railway combined Dadar station boarding/alighting data ~600K daily"
+    },
+    {
+      "node_id": "CENTRAL_PAREL_HOSPITAL_SERVICES",
+      "type": "service_cluster",
+      "location": [19.005, 72.842],
+      "daily_footfall": 15000,
+      "transit_dependency": 0.55,
+      "employment_generated": 450,
+      "data_source": "Informal service economy around KEM Hospital and Tata Memorial — medical shops, food stalls, patient lodges; estimated from hospital OPD footfall data"
+    },
+    {
+      "node_id": "CENTRAL_LOWER_PAREL_FOOD_STREET",
+      "type": "street_market",
+      "location": [19.007, 72.831],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.48,
+      "employment_generated": 280,
+      "data_source": "Food vendors and lunch stall economy serving Lower Parel corporate parks (Phoenix Mills, One Indiabulls); estimated from office worker lunch-hour pedestrian patterns"
+    },
+    {
+      "node_id": "CENTRAL_WORLI_FISHING_VILLAGE",
+      "type": "traditional_economy",
+      "location": [19.011, 72.818],
+      "daily_footfall": 3500,
+      "transit_dependency": 0.25,
+      "employment_generated": 400,
+      "data_source": "Worli Koliwada fishing village — traditional fishing economy; employment from Maharashtra Fisheries Department village-level data"
+    },
+    {
+      "node_id": "CENTRAL_DADAR_WEST_MARKET",
+      "type": "retail_market",
+      "location": [19.020, 72.840],
+      "daily_footfall": 22000,
+      "transit_dependency": 0.65,
+      "employment_generated": 520,
+      "data_source": "Dadar West retail market (Swadeshi Market, Shivaji Park area); MCGM trade license data and BEST ridership at Dadar West bus stops"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.24,
+    "daily_wage_worker": 0.16,
+    "homemaker": 0.13,
+    "gig_economy_worker": 0.11,
+    "small_business_owner": 0.10,
+    "student": 0.09,
+    "migrant_worker": 0.08,
+    "street_vendor": 0.05,
+    "retired": 0.03,
+    "journalist_tier1": 0.01,
+    "data_source": "Transit Hub/Mixed zone template from AGENT_SPEC.md; Dadar-Parel-Worli is Mumbai's archetypal transit hub with mixed economic activity"
+  },
+  "tier2_agent_types": {
+    "union_representative": 3,
+    "local_councillor": 2,
+    "community_leader": 2,
+    "journalist": 2,
+    "rwa_president": 3,
+    "hospital_administrator": 1,
+    "small_business_owner": 5,
+    "data_source": "Tier 2 counts from MCGM corporator data for F/G wards, Mumbai union registration records for Parel industrial belt, KEM Hospital administration structure"
+  }
+}

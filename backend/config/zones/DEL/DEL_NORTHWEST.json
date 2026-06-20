@@ -1,0 +1,142 @@
+{
+  "zone_id": "DEL_NORTHWEST",
+  "zone_name": "Northwest Delhi",
+  "city_id": "DEL",
+  "state_id": "DL",
+
+  "geography": {
+    "centroid_lat": 28.7320,
+    "centroid_lng": 77.1100,
+    "area_sq_km": 178.0,
+    "ward_ids": [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74],
+    "geojson_path": "zones/DEL/geojson/DEL_NORTHWEST.geojson",
+    "data_source": "Census 2011 ward boundary shapefiles, North West Delhi district. Covers Rohini (Sectors 1-29), Pitampura, Shalimar Bagh, Rithala, Bawana, Narela. Largest population zone in Delhi."
+  },
+
+  "demographics": {
+    "population": 3650000,
+    "population_density_per_sqkm": 20506,
+    "average_household_size": 4.5,
+    "literacy_rate": 0.85,
+    "sc_st_population_share": 0.16,
+    "data_source": "Census 2011 North West Delhi district tables. Density = 3650000 / 178 ≈ 20506. Large population zone — Rohini sub-city is one of Asia's largest planned residential townships. Outer areas (Bawana, Narela) are industrial/periurban."
+  },
+
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.08,
+      "decile_2": 0.09,
+      "decile_3": 0.10,
+      "decile_4": 0.10,
+      "decile_5": 0.11,
+      "decile_6": 0.11,
+      "decile_7": 0.11,
+      "decile_8": 0.11,
+      "decile_9": 0.10,
+      "decile_10": 0.09
+    },
+    "median_monthly_income": 27000,
+    "informal_employment_rate": 0.40,
+    "primary_occupations": ["retail_trade", "manufacturing", "government", "education", "construction"],
+    "data_source": "NSSO 78th Round MPCE distribution (North West Delhi). Broadly normal with slight left lean — Rohini sectors are solidly middle-class while Bawana/Narela industrial belt pulls the median down. Narela has significant industrial informal employment."
+  },
+
+  "commute_profile": {
+    "primary_mode": "metro",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.60,
+    "avg_commute_distance_km": 14.8,
+    "avg_commute_time_min": 48,
+    "nearest_metro_lines": ["RED", "GREEN"],
+    "nearest_metro_stations": ["Rohini Sector 18-19", "Pitampura", "Rithala", "Netaji Subhash Place"],
+    "car_ownership_rate": 0.30,
+    "data_source": "DMRC Origin-Destination Survey 2022, Census 2011 Table D-13. Red Line serves the Rithala-ISBT corridor. Green Line provides east-west connectivity from Mundka to Kirti Nagar. Long commute distance (14.8km) reflects suburban location."
+  },
+
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.65,
+    "examination_sensitivity_score": 0.60,
+    "collective_action_threshold": 0.44,
+    "information_diffusion_speed": 0.70,
+    "loss_aversion_coefficient": 0.70,
+    "institutional_trust_railways": 0.58,
+    "institutional_trust_examinations": 0.64,
+    "political_mobilisation_index": 0.66,
+    "data_source": "Composite scores. Moderate-high fare sensitivity (0.65) — middle-income but long commute distances make fare a significant monthly expense. Moderate political mobilisation (0.66) — large population but newer township with developing community bonds. ECI 2024 North West Delhi constituency data."
+  },
+
+  "social_network_parameters": {
+    "avg_connections_tier1": 34,
+    "clustering_coefficient": 0.56,
+    "cross_income_bridge_frequency": 0.15,
+    "tier2_agent_density": 0.036,
+    "dominant_network_type": "residential_colony",
+    "data_source": "Estimated from IHDS-II social capital module. Moderate clustering (0.56) — Rohini DDA sectors have planned colony structure but are newer (developed 1990s-2000s) with still-developing community bonds. Lower tier2 density (0.036) due to large population base."
+  },
+
+  "informal_economy_nodes": [
+    {
+      "node_id": "NORTHWEST_MARKET_1",
+      "type": "commercial_hub",
+      "location": [28.7050, 77.1250],
+      "name": "Pitampura TV Tower / Netaji Subhash Place",
+      "daily_footfall": 18000,
+      "transit_dependency": 0.58,
+      "employment_generated": 420,
+      "data_source": "Estimated from DDA district centre data. Netaji Subhash Place is the primary commercial hub for Northwest Delhi — offices, banks, retail. Red/Green Line interchange."
+    },
+    {
+      "node_id": "NORTHWEST_MARKET_2",
+      "type": "street_market",
+      "location": [28.7350, 77.1150],
+      "name": "Rohini Sector 7 Market",
+      "daily_footfall": 10000,
+      "transit_dependency": 0.45,
+      "employment_generated": 250,
+      "data_source": "Estimated from MCD market data. Central market for Rohini sub-city, serves sectors 1-15."
+    },
+    {
+      "node_id": "NORTHWEST_MARKET_3",
+      "type": "industrial_cluster",
+      "location": [28.7950, 77.0650],
+      "name": "Bawana Industrial Area",
+      "daily_footfall": 15000,
+      "transit_dependency": 0.38,
+      "employment_generated": 850,
+      "data_source": "Estimated from DSIIDC industrial registry. Major industrial zone relocated from inner-city — garments, plastics, electronics manufacturing. High informal employment generation."
+    },
+    {
+      "node_id": "NORTHWEST_MARKET_4",
+      "type": "street_market",
+      "location": [28.7180, 77.1020],
+      "name": "Rohini Sector 18 Market",
+      "daily_footfall": 7000,
+      "transit_dependency": 0.52,
+      "employment_generated": 180,
+      "data_source": "Estimated from MCD market data. Local market near Rohini Sector 18-19 metro station."
+    }
+  ],
+
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.29,
+    "homemaker": 0.19,
+    "student": 0.13,
+    "daily_wage_worker": 0.11,
+    "small_business_owner": 0.10,
+    "gig_economy_worker": 0.06,
+    "government_employee": 0.06,
+    "retired": 0.04,
+    "migrant_worker": 0.02,
+    "data_source": "AGENT_SPEC.md Middle Income Residential template (lines 729-740), adjusted per user specification: homemaker weight increased to 0.19 (highest in Delhi) reflecting AGENT_SPEC.md line 364 — 'Highest concentration: DEL_NORTHWEST (Rohini)'. Formal sector slightly reduced to 0.29 to compensate. Sum = 1.00."
+  },
+
+  "tier2_agent_types": {
+    "rwa_president": 5,
+    "local_councillor": 2,
+    "small_business_owner": 6,
+    "school_principal": 3,
+    "local_journalist": 1,
+    "union_representative": 1,
+    "data_source": "Estimated from MCD councillor count (15 wards), DDA Rohini RWA federation data. Higher RWA count (5) reflects active residential welfare associations in Rohini sectors. Higher school principal count (3) due to large residential population."
+  }
+}

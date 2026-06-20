@@ -1,0 +1,30 @@
+{
+  "state_id": "WB",
+  "state_name": "West Bengal",
+  "language_primary": "Bengali",
+  "language_secondary": ["Hindi", "English", "Urdu"],
+  "language_network_multiplier": 1.1,
+  "ruling_party_trust_index": 0.61,
+  "union_legal_framework": "permissive",
+  "state_gdp_per_capita": 134454,
+  "state_informal_economy_share": 0.52,
+  "examination_board": "both",
+  "political_contestation_index": 0.65,
+  "media_penetration": {
+    "tv": 0.83,
+    "print": 0.55,
+    "digital": 0.52,
+    "radio": 0.35
+  },
+  "cities": ["KOL"],
+  "data_sources": {
+    "state_gdp_per_capita": "MoSPI State GDP estimates 2022-23, current prices; West Bengal ranks lower among major states in per-capita GSDP",
+    "state_informal_economy_share": "NSSO PLFS 2022-23, estimated; 0.52 reflects highest informal share among the six states, consistent with West Bengal's large informal sector",
+    "ruling_party_trust_index": "Estimated from Lokniti-CSDS post-2021 West Bengal election survey; TMC government satisfaction, strong Mamata Banerjee factor",
+    "political_contestation_index": "ECI 2021 and 2024 data; 0.65 reflects TMC dominance but BJP emergence as principal opposition since 2019",
+    "language_network_multiplier": "1.1 reflects strong Bengali-language media ecosystem (ABP Ananda, Zee Bangla, extensive Bengali print including Anandabazar Patrika, Bartaman)",
+    "media_penetration": "BARC India 2023 (tv), IRS 2022 (print: highest print readership ratio among 6 states due to Bengali literary culture), IAMAI-Kantar 2023 (digital: lower due to lower smartphone penetration), RAM Ratings 2022 (radio: relatively higher due to community radio culture)",
+    "union_legal_framework": "Permissive; West Bengal has strong trade union history (CPI(M) era legacy), labour laws favour organized action",
+    "examination_board": "Both West Bengal Board (WBBSE/WBCHSE) and CBSE operate; state board dominant outside Kolkata"
+  }
+}

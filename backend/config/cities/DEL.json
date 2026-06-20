@@ -1,0 +1,140 @@
+{
+  "city_id": "DEL",
+  "city_name": "Delhi",
+  "state_id": "DL",
+  "population": 20000000,
+  "area_sq_km": 1484,
+  "ward_count": 272,
+  "topology_type": "GRID",
+  "transport_network": {
+    "metro_lines": [
+      {
+        "line_id": "DEL_METRO_YELLOW",
+        "name": "Yellow Line",
+        "stations": 37,
+        "daily_ridership": 420000,
+        "corridor": "Samaypur Badli - HUDA City Centre",
+        "data_source": "DMRC ridership data 2023-24, Yellow Line is the busiest corridor"
+      },
+      {
+        "line_id": "DEL_METRO_BLUE",
+        "name": "Blue Line",
+        "stations": 50,
+        "daily_ridership": 580000,
+        "corridor": "Dwarka Sector 21 - Noida Electronic City / Vaishali",
+        "data_source": "DMRC ridership data 2023-24, includes Blue Line branch to Vaishali"
+      },
+      {
+        "line_id": "DEL_METRO_RED",
+        "name": "Red Line",
+        "stations": 29,
+        "daily_ridership": 310000,
+        "corridor": "Rithala - Shaheed Sthal (New Bus Adda)",
+        "data_source": "DMRC ridership data 2023-24"
+      },
+      {
+        "line_id": "DEL_METRO_GREEN",
+        "name": "Green Line",
+        "stations": 21,
+        "daily_ridership": 95000,
+        "corridor": "Mundka - Brigadier Hoshiar Singh",
+        "data_source": "DMRC ridership data 2023-24, Green Line extension operational"
+      },
+      {
+        "line_id": "DEL_METRO_VIOLET",
+        "name": "Violet Line",
+        "stations": 34,
+        "daily_ridership": 280000,
+        "corridor": "Kashmere Gate - Raja Nahar Singh (Ballabhgarh)",
+        "data_source": "DMRC ridership data 2023-24"
+      },
+      {
+        "line_id": "DEL_METRO_PINK",
+        "name": "Pink Line",
+        "stations": 38,
+        "daily_ridership": 185000,
+        "corridor": "Majlis Park - Maujpur",
+        "data_source": "DMRC ridership data 2023-24, ring line connecting outer Delhi"
+      },
+      {
+        "line_id": "DEL_METRO_MAGENTA",
+        "name": "Magenta Line",
+        "stations": 25,
+        "daily_ridership": 165000,
+        "corridor": "Botanical Garden - Janakpuri West",
+        "data_source": "DMRC ridership data 2023-24"
+      },
+      {
+        "line_id": "DEL_METRO_GREY",
+        "name": "Grey Line",
+        "stations": 3,
+        "daily_ridership": 8000,
+        "corridor": "Dwarka - Najafgarh",
+        "data_source": "DMRC ridership data 2023-24, shortest line"
+      }
+    ],
+    "suburban_rail": {
+      "present": false,
+      "data_source": "No suburban rail system in Delhi NCT; RRTS (Regional Rapid Transit System) under construction as of 2024"
+    },
+    "bus_network": {
+      "operator": "DTC + DIMTS (cluster scheme)",
+      "route_count": 680,
+      "daily_ridership": 3800000,
+      "data_source": "DTC Annual Report 2023-24 and DIMTS cluster bus scheme data; combined DTC (approx 3600 buses) and cluster (approx 2100 buses) operations"
+    },
+    "total_daily_pt_ridership": 5200000,
+    "total_daily_pt_ridership_data_source": "Estimated sum of metro (2.043M) + bus (3.8M) ridership; excludes auto-rickshaws, taxis, and ride-hailing which add approx 2M additional trips"
+  },
+  "economic_baseline": {
+    "median_household_income_monthly": 28500,
+    "gini_coefficient": 0.41,
+    "formal_employment_share": 0.54,
+    "major_employment_sectors": [
+      "government",
+      "trade",
+      "construction",
+      "manufacturing",
+      "hospitality"
+    ],
+    "data_source": "Median income estimated from NSSO PLFS 2022-23 Delhi urban MPCE data scaled to household level (avg HH size 4.2); Gini from NSSO consumption expenditure distribution 2022-23; formal employment from EPFO enrollment data vs total workforce estimates; sectors from Delhi Economic Survey 2023-24"
+  },
+  "osm_extract": {
+    "source": "geofabrik",
+    "url": "https://download.geofabrik.de/asia/india/northern-zone-latest.osm.pbf",
+    "bbox": [76.8, 28.4, 77.4, 28.9],
+    "last_updated": "2024-01"
+  },
+  "validation_anchors": [
+    {
+      "anchor_id": "DEL_METRO_PH4",
+      "description": "Delhi Metro Phase 4 ridership post-opening",
+      "predicted": 340000,
+      "actual": 318000,
+      "error_pct": 6.9,
+      "data_source": "DMRC 2024 published ridership figures for Phase 4 corridors"
+    },
+    {
+      "anchor_id": "DEL_ODDEVEN_2016",
+      "description": "Odd-even scheme traffic reduction impact",
+      "predicted_range": [0, 5],
+      "actual": 0,
+      "outcome": "confirmed no significant reduction in pollution or traffic congestion",
+      "error_pct": 0.0,
+      "data_source": "IIT Delhi + TERI post-scheme analysis 2016; EPCA monitoring data"
+    }
+  ],
+  "confidence_grade": "A",
+  "zones": [
+    "DEL_CENTRAL",
+    "DEL_NEWDELHI",
+    "DEL_NORTH",
+    "DEL_NORTHEAST",
+    "DEL_EAST",
+    "DEL_SHAHDARA",
+    "DEL_SOUTH",
+    "DEL_SOUTHWEST",
+    "DEL_WEST",
+    "DEL_NORTHWEST"
+  ]
+}

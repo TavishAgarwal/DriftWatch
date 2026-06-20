@@ -1,0 +1,145 @@
+{
+  "zone_id": "MUM_NAVI",
+  "zone_name": "Navi Mumbai",
+  "city_id": "MUM",
+  "state_id": "MH",
+  "geography": {
+    "centroid_lat": 19.0330,
+    "centroid_lng": 73.0297,
+    "area_sq_km": 108.0,
+    "ward_ids": [301, 302, 303, 304, 305, 306, 307, 308],
+    "geojson_path": "data/geojson/MUM/MUM_NAVI.geojson",
+    "data_source": "NMMC ward boundaries; area from NMMC/CIDCO Development Plan; includes Vashi, Nerul, Belapur, Kharghar, Panvel nodes"
+  },
+  "demographics": {
+    "population": 1150000,
+    "population_density_per_sqkm": 10648,
+    "average_household_size": 3.9,
+    "literacy_rate": 0.92,
+    "sc_st_population_share": 0.06,
+    "data_source": "Census 2011 Navi Mumbai (NMMC area); density = population/area; household size from NSSO 76th Round; literacy from Census 2011 Thane district urban (Navi Mumbai section); SC/ST from Census 2011"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.04,
+      "decile_2": 0.06,
+      "decile_3": 0.07,
+      "decile_4": 0.09,
+      "decile_5": 0.10,
+      "decile_6": 0.12,
+      "decile_7": 0.13,
+      "decile_8": 0.14,
+      "decile_9": 0.13,
+      "decile_10": 0.12
+    },
+    "median_monthly_income": 34000,
+    "informal_employment_rate": 0.25,
+    "primary_occupations": [
+      "it_services",
+      "formal_services",
+      "port_logistics",
+      "retail_trade",
+      "education"
+    ],
+    "data_source": "Median from PLFS 2022-23 Navi Mumbai urban area; distribution slightly right-skewed reflecting IT/corporate parks (Airoli, Belapur); lower informal rate due to planned city character with CIDCO-regulated commercial spaces; occupations from MIDC Taloja/Airoli data, JNPT port employment, and CIDCO commercial surveys"
+  },
+  "commute_profile": {
+    "primary_mode": "suburban_rail",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.05,
+    "avg_commute_distance_km": 18.5,
+    "avg_commute_time_min": 55,
+    "nearest_metro_lines": ["navi_mumbai_metro_line_1"],
+    "nearest_metro_stations": ["Vashi", "Nerul", "Belapur", "Kharghar"],
+    "car_ownership_rate": 0.38,
+    "data_source": "Trans-harbour commute to Mumbai for many workers; MCTS 2016 + NMMC transport survey; Navi Mumbai Metro Line 1 (Belapur-Pendhar) under construction; higher car ownership due to wider roads and parking in planned city; rail via Harbour Line"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.55,
+    "examination_sensitivity_score": 0.64,
+    "collective_action_threshold": 0.58,
+    "information_diffusion_speed": 0.68,
+    "loss_aversion_coefficient": 0.52,
+    "institutional_trust_railways": 0.55,
+    "institutional_trust_examinations": 0.72,
+    "political_mobilisation_index": 0.48,
+    "data_source": "Moderate fare sensitivity; higher institutional trust due to CIDCO-planned infrastructure quality; lower political mobilisation reflecting newer city with less entrenched political networks; Lokniti-CSDS 2024 Thane district sub-sample"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 32,
+    "clustering_coefficient": 0.48,
+    "cross_income_bridge_frequency": 0.30,
+    "tier2_agent_density": 0.032,
+    "dominant_network_type": "residential_colony",
+    "data_source": "Lower clustering than organic Mumbai zones reflecting planned city grid layout with less organic community formation; moderate cross-income bridging from diverse residential sectors; lower tier2 density in newer planned city"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "NAVI_VASHI_APMC",
+      "type": "wholesale_market",
+      "location": [19.065, 73.000],
+      "daily_footfall": 45000,
+      "transit_dependency": 0.65,
+      "employment_generated": 2500,
+      "data_source": "Vashi APMC is one of Asia's largest wholesale markets (shifted from Crawford Market); APMC trading records and NMMC employment data"
+    },
+    {
+      "node_id": "NAVI_BELAPUR_CBD_SERVICES",
+      "type": "commercial",
+      "location": [19.022, 73.040],
+      "daily_footfall": 20000,
+      "transit_dependency": 0.50,
+      "employment_generated": 400,
+      "data_source": "Informal service economy in CBD Belapur commercial district; estimated from CIDCO commercial space occupancy data"
+    },
+    {
+      "node_id": "NAVI_AIROLI_IT_SERVICES",
+      "type": "service_cluster",
+      "location": [19.155, 72.998],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.55,
+      "employment_generated": 350,
+      "data_source": "Food and transport services serving Airoli Knowledge Park IT workers; estimated from IT park employment data"
+    },
+    {
+      "node_id": "NAVI_NERUL_MARKET",
+      "type": "retail_market",
+      "location": [19.035, 73.018],
+      "daily_footfall": 12000,
+      "transit_dependency": 0.40,
+      "employment_generated": 280,
+      "data_source": "Nerul sector markets; NMMC trade license data"
+    },
+    {
+      "node_id": "NAVI_KHARGHAR_STATION_VENDORS",
+      "type": "street_market",
+      "location": [19.042, 73.062],
+      "daily_footfall": 15000,
+      "transit_dependency": 0.70,
+      "employment_generated": 200,
+      "data_source": "Vendors near Kharghar station serving new residential development; footfall from Harbour Line station data"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.28,
+    "homemaker": 0.15,
+    "student": 0.12,
+    "tech_knowledge_worker": 0.12,
+    "daily_wage_worker": 0.09,
+    "small_business_owner": 0.09,
+    "gig_economy_worker": 0.06,
+    "government_employee": 0.05,
+    "retired": 0.03,
+    "migrant_worker": 0.01,
+    "data_source": "Middle Income Residential template from AGENT_SPEC.md adjusted: tech_knowledge_worker added at 0.12 reflecting Airoli IT Park presence; formal_sector_employee reduced to 0.28; sum = 1.00"
+  },
+  "tier2_agent_types": {
+    "rwa_president": 4,
+    "local_councillor": 2,
+    "cidco_official": 1,
+    "community_leader": 2,
+    "small_business_owner": 4,
+    "journalist": 1,
+    "data_source": "Tier 2 counts from NMMC elected representatives, CIDCO authority structure, Navi Mumbai housing society federation, and local press corps"
+  }
+}

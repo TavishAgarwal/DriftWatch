@@ -1,0 +1,119 @@
+{
+  "zone_id": "CHN_WEST",
+  "zone_name": "Anna Nagar – Kilpauk (West Chennai)",
+  "city_id": "CHN",
+  "state_id": "TN",
+  "geography": {
+    "centroid_lat": 13.0850,
+    "centroid_lng": 80.2100,
+    "area_sq_km": 28,
+    "ward_ids": [68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89],
+    "geojson_path": "geojson/CHN/CHN_WEST.geojson",
+    "data_source": "Greater Chennai Corporation ward map 2022, GCC boundary shapefiles for Anna Nagar-Kilpauk zone"
+  },
+  "demographics": {
+    "population": 780000,
+    "population_density_per_sqkm": 27857,
+    "average_household_size": 3.5,
+    "literacy_rate": 0.91,
+    "sc_st_population_share": 0.09,
+    "data_source": "Census 2011 Chennai district tables, Anna Nagar ward-level data, estimated growth at 0.8% CAGR for established residential area"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.05,
+      "decile_2": 0.06,
+      "decile_3": 0.07,
+      "decile_4": 0.09,
+      "decile_5": 0.10,
+      "decile_6": 0.12,
+      "decile_7": 0.13,
+      "decile_8": 0.13,
+      "decile_9": 0.13,
+      "decile_10": 0.12
+    },
+    "median_monthly_income": 35000,
+    "informal_employment_rate": 0.25,
+    "primary_occupations": [
+      "professional_services",
+      "retail_trade",
+      "government_services",
+      "healthcare",
+      "education",
+      "small_business"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) Tamil Nadu urban tables, PLFS 2022-23, adjusted for Anna Nagar's established middle-class profile"
+  },
+  "commute_profile": {
+    "primary_mode": "metro",
+    "secondary_mode": "two_wheeler",
+    "metro_dependency_score": 0.48,
+    "avg_commute_distance_km": 9.5,
+    "avg_commute_time_min": 35,
+    "nearest_metro_lines": ["blue_line"],
+    "nearest_metro_stations": ["Anna Nagar East", "Anna Nagar Tower", "Thirumangalam", "Kilpauk Medical College"],
+    "car_ownership_rate": 0.35,
+    "data_source": "CMRL Blue Line ridership 2023, CMP Chennai 2018 mode share, Anna Nagar high car ownership from vehicle registration data"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.38,
+    "examination_sensitivity_score": 0.55,
+    "collective_action_threshold": 0.50,
+    "information_diffusion_speed": 0.62,
+    "loss_aversion_coefficient": 0.58,
+    "institutional_trust_railways": 0.68,
+    "institutional_trust_examinations": 0.72,
+    "political_mobilisation_index": 0.48,
+    "data_source": "Estimated from middle-class residential zone behaviour, higher institutional trust in established areas, Lokniti-CSDS 2024 Tamil Nadu data"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 36,
+    "clustering_coefficient": 0.64,
+    "cross_income_bridge_frequency": 0.16,
+    "tier2_agent_density": 0.038,
+    "dominant_network_type": "residential_rwa",
+    "data_source": "Estimated from established residential area network patterns, high clustering due to RWA and long-term neighbourhood bonds, senior citizen concentration"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "CHN_WEST_ANNA_NAGAR_MARKET",
+      "type": "commercial_cluster",
+      "location": [13.0870, 80.2090],
+      "daily_footfall": 25000,
+      "transit_dependency": 0.42,
+      "employment_generated": 3800,
+      "data_source": "Estimated from Anna Nagar 2nd Avenue commercial strip activity, GCC commercial zone survey"
+    },
+    {
+      "node_id": "CHN_WEST_KILPAUK_MARKET",
+      "type": "traditional_market",
+      "location": [13.0790, 80.2200],
+      "daily_footfall": 14000,
+      "transit_dependency": 0.38,
+      "employment_generated": 1900,
+      "data_source": "Estimated from Kilpauk market area activity survey"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.30,
+    "homemaker": 0.18,
+    "student": 0.11,
+    "daily_wage_worker": 0.08,
+    "small_business_owner": 0.10,
+    "gig_economy_worker": 0.06,
+    "government_employee": 0.06,
+    "retired": 0.07,
+    "migrant_worker": 0.02,
+    "journalist_tier1": 0.01,
+    "tech_knowledge_worker": 0.01,
+    "data_source": "Adjusted Middle Income Residential template for Anna Nagar's established residential character, elevated retired/senior citizen weight per AGENT_SPEC senior citizen zone reference"
+  },
+  "tier2_agent_types": {
+    "local_politician": 3,
+    "journalist": 1,
+    "religious_leader": 2,
+    "rwa_president": 3,
+    "market_association_head": 1,
+    "data_source": "Estimated from GCC ward councillor count, strong RWA presence in Anna Nagar"
+  }
+}

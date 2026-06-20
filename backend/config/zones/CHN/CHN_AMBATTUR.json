@@ -1,0 +1,124 @@
+{
+  "zone_id": "CHN_AMBATTUR",
+  "zone_name": "Ambattur – Industrial Zone (North-West Chennai)",
+  "city_id": "CHN",
+  "state_id": "TN",
+  "geography": {
+    "centroid_lat": 13.1067,
+    "centroid_lng": 80.1567,
+    "area_sq_km": 40,
+    "ward_ids": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+    "geojson_path": "geojson/CHN/CHN_AMBATTUR.geojson",
+    "data_source": "Greater Chennai Corporation ward map 2022, Ambattur Industrial Estate boundary, CMDA master plan"
+  },
+  "demographics": {
+    "population": 720000,
+    "population_density_per_sqkm": 18000,
+    "average_household_size": 4.3,
+    "literacy_rate": 0.80,
+    "sc_st_population_share": 0.21,
+    "data_source": "Census 2011 Chennai district tables (Ambattur taluk), industrial zone worker surveys, higher SC/ST share in industrial labour settlements"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.10,
+      "decile_2": 0.11,
+      "decile_3": 0.12,
+      "decile_4": 0.12,
+      "decile_5": 0.11,
+      "decile_6": 0.11,
+      "decile_7": 0.10,
+      "decile_8": 0.09,
+      "decile_9": 0.08,
+      "decile_10": 0.06
+    },
+    "median_monthly_income": 19000,
+    "informal_employment_rate": 0.52,
+    "primary_occupations": [
+      "factory_work",
+      "manufacturing",
+      "construction",
+      "loading_logistics",
+      "domestic_work",
+      "small_trade"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) Tamil Nadu urban tables, Ambattur Industrial Estate employment census, PLFS 2022-23 manufacturing sector data"
+  },
+  "commute_profile": {
+    "primary_mode": "bus",
+    "secondary_mode": "bicycle",
+    "metro_dependency_score": 0.06,
+    "avg_commute_distance_km": 7.2,
+    "avg_commute_time_min": 38,
+    "nearest_metro_lines": [],
+    "nearest_metro_stations": [],
+    "car_ownership_rate": 0.08,
+    "data_source": "CMP Chennai 2018, MTC route data for Ambattur industrial area, many workers live near factory — short commute distance, bicycle usage from industrial worker surveys"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.75,
+    "examination_sensitivity_score": 0.42,
+    "collective_action_threshold": 0.35,
+    "information_diffusion_speed": 0.62,
+    "loss_aversion_coefficient": 0.82,
+    "institutional_trust_railways": 0.45,
+    "institutional_trust_examinations": 0.52,
+    "political_mobilisation_index": 0.72,
+    "data_source": "Estimated from industrial zone worker behaviour, strong union mobilisation history in Ambattur, high fare sensitivity in low-income zone, Lokniti-CSDS 2024"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 40,
+    "clustering_coefficient": 0.65,
+    "cross_income_bridge_frequency": 0.10,
+    "tier2_agent_density": 0.052,
+    "dominant_network_type": "factory_union_neighbourhood",
+    "data_source": "Estimated from industrial zone social patterns, factory floor networks, strong union connectivity, high tier2 density due to union representatives"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "CHN_AMBATTUR_FACTORY_GATE_MARKET",
+      "type": "factory_gate_vendors",
+      "location": [13.1050, 80.1580],
+      "daily_footfall": 22000,
+      "transit_dependency": 0.58,
+      "employment_generated": 2800,
+      "data_source": "Estimated from Ambattur Industrial Estate gate area vendor activity, factory shift-change footfall patterns"
+    },
+    {
+      "node_id": "CHN_AMBATTUR_LABOUR_NAKA",
+      "type": "labour_market",
+      "location": [13.1100, 80.1520],
+      "daily_footfall": 5000,
+      "transit_dependency": 0.72,
+      "employment_generated": 3500,
+      "data_source": "Estimated from daily labour gathering points near Ambattur bus stand"
+    },
+    {
+      "node_id": "CHN_AMBATTUR_RESIDENTIAL_MARKET",
+      "type": "traditional_market",
+      "location": [13.1080, 80.1600],
+      "daily_footfall": 12000,
+      "transit_dependency": 0.42,
+      "employment_generated": 1600,
+      "data_source": "Estimated from Ambattur residential area market zone, GCC market survey"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.35,
+    "daily_wage_worker": 0.24,
+    "migrant_worker": 0.18,
+    "homemaker": 0.12,
+    "small_business_owner": 0.06,
+    "gig_economy_worker": 0.03,
+    "student": 0.02,
+    "data_source": "Industrial Zone template from AGENT_SPEC.md, directly applicable — Ambattur is the reference zone for this template"
+  },
+  "tier2_agent_types": {
+    "local_politician": 3,
+    "union_representative": 5,
+    "factory_management": 3,
+    "religious_leader": 2,
+    "labour_contractor": 3,
+    "data_source": "Estimated from strong union presence in Ambattur Industrial Estate, multiple factory management bodies, labour contractor networks"
+  }
+}

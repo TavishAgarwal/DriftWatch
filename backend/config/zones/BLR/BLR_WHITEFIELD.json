@@ -1,0 +1,114 @@
+{
+  "zone_id": "BLR_WHITEFIELD",
+  "zone_name": "Whitefield",
+  "city_id": "BLR",
+  "state_id": "KA",
+  "geography": {
+    "centroid_lat": 12.9698,
+    "centroid_lng": 77.7500,
+    "area_sq_km": 45.2,
+    "ward_ids": [150, 151, 152, 153, 154],
+    "geojson_path": "geojson/BLR/BLR_WHITEFIELD.geojson",
+    "data_source": "BBMP ward boundaries 2023, Google Earth verification"
+  },
+  "demographics": {
+    "population": 820000,
+    "population_density_per_sqkm": 18142,
+    "average_household_size": 3.4,
+    "literacy_rate": 0.92,
+    "sc_st_population_share": 0.07,
+    "data_source": "Census 2011 ward-level data extrapolated with BBMP 2023 estimates; literacy from Karnataka DISE 2021-22; SC/ST share from Census 2011 SC/ST tables for Bangalore Urban district"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.02,
+      "decile_2": 0.03,
+      "decile_3": 0.04,
+      "decile_4": 0.05,
+      "decile_5": 0.07,
+      "decile_6": 0.10,
+      "decile_7": 0.13,
+      "decile_8": 0.17,
+      "decile_9": 0.19,
+      "decile_10": 0.20
+    },
+    "median_monthly_income": 85000,
+    "informal_employment_rate": 0.18,
+    "primary_occupations": [
+      "software_engineering",
+      "product_management",
+      "IT_services",
+      "startups"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) Periodic Labour Force Survey for urban Karnataka adjusted with NASSCOM IT salary surveys 2023; informal rate from ILO India Employment Report 2024 for IT corridor zones"
+  },
+  "commute_profile": {
+    "primary_mode": "cab",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.35,
+    "avg_commute_distance_km": 18.5,
+    "avg_commute_time_min": 65,
+    "nearest_metro_lines": ["Purple"],
+    "nearest_metro_stations": ["Whitefield", "Kadugodi"],
+    "car_ownership_rate": 0.52,
+    "data_source": "BMRCL Purple Line Phase 2 extension ridership data 2024; DULT Bengaluru Comprehensive Mobility Plan 2020; Ola Mobility Institute Bengaluru commute report 2023; car ownership estimated from RTO Bangalore Urban registration data 2023"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.14,
+    "examination_sensitivity_score": 0.68,
+    "collective_action_threshold": 0.58,
+    "information_diffusion_speed": 0.88,
+    "loss_aversion_coefficient": 0.32,
+    "institutional_trust_railways": 0.45,
+    "institutional_trust_examinations": 0.72,
+    "political_mobilisation_index": 0.55,
+    "data_source": "fare_sensitivity low due to high incomes (NSSO 78th Round consumption data); examination_sensitivity high due to tech-sector competitive hiring; diffusion_speed high due to digital-first workforce; loss_aversion low due to financial cushion; trust scores estimated from Lokniti-CSDS Trust in Institutions Survey 2024 urban Karnataka subset"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 32,
+    "clustering_coefficient": 0.45,
+    "cross_income_bridge_frequency": 0.38,
+    "tier2_agent_density": 0.048,
+    "dominant_network_type": "workplace",
+    "data_source": "Estimated from NASSCOM ecosystem survey 2023 (workplace network density in IT parks); clustering lower than residential zones due to transient workforce; cross-income bridge higher due to tech company mixed-role teams"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "WHITEFIELD_FORUM_MARKET",
+      "type": "commercial",
+      "location": [12.971, 77.753],
+      "daily_footfall": 35000,
+      "transit_dependency": 0.28,
+      "employment_generated": 600,
+      "data_source": "Forum Value Mall footfall from CBRE India Retail Report 2023; employment estimated from BBMP trade license data for Whitefield ward"
+    },
+    {
+      "node_id": "WHITEFIELD_VILLAGE_MARKET",
+      "type": "street_market",
+      "location": [12.968, 77.745],
+      "daily_footfall": 8000,
+      "transit_dependency": 0.55,
+      "employment_generated": 180,
+      "data_source": "Estimated from BBMP street vendor survey 2022 for Whitefield Main Road area; transit dependency higher due to vendor commute patterns from surrounding areas"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "tech_knowledge_worker": 0.52,
+    "gig_economy_worker": 0.14,
+    "formal_sector_employee": 0.12,
+    "homemaker": 0.08,
+    "student": 0.06,
+    "small_business_owner": 0.05,
+    "journalist_tier1": 0.02,
+    "daily_wage_worker": 0.01
+  },
+  "tier2_agent_types": {
+    "tech_executive": 3,
+    "startup_founder": 2,
+    "journalist": 1,
+    "rwa_president": 2,
+    "small_business_owner": 3,
+    "local_councillor": 1
+  },
+  "data_source": "Composite zone config built from Census 2011 (demographics), NSSO PLFS 78th Round (income/employment), BMRCL ridership reports 2024 (transit), DULT CMP 2020 (commute), NASSCOM 2023 (IT workforce), BBMP 2023 (ward boundaries and population projections)"
+}

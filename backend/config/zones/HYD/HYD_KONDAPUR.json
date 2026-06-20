@@ -1,0 +1,119 @@
+{
+  "zone_id": "HYD_KONDAPUR",
+  "zone_name": "Kondapur – New Residential (Mid-High Income)",
+  "city_id": "HYD",
+  "state_id": "TS",
+  "geography": {
+    "centroid_lat": 17.4600,
+    "centroid_lng": 78.3500,
+    "area_sq_km": 25,
+    "ward_ids": [151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162],
+    "geojson_path": "geojson/HYD/HYD_KONDAPUR.geojson",
+    "data_source": "GHMC ward map 2020, Kondapur-Gachibowli zone boundary, new development area shapefiles"
+  },
+  "demographics": {
+    "population": 480000,
+    "population_density_per_sqkm": 19200,
+    "average_household_size": 3.2,
+    "literacy_rate": 0.93,
+    "sc_st_population_share": 0.06,
+    "data_source": "Census 2011 Rangareddy district tables, rapid growth estimated at 6.0% CAGR post-2014 near HiTech City"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.03,
+      "decile_2": 0.04,
+      "decile_3": 0.05,
+      "decile_4": 0.06,
+      "decile_5": 0.08,
+      "decile_6": 0.10,
+      "decile_7": 0.13,
+      "decile_8": 0.15,
+      "decile_9": 0.18,
+      "decile_10": 0.18
+    },
+    "median_monthly_income": 55000,
+    "informal_employment_rate": 0.18,
+    "primary_occupations": [
+      "IT_software",
+      "professional_services",
+      "consulting",
+      "education",
+      "retail",
+      "facility_management"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) Telangana urban tables, salary surveys for Kondapur-Gachibowli area, proximity to HiTech City employment effect"
+  },
+  "commute_profile": {
+    "primary_mode": "private_car",
+    "secondary_mode": "metro",
+    "metro_dependency_score": 0.32,
+    "avg_commute_distance_km": 8.5,
+    "avg_commute_time_min": 28,
+    "nearest_metro_lines": ["blue_line"],
+    "nearest_metro_stations": ["Raidurg", "HiTech City"],
+    "car_ownership_rate": 0.45,
+    "cab_aggregator_dependency": 0.48,
+    "data_source": "HMR Blue Line data 2023, short commute due to proximity to HiTech City, high car ownership in new gated communities"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.18,
+    "examination_sensitivity_score": 0.60,
+    "collective_action_threshold": 0.58,
+    "information_diffusion_speed": 0.78,
+    "loss_aversion_coefficient": 0.45,
+    "institutional_trust_railways": 0.62,
+    "institutional_trust_examinations": 0.68,
+    "political_mobilisation_index": 0.38,
+    "data_source": "Estimated from emerging high-income professional zone, low fare sensitivity, high digital diffusion, examination concerns for children, Lokniti-CSDS 2024"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 42,
+    "clustering_coefficient": 0.50,
+    "cross_income_bridge_frequency": 0.14,
+    "tier2_agent_density": 0.035,
+    "dominant_network_type": "apartment_professional",
+    "data_source": "Estimated from new gated community patterns, professional networking, lower neighbourhood bond strength in new developments"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "HYD_KONDAPUR_COMMERCIAL_HUB",
+      "type": "commercial_cluster",
+      "location": [17.4580, 78.3520],
+      "daily_footfall": 22000,
+      "transit_dependency": 0.42,
+      "employment_generated": 3200,
+      "data_source": "Estimated from Kondapur junction commercial activity, new retail development"
+    },
+    {
+      "node_id": "HYD_KONDAPUR_GACHIBOWLI_STRIP",
+      "type": "restaurant_retail_cluster",
+      "location": [17.4500, 78.3480],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.38,
+      "employment_generated": 2800,
+      "data_source": "Estimated from Gachibowli road restaurant and retail strip serving IT worker population"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "tech_knowledge_worker": 0.34,
+    "formal_sector_employee": 0.18,
+    "homemaker": 0.14,
+    "student": 0.10,
+    "retired": 0.05,
+    "small_business_owner": 0.07,
+    "gig_economy_worker": 0.07,
+    "government_employee": 0.03,
+    "journalist_tier1": 0.01,
+    "daily_wage_worker": 0.01,
+    "data_source": "Adjusted High Income/Professional template for Kondapur's emerging character — reduced tech_knowledge_worker from 0.38 to 0.34 (less concentrated than pure IT corridor), increased homemaker and gig for residential service demand"
+  },
+  "tier2_agent_types": {
+    "local_politician": 2,
+    "rwa_president": 3,
+    "journalist": 1,
+    "IT_industry_body_representative": 1,
+    "school_principal": 2,
+    "data_source": "Estimated from new development governance, strong RWA presence in gated communities, international school concentration"
+  }
+}

@@ -1,0 +1,17 @@
+/* ═══════════════════════════════════════════════════
+   DRIFTWATCH — Font Declarations
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* Bitcount Single — specialty monospace data font
+   Using local source with web fallback.
+   If Bitcount Single is not available, falls back to Courier New */
+@font-face {
+  font-family: 'Bitcount Single';
+  src: local('Bitcount Single'),
+       local('BitcountSingle');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

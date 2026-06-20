@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-multipart
+aiofiles
+pydantic
+pydantic-settings
+numpy
+networkx
+scipy
+pytest
+httpx
+pytest-asyncio
+sqlalchemy
+aiosqlite
+greenlet

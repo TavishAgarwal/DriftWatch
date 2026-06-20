@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '--build-arg', 'VITE_API_BASE_URL=$_API_URL',
+      '-t', 'gcr.io/$PROJECT_ID/driftwatch-frontend',
+      '-f', 'frontend/Dockerfile',
+      '.'
+    ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/driftwatch-frontend']
+images:
+  - 'gcr.io/$PROJECT_ID/driftwatch-frontend'

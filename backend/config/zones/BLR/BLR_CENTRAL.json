@@ -1,0 +1,127 @@
+{
+  "zone_id": "BLR_CENTRAL",
+  "zone_name": "Central Bengaluru",
+  "city_id": "BLR",
+  "state_id": "KA",
+  "geography": {
+    "centroid_lat": 12.9716,
+    "centroid_lng": 77.5946,
+    "area_sq_km": 22,
+    "ward_ids": [95, 96, 97, 98, 99, 100, 101],
+    "geojson_path": "geojson/BLR/BLR_CENTRAL.geojson",
+    "data_source": "BBMP ward boundaries 2023 for core city wards covering MG Road, Brigade Road, Shivajinagar, and Commercial Street areas"
+  },
+  "demographics": {
+    "population": 450000,
+    "population_density_per_sqkm": 20455,
+    "average_household_size": 3.6,
+    "literacy_rate": 0.89,
+    "sc_st_population_share": 0.09,
+    "data_source": "Census 2011 ward-level data for Bangalore Urban core wards; density computed from population/area; literacy from Karnataka DISE 2021-22; SC/ST from Census 2011 Bangalore Urban district tables"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.04,
+      "decile_2": 0.05,
+      "decile_3": 0.06,
+      "decile_4": 0.07,
+      "decile_5": 0.09,
+      "decile_6": 0.11,
+      "decile_7": 0.13,
+      "decile_8": 0.15,
+      "decile_9": 0.16,
+      "decile_10": 0.14
+    },
+    "median_monthly_income": 42000,
+    "informal_employment_rate": 0.35,
+    "primary_occupations": [
+      "retail_commerce",
+      "hospitality",
+      "financial_services",
+      "government_services",
+      "heritage_tourism"
+    ],
+    "data_source": "NSSO 78th Round PLFS for urban Karnataka core zones; median adjusted for commercial zone premium using CMIE Consumer Pyramids 2023; informal rate reflects mix of formal offices and informal retail from ILO India Employment Report 2024"
+  },
+  "commute_profile": {
+    "primary_mode": "metro",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.62,
+    "avg_commute_distance_km": 12.5,
+    "avg_commute_time_min": 45,
+    "nearest_metro_lines": ["Purple", "Green"],
+    "nearest_metro_stations": ["MG Road", "Trinity", "Cubbon Park", "Vidhana Soudha"],
+    "car_ownership_rate": 0.32,
+    "data_source": "BMRCL ridership data 2024 for Purple/Green line interchange stations; DULT CMP 2020 for CBD commute patterns; car ownership constrained by parking scarcity per BBMP parking policy 2022"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.38,
+    "examination_sensitivity_score": 0.55,
+    "collective_action_threshold": 0.52,
+    "information_diffusion_speed": 0.78,
+    "loss_aversion_coefficient": 0.45,
+    "institutional_trust_railways": 0.55,
+    "institutional_trust_examinations": 0.65,
+    "political_mobilisation_index": 0.62,
+    "data_source": "fare_sensitivity moderate — mixed income zone; high diffusion due to commercial density and footfall; political_mobilisation elevated — proximity to Vidhana Soudha; estimated from Lokniti-CSDS 2024 urban Karnataka and NSSO consumption data"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 38,
+    "clustering_coefficient": 0.42,
+    "cross_income_bridge_frequency": 0.42,
+    "tier2_agent_density": 0.052,
+    "dominant_network_type": "mixed_commercial",
+    "data_source": "High cross-income bridging due to commercial interactions across income strata; lower clustering from transient population; estimated from IHDS-II urban core social network patterns"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "CENTRAL_COMMERCIAL_STREET",
+      "type": "commercial",
+      "location": [12.979, 77.607],
+      "daily_footfall": 120000,
+      "transit_dependency": 0.52,
+      "employment_generated": 4500,
+      "data_source": "Commercial Street traders association estimate 2023; transit dependency from BMTC/BMRCL modal share data for MG Road metro catchment"
+    },
+    {
+      "node_id": "CENTRAL_RUSSELL_MARKET",
+      "type": "wholesale_market",
+      "location": [12.974, 77.599],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.48,
+      "employment_generated": 850,
+      "data_source": "BBMP trade license data 2023; Russell Market heritage market footfall estimated from APMC records and BBMP vendor counts"
+    },
+    {
+      "node_id": "CENTRAL_BRIGADE_FOOD_COURT",
+      "type": "food_street",
+      "location": [12.972, 77.603],
+      "daily_footfall": 25000,
+      "transit_dependency": 0.45,
+      "employment_generated": 350,
+      "data_source": "Estimated from BBMP food license data 2022 for Brigade Road stretch; footfall from BTP crowd management reports for weekend peaks"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.24,
+    "daily_wage_worker": 0.16,
+    "homemaker": 0.13,
+    "gig_economy_worker": 0.11,
+    "small_business_owner": 0.10,
+    "student": 0.09,
+    "migrant_worker": 0.08,
+    "street_vendor": 0.05,
+    "retired": 0.03,
+    "journalist_tier1": 0.01
+  },
+  "tier2_agent_types": {
+    "traders_association_head": 2,
+    "journalist": 2,
+    "local_councillor": 1,
+    "rwa_president": 2,
+    "small_business_owner": 4,
+    "police_inspector": 1,
+    "heritage_committee_member": 1
+  },
+  "data_source": "Composite zone config from Census 2011, NSSO PLFS 78th Round, BMRCL 2024, DULT CMP 2020, BBMP 2023 ward data, CMIE Consumer Pyramids 2023, BTP crowd management reports"
+}

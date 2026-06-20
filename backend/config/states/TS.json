@@ -1,0 +1,30 @@
+{
+  "state_id": "TS",
+  "state_name": "Telangana",
+  "language_primary": "Telugu",
+  "language_secondary": ["Hindi", "Urdu", "English"],
+  "language_network_multiplier": 0.88,
+  "ruling_party_trust_index": 0.55,
+  "union_legal_framework": "moderate",
+  "state_gdp_per_capita": 312080,
+  "state_informal_economy_share": 0.45,
+  "examination_board": "both",
+  "political_contestation_index": 0.75,
+  "media_penetration": {
+    "tv": 0.85,
+    "print": 0.35,
+    "digital": 0.62,
+    "radio": 0.22
+  },
+  "cities": ["HYD"],
+  "data_sources": {
+    "state_gdp_per_capita": "MoSPI State GDP estimates 2022-23, current prices; Telangana ranks among top 5 in per-capita GSDP",
+    "state_informal_economy_share": "NSSO PLFS 2022-23, estimated; Hyderabad IT corridor raises formal share but rural Telangana remains heavily informal",
+    "ruling_party_trust_index": "Estimated from Lokniti-CSDS post-2023 Telangana election survey; Congress government replacing BRS",
+    "political_contestation_index": "ECI 2023 Telangana Assembly election data; 0.75 reflects evolving politics in new state (formed 2014), three-way contest between Congress, BRS, and BJP",
+    "language_network_multiplier": "0.88 reflects Telugu-Urdu bilingual zone in Hyderabad, with Hindi and English also prevalent in IT corridors",
+    "media_penetration": "BARC India 2023 (tv), IRS 2022 (print), IAMAI-Kantar 2023 (digital), RAM Ratings 2022 (radio)",
+    "union_legal_framework": "Telangana Industrial Disputes framework assessed as moderate",
+    "examination_board": "Both Telangana State Board (TSBIE/BSETS) and CBSE operate"
+  }
+}

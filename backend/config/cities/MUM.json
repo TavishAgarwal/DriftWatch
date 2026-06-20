@@ -1,0 +1,111 @@
+{
+  "city_id": "MUM",
+  "city_name": "Mumbai Metropolitan Region",
+  "state_id": "MH",
+  "population": 20670000,
+  "area_sq_km": 4355,
+  "ward_count": 227,
+  "topology_type": "LINEAR",
+  "transport_network": {
+    "metro_lines": [
+      {
+        "line_id": "MUM_METRO_1",
+        "name": "Metro Line 1 (Versova-Andheri-Ghatkopar)",
+        "stations": 12,
+        "daily_ridership": 350000,
+        "corridor": "Versova - Andheri - Ghatkopar",
+        "data_source": "MMRDA / Mumbai Metro One Pvt Ltd (MMOPL) ridership data 2023-24"
+      },
+      {
+        "line_id": "MUM_METRO_2A",
+        "name": "Metro Line 2A (Dahisar-DN Nagar)",
+        "stations": 17,
+        "daily_ridership": 120000,
+        "corridor": "Dahisar - D.N. Nagar",
+        "data_source": "MMRDA Metro Line 2A ridership data 2023-24, post-January 2024 opening ramp-up"
+      },
+      {
+        "line_id": "MUM_METRO_7",
+        "name": "Metro Line 7 (Dahisar E-Andheri E)",
+        "stations": 13,
+        "daily_ridership": 95000,
+        "corridor": "Dahisar East - Andheri East",
+        "data_source": "MMRDA Metro Line 7 ridership data 2023-24, post-opening ramp-up"
+      }
+    ],
+    "suburban_rail": {
+      "present": true,
+      "lines": [
+        {
+          "line_id": "MUM_SUB_WESTERN",
+          "name": "Western Line",
+          "stations": 36,
+          "daily_ridership": 3500000,
+          "corridor": "Churchgate - Dahanu Road",
+          "data_source": "Western Railway Mumbai Division ridership data 2023-24"
+        },
+        {
+          "line_id": "MUM_SUB_CENTRAL",
+          "name": "Central Line",
+          "stations": 30,
+          "daily_ridership": 3200000,
+          "corridor": "CSMT - Kasara / Khopoli",
+          "data_source": "Central Railway Mumbai Division ridership data 2023-24"
+        },
+        {
+          "line_id": "MUM_SUB_HARBOUR",
+          "name": "Harbour Line",
+          "stations": 18,
+          "daily_ridership": 850000,
+          "corridor": "CSMT - Panvel",
+          "data_source": "Central Railway Harbour line ridership data 2023-24"
+        }
+      ],
+      "total_daily_ridership": 7550000,
+      "data_source": "Combined Western + Central + Harbour suburban rail ridership; Mumbai suburban rail is the single largest mass transit system in India"
+    },
+    "bus_network": {
+      "operator": "BEST (Brihanmumbai Electric Supply & Transport)",
+      "route_count": 450,
+      "daily_ridership": 2800000,
+      "data_source": "BEST Undertaking annual data 2023-24; ridership recovered post-COVID with fare reduction strategy under Lokesh Chandra"
+    },
+    "total_daily_pt_ridership": 10915000,
+    "total_daily_pt_ridership_data_source": "Sum of metro (0.565M) + suburban rail (7.55M) + bus (2.8M); Mumbai has highest PT ridership of any Indian city"
+  },
+  "economic_baseline": {
+    "median_household_income_monthly": 32000,
+    "gini_coefficient": 0.45,
+    "formal_employment_share": 0.48,
+    "major_employment_sectors": [
+      "financial_services",
+      "trade",
+      "manufacturing",
+      "entertainment",
+      "port_logistics"
+    ],
+    "data_source": "Median income estimated from NSSO PLFS 2022-23 Mumbai urban MPCE data scaled to household level; Gini from NSSO consumption expenditure distribution (highest inequality among 6 cities due to Dharavi-SoBo contrast); formal employment from EPFO enrollment vs total workforce; sectors from Maharashtra Economic Survey 2023-24"
+  },
+  "osm_extract": {
+    "source": "geofabrik",
+    "url": "https://download.geofabrik.de/asia/india/western-zone-latest.osm.pbf",
+    "bbox": [72.7, 18.85, 73.1, 19.35],
+    "last_updated": "2024-01"
+  },
+  "validation_anchors": [],
+  "validation_anchors_note": "To be populated post-Mumbai hindcast calibration run",
+  "confidence_grade": "B",
+  "zones": [
+    "MUM_SOUTHMUMBAI",
+    "MUM_CENTRAL",
+    "MUM_DHARAVI",
+    "MUM_BANDRA",
+    "MUM_ANDHERI",
+    "MUM_BORIVALI",
+    "MUM_THANE",
+    "MUM_NAVI",
+    "MUM_KURLA",
+    "MUM_CHEMBUR",
+    "MUM_VASAI"
+  ]
+}

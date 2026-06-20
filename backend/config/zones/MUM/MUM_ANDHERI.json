@@ -1,0 +1,156 @@
+{
+  "zone_id": "MUM_ANDHERI",
+  "zone_name": "Andheri",
+  "city_id": "MUM",
+  "state_id": "MH",
+  "geography": {
+    "centroid_lat": 19.1197,
+    "centroid_lng": 72.8468,
+    "area_sq_km": 35.0,
+    "ward_ids": [41, 42, 43, 44],
+    "geojson_path": "data/geojson/MUM/MUM_ANDHERI.geojson",
+    "data_source": "MCGM ward boundaries (K/East, K/West wards mapped to numeric IDs); includes SEEPZ/MIDC industrial areas; area from MCGM Development Plan 2034"
+  },
+  "demographics": {
+    "population": 1350000,
+    "population_density_per_sqkm": 38571,
+    "average_household_size": 4.0,
+    "literacy_rate": 0.89,
+    "sc_st_population_share": 0.09,
+    "data_source": "Census 2011 K-ward Mumbai suburban district; density = population/area; household size from NSSO 76th Round Mumbai suburban mid-income estimates; literacy from Census 2011; SC/ST from Census 2011"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.05,
+      "decile_2": 0.06,
+      "decile_3": 0.07,
+      "decile_4": 0.08,
+      "decile_5": 0.10,
+      "decile_6": 0.12,
+      "decile_7": 0.13,
+      "decile_8": 0.14,
+      "decile_9": 0.13,
+      "decile_10": 0.12
+    },
+    "median_monthly_income": 38000,
+    "informal_employment_rate": 0.35,
+    "primary_occupations": [
+      "it_services",
+      "media_production",
+      "coaching_education",
+      "retail_trade",
+      "transport_services"
+    ],
+    "data_source": "Median from PLFS 2022-23 Mumbai suburban mid-income quintile adjusted for Andheri's commercial density; distribution slightly right-skewed reflecting SEEPZ/IT salaries; informal rate from NSSO 78th Round; occupations from SEEPZ employment data, Film City/Goregaon media cluster proximity, and Andheri's major coaching center belt"
+  },
+  "commute_profile": {
+    "primary_mode": "suburban_rail",
+    "secondary_mode": "auto_rickshaw",
+    "metro_dependency_score": 0.42,
+    "avg_commute_distance_km": 11.8,
+    "avg_commute_time_min": 48,
+    "nearest_metro_lines": ["metro_line_1_blue", "metro_line_2A", "metro_line_7"],
+    "nearest_metro_stations": ["Andheri", "Andheri West Metro", "SEEPZ", "WEH"],
+    "car_ownership_rate": 0.28,
+    "data_source": "Andheri is the busiest suburban railway station in Mumbai; Metro Line 1 (Versova-Andheri-Ghatkopar) already operational; MCTS 2016 mode share for K-ward TAZs; auto-rickshaw dominant last-mile mode from MCTS; metro dependency high due to operational Line 1"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.52,
+    "examination_sensitivity_score": 0.72,
+    "collective_action_threshold": 0.48,
+    "information_diffusion_speed": 0.75,
+    "loss_aversion_coefficient": 0.58,
+    "institutional_trust_railways": 0.58,
+    "institutional_trust_examinations": 0.65,
+    "political_mobilisation_index": 0.65,
+    "data_source": "Mid-range fare sensitivity; high examination sensitivity reflecting major coaching belt (IIT-JEE, NEET, CA prep centers along SV Road); institutional trust from Lokniti-CSDS 2024 Mumbai suburban sub-sample; political mobilisation from Andheri West/East Assembly constituency data 2024"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 34,
+    "clustering_coefficient": 0.50,
+    "cross_income_bridge_frequency": 0.32,
+    "tier2_agent_density": 0.045,
+    "dominant_network_type": "mixed",
+    "data_source": "Mixed network reflecting transit hub + commercial character; moderate clustering from diverse residential communities; cross-income bridging from SEEPZ industrial workers interacting with IT professionals"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "ANDHERI_STATION_WEST_MARKET",
+      "type": "street_market",
+      "location": [19.119, 72.845],
+      "daily_footfall": 45000,
+      "transit_dependency": 0.80,
+      "employment_generated": 500,
+      "data_source": "Vendors at Andheri station west exit; footfall from Western Railway Andheri station boarding data (~800K daily, busiest station in Mumbai)"
+    },
+    {
+      "node_id": "ANDHERI_SEEPZ_SERVICES",
+      "type": "service_cluster",
+      "location": [19.115, 72.870],
+      "daily_footfall": 25000,
+      "transit_dependency": 0.55,
+      "employment_generated": 400,
+      "data_source": "Informal service economy around SEEPZ/MIDC industrial area; food stalls, transport, photostat services; from MIDC employment data"
+    },
+    {
+      "node_id": "ANDHERI_LOKHANDWALA_MARKET",
+      "type": "retail_market",
+      "location": [19.138, 72.832],
+      "daily_footfall": 20000,
+      "transit_dependency": 0.35,
+      "employment_generated": 350,
+      "data_source": "Lokhandwala Complex retail and commercial area; MCGM trade license data for K-West ward"
+    },
+    {
+      "node_id": "ANDHERI_COACHING_BELT",
+      "type": "education_services",
+      "location": [19.122, 72.840],
+      "daily_footfall": 15000,
+      "transit_dependency": 0.68,
+      "employment_generated": 800,
+      "data_source": "Coaching center cluster along SV Road and Andheri West — IIT-JEE, NEET, CA, CET prep; estimated from coaching center directory listings and student enrollment data"
+    },
+    {
+      "node_id": "ANDHERI_EAST_INDUSTRIAL",
+      "type": "mixed_commercial",
+      "location": [19.112, 72.860],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.60,
+      "employment_generated": 650,
+      "data_source": "Andheri East industrial belt (Saki Naka, Marol area); MIDC registration data and MCGM industrial license records"
+    },
+    {
+      "node_id": "ANDHERI_VERSOVA_FISHING",
+      "type": "traditional_economy",
+      "location": [19.132, 72.812],
+      "daily_footfall": 4000,
+      "transit_dependency": 0.20,
+      "employment_generated": 300,
+      "data_source": "Versova Koliwada fishing village; Maharashtra Fisheries Department village-level data"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.22,
+    "daily_wage_worker": 0.12,
+    "homemaker": 0.13,
+    "gig_economy_worker": 0.11,
+    "small_business_owner": 0.10,
+    "student": 0.11,
+    "tech_knowledge_worker": 0.10,
+    "migrant_worker": 0.05,
+    "street_vendor": 0.03,
+    "retired": 0.02,
+    "journalist_tier1": 0.01,
+    "data_source": "Transit Hub/Mixed template from AGENT_SPEC.md adjusted: student raised to 0.11 reflecting major coaching belt; tech_knowledge_worker added at 0.10 for SEEPZ/IT presence; migrant_worker reduced; sum verified = 1.00"
+  },
+  "tier2_agent_types": {
+    "coaching_center_owner": 3,
+    "local_councillor": 2,
+    "community_leader": 2,
+    "journalist": 2,
+    "rwa_president": 3,
+    "small_business_owner": 5,
+    "union_representative": 1,
+    "data_source": "Tier 2 counts from MCGM corporator data for K-ward, coaching industry associations, Andheri press club membership"
+  }
+}

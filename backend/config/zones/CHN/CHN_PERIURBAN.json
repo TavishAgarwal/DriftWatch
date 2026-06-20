@@ -1,0 +1,115 @@
+{
+  "zone_id": "CHN_PERIURBAN",
+  "zone_name": "Peri-urban Expansion Zone (Outer Chennai)",
+  "city_id": "CHN",
+  "state_id": "TN",
+  "geography": {
+    "centroid_lat": 13.1500,
+    "centroid_lng": 80.1000,
+    "area_sq_km": 120,
+    "ward_ids": [201, 202, 203, 204, 205, 206, 207, 208],
+    "geojson_path": "geojson/CHN/CHN_PERIURBAN.geojson",
+    "data_source": "CMDA master plan 2026 peri-urban expansion zones, GCC extended boundary areas, Tiruvallur district fringe"
+  },
+  "demographics": {
+    "population": 480000,
+    "population_density_per_sqkm": 4000,
+    "average_household_size": 4.4,
+    "literacy_rate": 0.78,
+    "sc_st_population_share": 0.23,
+    "data_source": "Census 2011 Tiruvallur district tables (fringe villages), rapid unplanned growth estimated at 5.0% CAGR post-2015"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.12,
+      "decile_2": 0.12,
+      "decile_3": 0.12,
+      "decile_4": 0.11,
+      "decile_5": 0.11,
+      "decile_6": 0.10,
+      "decile_7": 0.09,
+      "decile_8": 0.09,
+      "decile_9": 0.08,
+      "decile_10": 0.06
+    },
+    "median_monthly_income": 16000,
+    "informal_employment_rate": 0.58,
+    "primary_occupations": [
+      "construction",
+      "agricultural_labour",
+      "domestic_work",
+      "brick_kiln_work",
+      "small_trade",
+      "transport_driving"
+    ],
+    "data_source": "NSSO 78th Round (2020-21) Tamil Nadu peri-urban tables, Census 2011 village-level occupation data for Tiruvallur fringe, PLFS 2022-23"
+  },
+  "commute_profile": {
+    "primary_mode": "bus",
+    "secondary_mode": "shared_auto",
+    "metro_dependency_score": 0.0,
+    "avg_commute_distance_km": 28.0,
+    "avg_commute_time_min": 85,
+    "nearest_metro_lines": [],
+    "nearest_metro_stations": [],
+    "car_ownership_rate": 0.06,
+    "data_source": "CMP Chennai 2018 peri-urban transport survey, MTC route data for outskirt routes, very long commute due to low connectivity"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.82,
+    "examination_sensitivity_score": 0.45,
+    "collective_action_threshold": 0.42,
+    "information_diffusion_speed": 0.38,
+    "loss_aversion_coefficient": 0.85,
+    "institutional_trust_railways": 0.42,
+    "institutional_trust_examinations": 0.52,
+    "political_mobilisation_index": 0.58,
+    "data_source": "Estimated from low-income peri-urban zone patterns, highest fare sensitivity due to long commutes on low incomes, slow information diffusion in sprawl zone"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 25,
+    "clustering_coefficient": 0.68,
+    "cross_income_bridge_frequency": 0.08,
+    "tier2_agent_density": 0.025,
+    "dominant_network_type": "village_kinship",
+    "data_source": "Estimated from peri-urban social patterns, village-origin kinship networks persist in fringe areas, very low tier2 density in under-served zone"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "CHN_PERIURBAN_JUNCTION_MARKET",
+      "type": "roadside_market",
+      "location": [13.1480, 80.1020],
+      "daily_footfall": 6000,
+      "transit_dependency": 0.48,
+      "employment_generated": 900,
+      "data_source": "Estimated from peri-urban junction market activity, low footfall due to dispersed population"
+    },
+    {
+      "node_id": "CHN_PERIURBAN_CONSTRUCTION_NAKA",
+      "type": "labour_market",
+      "location": [13.1520, 80.0950],
+      "daily_footfall": 3000,
+      "transit_dependency": 0.82,
+      "employment_generated": 2200,
+      "data_source": "Estimated from construction labour gathering points on arterial roads in peri-urban Chennai"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "homemaker": 0.22,
+    "daily_wage_worker": 0.21,
+    "formal_sector_employee": 0.18,
+    "small_business_owner": 0.12,
+    "migrant_worker": 0.10,
+    "student": 0.09,
+    "street_vendor": 0.05,
+    "retired": 0.03,
+    "data_source": "Periurban/Low Connectivity template from AGENT_SPEC.md, directly applicable to outer Chennai expansion zone"
+  },
+  "tier2_agent_types": {
+    "local_politician": 2,
+    "religious_leader": 2,
+    "labour_contractor": 2,
+    "panchayat_leader": 2,
+    "data_source": "Estimated from peri-urban governance structure, mix of GCC and panchayat leadership, labour contractor presence for construction work"
+  }
+}

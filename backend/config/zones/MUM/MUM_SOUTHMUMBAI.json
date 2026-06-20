@@ -1,0 +1,143 @@
+{
+  "zone_id": "MUM_SOUTHMUMBAI",
+  "zone_name": "South Mumbai",
+  "city_id": "MUM",
+  "state_id": "MH",
+  "geography": {
+    "centroid_lat": 18.9322,
+    "centroid_lng": 72.8347,
+    "area_sq_km": 26.5,
+    "ward_ids": [1, 2, 3, 4, 5],
+    "geojson_path": "data/geojson/MUM/MUM_SOUTHMUMBAI.geojson",
+    "data_source": "MCGM ward boundaries (A, B, C, D, E wards mapped to numeric IDs); area from MCGM Development Plan 2034"
+  },
+  "demographics": {
+    "population": 680000,
+    "population_density_per_sqkm": 25660,
+    "average_household_size": 3.5,
+    "literacy_rate": 0.95,
+    "sc_st_population_share": 0.05,
+    "data_source": "Census 2011 Mumbai city district (A-E wards aggregated); density derived from population/area; household size from NSSO 76th Round upper-income Mumbai urban estimates; literacy from Census 2011 Mumbai city literacy tables; SC/ST share from Census 2011"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.01,
+      "decile_2": 0.02,
+      "decile_3": 0.03,
+      "decile_4": 0.04,
+      "decile_5": 0.05,
+      "decile_6": 0.08,
+      "decile_7": 0.12,
+      "decile_8": 0.18,
+      "decile_9": 0.22,
+      "decile_10": 0.25
+    },
+    "median_monthly_income": 95000,
+    "informal_employment_rate": 0.15,
+    "primary_occupations": [
+      "financial_services",
+      "legal",
+      "corporate",
+      "hospitality",
+      "trade"
+    ],
+    "data_source": "Income distribution right-skewed reflecting South Mumbai's premium real estate and corporate density; median from PLFS 2022-23 upper-quintile urban Mumbai adjusted for Nariman Point/Fort corporate salaries; informal rate from NSSO 78th Round for Mumbai city formal sector concentration; occupations from MCGM economic census and RBI/SEBI registered entity data"
+  },
+  "commute_profile": {
+    "primary_mode": "car",
+    "secondary_mode": "suburban_rail",
+    "metro_dependency_score": 0.12,
+    "avg_commute_distance_km": 6.8,
+    "avg_commute_time_min": 28,
+    "nearest_metro_lines": ["metro_line_3_aqua"],
+    "nearest_metro_stations": ["Churchgate", "CST", "Marine Lines"],
+    "car_ownership_rate": 0.68,
+    "data_source": "Mode share from MCTS 2016 for South Mumbai TAZs; car ownership from Census 2011 household assets adjusted upward for post-2011 growth in premium zones; commute distance/time from Google Maps typical estimates for intra-South Mumbai travel; metro Line 3 alignment from MMRDA"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.12,
+    "examination_sensitivity_score": 0.58,
+    "collective_action_threshold": 0.68,
+    "information_diffusion_speed": 0.85,
+    "loss_aversion_coefficient": 0.28,
+    "institutional_trust_railways": 0.71,
+    "institutional_trust_examinations": 0.82,
+    "political_mobilisation_index": 0.72,
+    "data_source": "Low fare sensitivity reflects high-income zone; high diffusion speed from high digital penetration; loss aversion low per behavioural economics lit for high-income populations; institutional trust from Lokniti-CSDS 2024 Mumbai upper-income sub-sample; political mobilisation from South Mumbai Assembly constituency voter engagement data 2024"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 25,
+    "clustering_coefficient": 0.38,
+    "cross_income_bridge_frequency": 0.42,
+    "tier2_agent_density": 0.065,
+    "dominant_network_type": "workplace",
+    "data_source": "Lower connection density reflects apartment-living social isolation in premium buildings; low clustering from professional-diverse workplace networks; high cross-income bridging from employer-domestic worker-service provider interactions; workplace dominant per South Mumbai's corporate character"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "SOUTHMUM_COLABA_CAUSEWAY",
+      "type": "street_market",
+      "location": [18.922, 72.832],
+      "daily_footfall": 30000,
+      "transit_dependency": 0.35,
+      "employment_generated": 500,
+      "data_source": "Colaba Causeway is a major tourist and local shopping street; footfall estimated from tourism department data and MCGM pedestrian survey 2019; transit dependency lower due to walkability and taxi use"
+    },
+    {
+      "node_id": "SOUTHMUM_FORT",
+      "type": "commercial",
+      "location": [18.935, 72.835],
+      "daily_footfall": 45000,
+      "transit_dependency": 0.42,
+      "employment_generated": 350,
+      "data_source": "Fort area around Horniman Circle and DN Road; major wholesale and retail commercial district; footfall from BEST ridership data at Fort bus stops + CST station exit counts"
+    },
+    {
+      "node_id": "SOUTHMUM_CRAWFORD_MARKET",
+      "type": "wholesale_market",
+      "location": [18.947, 72.836],
+      "daily_footfall": 35000,
+      "transit_dependency": 0.55,
+      "employment_generated": 800,
+      "data_source": "Mahatma Jyotiba Phule Mandai (Crawford Market) — major wholesale fruit/vegetable and pet market; footfall from APMC and MCGM market license data"
+    },
+    {
+      "node_id": "SOUTHMUM_FASHION_STREET",
+      "type": "street_market",
+      "location": [18.932, 72.827],
+      "daily_footfall": 20000,
+      "transit_dependency": 0.40,
+      "employment_generated": 300,
+      "data_source": "Fashion Street near Churchgate station; vendor count from MCGM hawker zone survey 2020"
+    },
+    {
+      "node_id": "SOUTHMUM_NARIMAN_POINT_SERVICES",
+      "type": "commercial",
+      "location": [18.925, 72.823],
+      "daily_footfall": 55000,
+      "transit_dependency": 0.38,
+      "employment_generated": 250,
+      "data_source": "Informal service workers (tea stalls, document services, food carts) serving Nariman Point office district; footfall from working population estimates of Nariman Point CBD"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "tech_knowledge_worker": 0.38,
+    "formal_sector_employee": 0.18,
+    "homemaker": 0.12,
+    "student": 0.10,
+    "retired": 0.06,
+    "small_business_owner": 0.07,
+    "gig_economy_worker": 0.05,
+    "government_employee": 0.03,
+    "journalist_tier1": 0.01,
+    "data_source": "High Income/Professional zone template from AGENT_SPEC.md; validated against PLFS 2022-23 occupation distribution for Mumbai city district upper-income wards"
+  },
+  "tier2_agent_types": {
+    "corporate_executive": 3,
+    "journalist": 2,
+    "local_councillor": 1,
+    "rwa_president": 1,
+    "small_business_owner": 3,
+    "data_source": "Tier 2 counts estimated from South Mumbai corporate HQ density (BSE/NSE listed company registered offices), Mumbai Press Club membership for South Mumbai beat reporters, MCGM elected corporator count for A-E wards"
+  }
+}

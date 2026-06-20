@@ -1,0 +1,125 @@
+{
+  "zone_id": "BLR_NORTH",
+  "zone_name": "North Bengaluru",
+  "city_id": "BLR",
+  "state_id": "KA",
+  "geography": {
+    "centroid_lat": 13.0358,
+    "centroid_lng": 77.5970,
+    "area_sq_km": 85,
+    "ward_ids": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "geojson_path": "geojson/BLR/BLR_NORTH.geojson",
+    "data_source": "BBMP ward boundaries 2023 for Yelahanka zone and parts of Dasarahalli zone; includes Hebbal, Yelahanka, Jakkur, Sahakara Nagar areas"
+  },
+  "demographics": {
+    "population": 950000,
+    "population_density_per_sqkm": 11176,
+    "average_household_size": 3.8,
+    "literacy_rate": 0.86,
+    "sc_st_population_share": 0.11,
+    "data_source": "Census 2011 ward-level data extrapolated with BBMP 2023 estimates for Yelahanka zone; rapid growth due to airport proximity and new residential development; SC/ST from Census 2011"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.05,
+      "decile_2": 0.07,
+      "decile_3": 0.08,
+      "decile_4": 0.09,
+      "decile_5": 0.10,
+      "decile_6": 0.12,
+      "decile_7": 0.13,
+      "decile_8": 0.14,
+      "decile_9": 0.12,
+      "decile_10": 0.10
+    },
+    "median_monthly_income": 32000,
+    "informal_employment_rate": 0.38,
+    "primary_occupations": [
+      "aerospace_defense",
+      "government_services",
+      "retail_commerce",
+      "education",
+      "logistics"
+    ],
+    "data_source": "NSSO 78th Round PLFS for urban Karnataka; median income reflects mix of defense sector (HAL, BEL, DRDO Yelahanka) and growing residential areas; informal rate from ILO India Employment Report 2024"
+  },
+  "commute_profile": {
+    "primary_mode": "bus",
+    "secondary_mode": "two_wheeler",
+    "metro_dependency_score": 0.28,
+    "avg_commute_distance_km": 16,
+    "avg_commute_time_min": 52,
+    "nearest_metro_lines": ["Green"],
+    "nearest_metro_stations": ["Nagawara", "Hebbal"],
+    "car_ownership_rate": 0.28,
+    "data_source": "BMRCL Green Line Phase 2 extension to Airport under construction; DULT CMP 2020; BMTC route data 2023 for Hebbal-Yelahanka corridor; two-wheeler dominance from RTO registration data showing 68% two-wheeler share"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.52,
+    "examination_sensitivity_score": 0.58,
+    "collective_action_threshold": 0.48,
+    "information_diffusion_speed": 0.62,
+    "loss_aversion_coefficient": 0.58,
+    "institutional_trust_railways": 0.55,
+    "institutional_trust_examinations": 0.62,
+    "political_mobilisation_index": 0.52,
+    "data_source": "Moderate sensitivity profile — middle income with defense sector stability; examination sensitivity elevated due to student population near Yelahanka coaching centres; estimated from Lokniti-CSDS 2024 and NSSO consumption data"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 36,
+    "clustering_coefficient": 0.58,
+    "cross_income_bridge_frequency": 0.22,
+    "tier2_agent_density": 0.038,
+    "dominant_network_type": "residential_colony",
+    "data_source": "Moderate clustering from apartment complex RWAs and defense colony networks; estimated from IHDS-II urban residential social network patterns for Bangalore"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "NORTH_HEBBAL_MARKET",
+      "type": "commercial",
+      "location": [13.035, 77.597],
+      "daily_footfall": 28000,
+      "transit_dependency": 0.45,
+      "employment_generated": 550,
+      "data_source": "Hebbal flyover commercial cluster; BBMP trade license data 2023; footfall estimated from BMTC bus stop ridership data for Hebbal"
+    },
+    {
+      "node_id": "NORTH_YELAHANKA_MARKET",
+      "type": "street_market",
+      "location": [13.100, 77.594],
+      "daily_footfall": 15000,
+      "transit_dependency": 0.52,
+      "employment_generated": 320,
+      "data_source": "Yelahanka old town market; BBMP vendor survey 2022; traditional market serving Air Force Station residential areas"
+    },
+    {
+      "node_id": "NORTH_SAHAKARA_NAGAR_MARKET",
+      "type": "mixed_commercial",
+      "location": [13.058, 77.595],
+      "daily_footfall": 18000,
+      "transit_dependency": 0.38,
+      "employment_generated": 280,
+      "data_source": "Sahakara Nagar commercial area; BBMP trade license data 2023; residential catchment market"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.31,
+    "homemaker": 0.16,
+    "student": 0.13,
+    "daily_wage_worker": 0.11,
+    "small_business_owner": 0.10,
+    "gig_economy_worker": 0.07,
+    "government_employee": 0.06,
+    "retired": 0.04,
+    "migrant_worker": 0.02
+  },
+  "tier2_agent_types": {
+    "rwa_president": 4,
+    "local_councillor": 2,
+    "small_business_owner": 3,
+    "school_principal": 2,
+    "defense_officer": 1,
+    "journalist": 1
+  },
+  "data_source": "Composite zone config from Census 2011, NSSO PLFS 78th Round, BMRCL 2024, DULT CMP 2020, BMTC 2023, BBMP 2023, HAL/BEL/DRDO employment data, RTO Bangalore Urban 2023"
+}

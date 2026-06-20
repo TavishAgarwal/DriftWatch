@@ -1,0 +1,126 @@
+{
+  "zone_id": "BLR_EAST",
+  "zone_name": "East Bengaluru",
+  "city_id": "BLR",
+  "state_id": "KA",
+  "geography": {
+    "centroid_lat": 12.9784,
+    "centroid_lng": 77.6408,
+    "area_sq_km": 42,
+    "ward_ids": [74, 75, 76, 77, 78, 79, 80, 81],
+    "geojson_path": "geojson/BLR/BLR_EAST.geojson",
+    "data_source": "BBMP ward boundaries 2023 for East zone; covers Indiranagar, Domlur, HAL Layout, Marathahalli, Brookefield"
+  },
+  "demographics": {
+    "population": 880000,
+    "population_density_per_sqkm": 20952,
+    "average_household_size": 3.2,
+    "literacy_rate": 0.93,
+    "sc_st_population_share": 0.06,
+    "data_source": "Census 2011 ward-level data extrapolated with BBMP 2023; smaller household size reflects young professional and DINK demographics; highest literacy zone in Bengaluru"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.03,
+      "decile_2": 0.04,
+      "decile_3": 0.05,
+      "decile_4": 0.06,
+      "decile_5": 0.08,
+      "decile_6": 0.10,
+      "decile_7": 0.13,
+      "decile_8": 0.16,
+      "decile_9": 0.18,
+      "decile_10": 0.17
+    },
+    "median_monthly_income": 55000,
+    "informal_employment_rate": 0.22,
+    "primary_occupations": [
+      "tech_services",
+      "financial_services",
+      "F_and_B_hospitality",
+      "creative_industries",
+      "consulting"
+    ],
+    "data_source": "NSSO 78th Round PLFS adjusted for high-income urban ward mix; Indiranagar rental indices from MagicBricks/99acres 2023 as income proxy; informal rate reflects mix of formal offices and F&B/retail informal sector"
+  },
+  "commute_profile": {
+    "primary_mode": "cab",
+    "secondary_mode": "metro",
+    "metro_dependency_score": 0.48,
+    "avg_commute_distance_km": 10,
+    "avg_commute_time_min": 38,
+    "nearest_metro_lines": ["Purple"],
+    "nearest_metro_stations": ["Indiranagar", "HAL", "Swami Vivekananda Road"],
+    "car_ownership_rate": 0.45,
+    "data_source": "BMRCL Purple Line ridership data 2024 — Indiranagar among top-5 busiest stations; shorter commute due to mixed-use zoning; high car ownership from RTO data 2023 for east zone wards"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.22,
+    "examination_sensitivity_score": 0.60,
+    "collective_action_threshold": 0.55,
+    "information_diffusion_speed": 0.82,
+    "loss_aversion_coefficient": 0.38,
+    "institutional_trust_railways": 0.50,
+    "institutional_trust_examinations": 0.70,
+    "political_mobilisation_index": 0.58,
+    "data_source": "Low fare sensitivity due to high incomes; high diffusion speed — digitally connected affluent demographic; moderate political mobilisation — urban professional civic activism (e.g. steel flyover protests); from Lokniti-CSDS 2024 and NSSO consumption data"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 35,
+    "clustering_coefficient": 0.48,
+    "cross_income_bridge_frequency": 0.40,
+    "tier2_agent_density": 0.050,
+    "dominant_network_type": "mixed_commercial",
+    "data_source": "High cross-income bridging from mixed commercial-residential character; Indiranagar 100 Feet Road creates organic social mixing; tier2 density elevated due to F&B entrepreneur density; from IHDS-II urban social network patterns"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "EAST_INDIRANAGAR_100FT",
+      "type": "commercial",
+      "location": [12.978, 77.640],
+      "daily_footfall": 55000,
+      "transit_dependency": 0.42,
+      "employment_generated": 2200,
+      "data_source": "Indiranagar 100 Feet Road commercial strip — Bangalore's premium F&B and retail corridor; footfall from BBMP data 2023 and BMRCL Indiranagar station exit counts"
+    },
+    {
+      "node_id": "EAST_DOMLUR_MARKET",
+      "type": "street_market",
+      "location": [12.960, 77.638],
+      "daily_footfall": 12000,
+      "transit_dependency": 0.35,
+      "employment_generated": 250,
+      "data_source": "Domlur market area; BBMP street vendor survey 2022; serves office worker lunch crowd from EGL/Prestige Tech Park"
+    },
+    {
+      "node_id": "EAST_MARATHAHALLI_MARKET",
+      "type": "mixed_commercial",
+      "location": [12.958, 77.698],
+      "daily_footfall": 32000,
+      "transit_dependency": 0.52,
+      "employment_generated": 900,
+      "data_source": "Marathahalli bridge commercial cluster; BBMP trade license data 2023; high transit dependency due to ORR junction bus stops"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "tech_knowledge_worker": 0.38,
+    "formal_sector_employee": 0.18,
+    "homemaker": 0.12,
+    "student": 0.10,
+    "retired": 0.06,
+    "small_business_owner": 0.07,
+    "gig_economy_worker": 0.05,
+    "government_employee": 0.03,
+    "journalist_tier1": 0.01
+  },
+  "tier2_agent_types": {
+    "tech_executive": 2,
+    "rwa_president": 3,
+    "small_business_owner": 4,
+    "journalist": 2,
+    "local_councillor": 1,
+    "restaurateur": 2,
+    "startup_founder": 1
+  },
+  "data_source": "Composite zone config from Census 2011, NSSO PLFS 78th Round, BMRCL 2024, DULT CMP 2020, BBMP 2023, MagicBricks rental data 2023, RTO Bangalore Urban 2023"
+}

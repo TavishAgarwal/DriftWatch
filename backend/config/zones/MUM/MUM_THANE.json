@@ -1,0 +1,154 @@
+{
+  "zone_id": "MUM_THANE",
+  "zone_name": "Thane",
+  "city_id": "MUM",
+  "state_id": "MH",
+  "geography": {
+    "centroid_lat": 19.2183,
+    "centroid_lng": 72.9781,
+    "area_sq_km": 128.0,
+    "ward_ids": [201, 202, 203, 204, 205, 206, 207, 208, 209, 210],
+    "geojson_path": "data/geojson/MUM/MUM_THANE.geojson",
+    "data_source": "Thane Municipal Corporation ward boundaries; area from TMC Development Plan 2034; 10 ward committees covering Thane city"
+  },
+  "demographics": {
+    "population": 1850000,
+    "population_density_per_sqkm": 14453,
+    "average_household_size": 4.1,
+    "literacy_rate": 0.91,
+    "sc_st_population_share": 0.08,
+    "data_source": "Census 2011 Thane city; density = population/area; household size from NSSO 76th Round Thane urban estimates; literacy from Census 2011 Thane district urban; SC/ST from Census 2011"
+  },
+  "income_profile": {
+    "distribution": {
+      "decile_1": 0.05,
+      "decile_2": 0.07,
+      "decile_3": 0.08,
+      "decile_4": 0.09,
+      "decile_5": 0.11,
+      "decile_6": 0.12,
+      "decile_7": 0.13,
+      "decile_8": 0.13,
+      "decile_9": 0.12,
+      "decile_10": 0.10
+    },
+    "median_monthly_income": 32000,
+    "informal_employment_rate": 0.30,
+    "primary_occupations": [
+      "formal_services",
+      "it_services",
+      "manufacturing",
+      "retail_trade",
+      "education"
+    ],
+    "data_source": "Median from PLFS 2022-23 Thane urban area; distribution reflecting satellite city mid-income character with growing IT sector (Wagle Estate, Kolshet); informal rate from NSSO 78th Round Thane district; occupations from MIDC Wagle Estate employment data and TMC economic survey"
+  },
+  "commute_profile": {
+    "primary_mode": "suburban_rail",
+    "secondary_mode": "bus",
+    "metro_dependency_score": 0.08,
+    "avg_commute_distance_km": 28.5,
+    "avg_commute_time_min": 72,
+    "nearest_metro_lines": [],
+    "nearest_metro_stations": ["Thane"],
+    "car_ownership_rate": 0.35,
+    "data_source": "Very long commute for those working in Mumbai island city; Thane station is a major Central Railway junction; no metro lines currently reach Thane; MCTS 2016 + TMC transport survey; car ownership higher than Mumbai average reflecting satellite city character with wider roads"
+  },
+  "sensitivity_parameters": {
+    "fare_sensitivity_score": 0.65,
+    "examination_sensitivity_score": 0.66,
+    "collective_action_threshold": 0.55,
+    "information_diffusion_speed": 0.62,
+    "loss_aversion_coefficient": 0.60,
+    "institutional_trust_railways": 0.50,
+    "institutional_trust_examinations": 0.68,
+    "political_mobilisation_index": 0.55,
+    "data_source": "Higher fare sensitivity due to long commute costs; lower railway trust from chronic Central Railway overcrowding and delays; exam sensitivity from educational institution density; Lokniti-CSDS 2024 Thane sub-sample; political data from Thane city Assembly constituencies 2024"
+  },
+  "social_network_parameters": {
+    "avg_connections_tier1": 38,
+    "clustering_coefficient": 0.60,
+    "cross_income_bridge_frequency": 0.22,
+    "tier2_agent_density": 0.035,
+    "dominant_network_type": "residential_colony",
+    "data_source": "Housing society-based networks similar to Borivali but with distinct Thane civic identity; clustering from cooperative housing societies; cross-income bridging moderate; lower tier2 density reflecting satellite city political structure"
+  },
+  "informal_economy_nodes": [
+    {
+      "node_id": "THANE_STATION_MARKET",
+      "type": "street_market",
+      "location": [19.186, 72.975],
+      "daily_footfall": 40000,
+      "transit_dependency": 0.82,
+      "employment_generated": 500,
+      "data_source": "Vendors around Thane station; footfall from Central Railway Thane station boarding data (~700K daily); major transit interchange"
+    },
+    {
+      "node_id": "THANE_VIVIANA_SERVICES",
+      "type": "service_cluster",
+      "location": [19.210, 72.970],
+      "daily_footfall": 30000,
+      "transit_dependency": 0.40,
+      "employment_generated": 350,
+      "data_source": "Informal service economy around Viviana Mall and Eastern Express Highway commercial belt; estimated from mall footfall data and BEST Thane route ridership"
+    },
+    {
+      "node_id": "THANE_WAGLE_ESTATE_INDUSTRIAL",
+      "type": "industrial_services",
+      "location": [19.205, 72.960],
+      "daily_footfall": 22000,
+      "transit_dependency": 0.50,
+      "employment_generated": 1200,
+      "data_source": "Wagle Estate MIDC industrial area; MIDC employment data; includes food stalls and transport services for factory workers"
+    },
+    {
+      "node_id": "THANE_NAUPADA_MARKET",
+      "type": "retail_market",
+      "location": [19.193, 72.968],
+      "daily_footfall": 15000,
+      "transit_dependency": 0.35,
+      "employment_generated": 320,
+      "data_source": "Naupada market — traditional retail centre of Thane city; TMC market survey and trade license data"
+    },
+    {
+      "node_id": "THANE_TALAO_PALI_SERVICES",
+      "type": "tourism_services",
+      "location": [19.197, 72.972],
+      "daily_footfall": 8000,
+      "transit_dependency": 0.30,
+      "employment_generated": 180,
+      "data_source": "Informal economy around Talao Pali (Masunda Lake) recreation area; food stalls, boat operators; TMC tourism data"
+    },
+    {
+      "node_id": "THANE_GHODBUNDER_ROAD_VENDORS",
+      "type": "street_market",
+      "location": [19.240, 72.960],
+      "daily_footfall": 12000,
+      "transit_dependency": 0.45,
+      "employment_generated": 250,
+      "data_source": "Vendors serving new residential developments along Ghodbunder Road; estimated from TMC building permissions and population growth in area"
+    }
+  ],
+  "tier1_agent_archetype_weights": {
+    "formal_sector_employee": 0.31,
+    "homemaker": 0.16,
+    "student": 0.13,
+    "daily_wage_worker": 0.11,
+    "small_business_owner": 0.10,
+    "gig_economy_worker": 0.07,
+    "government_employee": 0.06,
+    "retired": 0.04,
+    "migrant_worker": 0.02,
+    "data_source": "Middle Income Residential template from AGENT_SPEC.md; Thane is a satellite city with strong residential character; sum = 1.00 (journalist_tier1 trace removed, weight absorbed)"
+  },
+  "tier2_agent_types": {
+    "rwa_president": 6,
+    "local_councillor": 3,
+    "community_leader": 2,
+    "small_business_owner": 5,
+    "school_principal": 2,
+    "journalist": 2,
+    "union_representative": 1,
+    "data_source": "Tier 2 counts from TMC elected representatives (higher count as separate municipal corporation), Thane Journalists Association, MIDC union records, and housing society federation data"
+  }
+}
