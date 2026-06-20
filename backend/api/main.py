@@ -8,6 +8,9 @@ CORS is enabled for the local Vite dev server and containerized frontend.
 from __future__ import annotations
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

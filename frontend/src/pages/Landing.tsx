@@ -81,7 +81,7 @@ export default function Landing() {
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', color: 'var(--color-text-ghost)' }}>
             <button className="landing-link" onClick={() => scrollTo('how')}>How it works</button>
             <span>·</span>
-            <a className="landing-link" href="https://github.com/TavishAgarwal/Synterra" target="_blank" rel="noreferrer">
+            <a className="landing-link" href="https://github.com/TavishAgarwal/DriftWatch" target="_blank" rel="noreferrer">
               GitHub →
             </a>
           </div>
@@ -205,7 +205,7 @@ export default function Landing() {
       <footer className="landing-footer">
         <span>DRIFTWATCH</span>
         <span>2026 · Oversight Decay Research</span>
-        <a href="https://github.com/TavishAgarwal/Synterra" target="_blank" rel="noreferrer">
+        <a href="https://github.com/TavishAgarwal/DriftWatch" target="_blank" rel="noreferrer">
           GitHub
         </a>
       </footer>

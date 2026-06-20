@@ -13,3 +13,5 @@ pytest-asyncio
 sqlalchemy
 aiosqlite
 greenlet
+openai
+python-dotenv

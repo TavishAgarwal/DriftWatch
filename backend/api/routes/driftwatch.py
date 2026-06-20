@@ -49,8 +49,8 @@ ModelBackendType = Literal["openai", "ollama_api", "ollama_local", "rule_based"]
 
 class DriftwatchRequest(BaseModel):
     model_backend: ModelBackendType = "rule_based"
-    population_size: Annotated[int, Field(ge=10, le=10_000)] = 500
-    timesteps: Annotated[int, Field(ge=5, le=100)] = 30
+    population_size: Annotated[int, Field(ge=1, le=5_000)] = 500
+    timesteps: Annotated[int, Field(ge=1, le=100)] = 30
     difficulty: Annotated[float, Field(ge=0.0, le=1.0)] = 0.5
     counterfactual: bool = False  # freeze review_probability if True
     initial_review_probability: Annotated[float, Field(ge=0.01, le=0.99)] = 0.9
@@ -104,19 +104,23 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
 
     all_events: list[OversightEvent] = []
     timestep_summaries: list[dict] = []
+    fallback_warning_sent = False
 
     for t in range(1, req.timesteps + 1):
         step_events: list[OversightEvent] = []
 
-        for citizen in citizens:
+        semaphore = asyncio.Semaphore(50)  # Limit concurrent API calls to prevent rate limits
+
+        async def process_citizen(citizen: dict) -> OversightEvent:
             # Generate a case for this citizen
             case, ground_truth = oracle.generate_case(difficulty=req.difficulty)
 
-            # Caseworker makes a decision
-            decision: Decision = await caseworker.decide(case.to_dict())
+            # Caseworker makes a decision with concurrency limit
+            async with semaphore:
+                decision: Decision = await caseworker.decide(case.to_dict())
 
             # Citizen oversight step
-            event = update_citizen_oversight(
+            return update_citizen_oversight(
                 citizen=citizen,
                 decision_outcome=decision.outcome,
                 ground_truth=ground_truth,
@@ -125,7 +129,25 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
                 rng=rng,
                 counterfactual_freeze=req.counterfactual,
             )
-            step_events.append(event)
+
+        tasks = [process_citizen(c) for c in citizens]
+        step_events = list(await asyncio.gather(*tasks))
+
+        # After the first timestep, check if fallback was used
+        if not fallback_warning_sent and caseworker.fallback_active:
+            fallback_warning_sent = True
+            yield json.dumps({
+                "event": "backend_fallback",
+                "simulation_id": sim_id,
+                "requested_backend": req.model_backend,
+                "actual_backend": "rule_based",
+                "message": (
+                    f"'{req.model_backend}' backend unavailable "
+                    f"(missing API key or service not running). "
+                    f"Using rule-based fallback — results will be identical "
+                    f"to the Rule-Based backend."
+                ),
+            })
 
         all_events.extend(step_events)
 
@@ -166,6 +188,7 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
         "simulation_id": sim_id,
         "model_backend": caseworker.backend_name,
         "counterfactual": req.counterfactual,
+        "fallback_active": caseworker.fallback_active,
         "metrics": run_metrics.to_dict(),
     }
 
@@ -175,6 +198,7 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
         _driftwatch_results.pop(next(iter(_driftwatch_results)))
 
     yield json.dumps(result)
+
 
 
 # ─────────────────────────────────────────────────────────────

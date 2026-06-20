@@ -72,6 +72,7 @@ export default function DriftwatchDashboard() {
   const [progress, setProgress] = useState<Record<string, number>>({});
   const [results, setResults] = useState<RunResult[]>([]);
   const [error, setError] = useState('');
+  const [fallbackWarnings, setFallbackWarnings] = useState<string[]>([]);
   const abortRef = useRef<AbortController | null>(null);
 
   const toggleBackend = useCallback((id: string) => {
@@ -87,6 +88,7 @@ export default function DriftwatchDashboard() {
     setError('');
     setResults([]);
     setProgress({});
+    setFallbackWarnings([]);
 
     const controller = new AbortController();
     abortRef.current = controller;
@@ -172,6 +174,10 @@ export default function DriftwatchDashboard() {
                 counterfactual: config.counterfactual,
               });
               setResults([...allResults]);
+            }
+
+            if (evt.event === 'backend_fallback' && evt.message) {
+              setFallbackWarnings(prev => [...prev, evt.message!]);
             }
 
             if (evt.event === 'sim_error') {
@@ -349,7 +355,7 @@ export default function DriftwatchDashboard() {
                 <span style={{ fontFamily: 'var(--font-data)', color: 'var(--color-text-primary)' }}>{population.toLocaleString()}</span>
               </div>
               <input
-                type="range" min="50" max="5000" step="50" value={population}
+                type="range" min="1" max="5000" step="1" value={population}
                 onChange={e => setPopulation(Number(e.target.value))}
                 disabled={running}
                 style={{ width: '100%', accentColor: 'var(--color-primary)' }}
@@ -361,7 +367,7 @@ export default function DriftwatchDashboard() {
                 <span style={{ fontFamily: 'var(--font-data)', color: 'var(--color-text-primary)' }}>{timesteps}</span>
               </div>
               <input
-                type="range" min="10" max="100" step="5" value={timesteps}
+                type="range" min="1" max="100" step="1" value={timesteps}
                 onChange={e => setTimesteps(Number(e.target.value))}
                 disabled={running}
                 style={{ width: '100%', accentColor: 'var(--color-primary)' }}
@@ -425,6 +431,30 @@ export default function DriftwatchDashboard() {
             </div>
           )}
         </motion.div>
+
+        {/* ─── Fallback Warnings ─── */}
+        {fallbackWarnings.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              background: 'rgba(245, 158, 11, 0.08)',
+              border: '1px solid rgba(245, 158, 11, 0.4)',
+              borderLeft: '3px solid #f59e0b',
+              padding: '14px 18px',
+              marginBottom: 20,
+            }}
+          >
+            <div style={{ fontFamily: 'var(--font-data)', fontSize: 10, color: '#f59e0b', letterSpacing: '0.1em', marginBottom: 8 }}>
+              ⚠ BACKEND FALLBACK DETECTED
+            </div>
+            {fallbackWarnings.map((msg, i) => (
+              <div key={i} style={{ fontSize: 12, color: 'var(--color-text-secondary)', lineHeight: 1.5, marginBottom: i < fallbackWarnings.length - 1 ? 6 : 0 }}>
+                {msg}
+              </div>
+            ))}
+          </motion.div>
+        )}
 
         {/* ─── Results ─── */}
         {results.length > 0 && (
