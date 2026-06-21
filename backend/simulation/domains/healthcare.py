@@ -69,6 +69,8 @@ class HealthcareTriageDomain(DomainModule):
     # regardless of citizens' willingness. This is the critical
     # distinguishing mechanic of this domain.
     reviewer_availability = 0.30
+    model_error_multiplier = 1.10
+    latency_multiplier = 0.80
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)

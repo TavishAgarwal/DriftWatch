@@ -179,3 +179,6 @@ class MicrofinanceDomain(DomainModule):
 
         ground_truth = self.compute_ground_truth(case)
         return case, ground_truth
+    model_error_multiplier = 1.15
+    latency_multiplier = 1.20
+    reviewer_availability = 0.80

@@ -20,7 +20,7 @@ if load_dotenv is not None:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.api.routes import simulation, causal, policy, validation, driftwatch
+from backend.api.routes import driftwatch
 
 
 class Settings:
@@ -58,17 +58,7 @@ app.add_middleware(
 )
 
 # Register routes
-app.include_router(simulation.router, prefix="/api")
-app.include_router(causal.router, prefix="/api")
-app.include_router(policy.router, prefix="/api")
-app.include_router(validation.router, prefix="/api")
 app.include_router(driftwatch.router, prefix="/api")
-
-
-@app.on_event("startup")
-async def startup_event():
-    from backend.data.database import init_db
-    await init_db()
 
 
 @app.get("/api/health")

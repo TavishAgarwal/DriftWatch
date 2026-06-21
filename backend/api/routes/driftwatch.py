@@ -86,6 +86,8 @@ class DriftwatchRequest(BaseModel):
     spot_check_rate: float = 0.0
     confidence_review_threshold: float = 0.0
     mandatory_audit_interval: int = 0
+    adaptive_interventions: bool = False
+    shock_adaptation_delay: Annotated[int, Field(ge=0, le=20)] = 2
 
 
 class CompareRequest(BaseModel):
@@ -126,6 +128,135 @@ def _normalized_quantization(req: DriftwatchRequest) -> str:
     return "none" if quant in {"", "NONE"} else quant
 
 
+def _model_reference_truth(oracle, case: dict, ground_truth: str, stale_thresholds: dict | None) -> str:
+    """Return the policy truth currently available to the simulated model."""
+    if stale_thresholds is None:
+        return ground_truth
+    return oracle.compute_ground_truth_with_thresholds(case, stale_thresholds)
+
+
+def _predictor_features(ts_metrics: list) -> np.ndarray:
+    """Build population-invariant early-warning features from ten steps."""
+    window = ts_metrics[-10:]
+    current = window[-1]
+    slope = (current.avg_review_probability - window[0].avg_review_probability) / max(1, len(window) - 1)
+    latency_rate = sum(
+        item.latency_skips / max(1, item.total_decisions) for item in window
+    ) / len(window)
+    avg_confidence = sum(item.avg_decision_confidence for item in window) / len(window)
+    return np.array([[
+        current.avg_review_probability,
+        slope,
+        latency_rate,
+        avg_confidence,
+    ]])
+
+
+async def _train_adversary_episode(
+    req: DriftwatchRequest,
+    episode: int,
+    citizens: list[dict],
+    adversary_mgr: StrategicAdversary,
+    quantization: str,
+) -> None:
+    """Run one complete hidden learning episode before the reported episode."""
+    episode_seed = req.seed + episode
+    rng = random.Random(episode_seed)
+    oracle = get_domain(
+        req.domain,
+        seed=episode_seed,
+        cases_per_timestep=1,
+        shock_interval=req.shock_interval,
+        shock_magnitude=req.shock_magnitude,
+    )
+    caseworker = CaseworkerAgent(
+        req.model_backend,
+        quantization,
+        episode_seed,
+        explanation_style=req.explanation_style,
+        confidence_calibrated=req.confidence_calibrated,
+    )
+    social_mgr = SocialNetworkManager(
+        citizen_ids=[c["agent_id"] for c in citizens],
+        topology=req.network_topology,
+        k=req.network_k,
+        seed=episode_seed,
+    )
+    latency_skip_prob = min(
+        0.5,
+        caseworker._profile.base_latency_ms * oracle.latency_multiplier / 2000.0,
+    )
+    recent_approval_rate = 0.9
+    stale_thresholds = None
+    stale_steps_remaining = 0
+
+    for t in range(1, req.timesteps + 1):
+        caseworker.step_burst()
+        shock_event = oracle.check_and_apply_shock(t)
+        if shock_event is not None and req.shock_adaptation_delay > 0:
+            stale_thresholds = shock_event["old"]
+            stale_steps_remaining = req.shock_adaptation_delay
+        step_events = []
+        approvals_this_step = 0
+        is_audit = req.mandatory_audit_interval > 0 and t % req.mandatory_audit_interval == 0
+
+        for citizen in citizens:
+            is_adversary = adversary_mgr.is_adversary(citizen["agent_id"])
+            if is_adversary and not adversary_mgr.should_submit_fraud(
+                citizen["agent_id"], t, recent_approval_rate
+            ):
+                continue
+            case, ground_truth = oracle.generate_case(difficulty=req.difficulty)
+            if is_adversary:
+                ground_truth = "deny"
+            reference_truth = _model_reference_truth(
+                oracle, case, ground_truth, None if is_adversary else stale_thresholds
+            )
+            decision, metadata = await caseworker.make_degraded_decision(
+                case, reference_truth, oracle.model_error_multiplier
+            )
+            event = update_citizen_oversight(
+                citizen=citizen,
+                decision_outcome=decision.outcome,
+                ground_truth=ground_truth,
+                timestep=t,
+                model_backend=caseworker.backend_name,
+                rng=rng,
+                counterfactual_freeze=req.counterfactual,
+                latency_skip_probability=latency_skip_prob,
+                in_burst=metadata["in_burst"],
+                error_injected=metadata["error_injected"],
+                burst_error=metadata["burst_error"],
+                reviewer_availability=oracle.reviewer_availability,
+                language_match=citizen.get("language_match", True),
+                explanation_style=req.explanation_style,
+                confidence_calibrated=req.confidence_calibrated,
+                neighbor_signal=social_mgr.get_neighbor_signal(citizen["agent_id"]),
+                social_influence_weight=(
+                    req.social_influence_weight
+                    * social_mgr.get_influence_strength(citizen["agent_id"])
+                ),
+                decision_confidence=decision.confidence,
+                spot_check_rate=req.spot_check_rate,
+                confidence_review_threshold=req.confidence_review_threshold,
+                is_mandatory_audit=is_audit,
+            )
+            if is_adversary:
+                event.adversarial_submission = True
+                adversary_mgr.record_outcome(citizen["agent_id"], recent_approval_rate, event.caught)
+            if (ground_truth if event.caught else decision.outcome) == "approve":
+                approvals_this_step += 1
+            step_events.append(event)
+
+        social_mgr.update(step_events)
+        if step_events:
+            recent_approval_rate = approvals_this_step / len(step_events)
+        if stale_steps_remaining > 0:
+            stale_steps_remaining -= 1
+            if stale_steps_remaining == 0:
+                stale_thresholds = None
+
+
 # ─────────────────────────────────────────────────────────────
 # Simulation core
 # ─────────────────────────────────────────────────────────────
@@ -150,7 +281,10 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
     )
 
     # Precompute latency skip probability
-    latency_skip_prob = min(0.5, caseworker._profile.base_latency_ms / 2000.0)
+    latency_skip_prob = min(
+        0.5,
+        caseworker._profile.base_latency_ms * oracle.latency_multiplier / 2000.0,
+    )
 
     # Spawn citizen population (simplified — we only need oversight state)
     citizens: list[dict] = []
@@ -182,24 +316,43 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
 
     all_events: list[OversightEvent] = []
 
-    for ep in range(req.adversary_episodes):
-        if ep > 0:
-            adversary_mgr.new_episode()
-            all_events.clear()
-            for citizen in citizens:
-                citizen["review_probability"] = req.initial_review_probability
-                citizen["review_skill"] = req.initial_review_skill
-                citizen["consecutive_low_review_steps"] = 0
+    # Complete every requested learning episode. Only the final episode is
+    # streamed/reported, but the adversary's learned bandit state persists.
+    for ep in range(max(0, req.adversary_episodes - 1)):
+        await _train_adversary_episode(req, ep, citizens, adversary_mgr, quantization)
+        adversary_mgr.new_episode()
+        for citizen in citizens:
+            citizen["review_probability"] = req.initial_review_probability
+            citizen["review_skill"] = req.initial_review_skill
+            citizen["consecutive_low_review_steps"] = 0
 
-            oracle = get_domain(
-                req.domain, seed=req.seed + ep, cases_per_timestep=1,
-                shock_interval=req.shock_interval, shock_magnitude=req.shock_magnitude
-            )
-            caseworker = CaseworkerAgent(
-                req.model_backend, quantization, req.seed + ep,
-                explanation_style=req.explanation_style,
-                confidence_calibrated=req.confidence_calibrated,
-            )
+    final_episode = max(0, req.adversary_episodes - 1)
+    final_seed = req.seed + final_episode
+    rng = random.Random(final_seed)
+    oracle = get_domain(
+        req.domain,
+        seed=final_seed,
+        cases_per_timestep=1,
+        shock_interval=req.shock_interval,
+        shock_magnitude=req.shock_magnitude,
+    )
+    caseworker = CaseworkerAgent(
+        req.model_backend,
+        quantization,
+        final_seed,
+        explanation_style=req.explanation_style,
+        confidence_calibrated=req.confidence_calibrated,
+    )
+    latency_skip_prob = min(
+        0.5,
+        caseworker._profile.base_latency_ms * oracle.latency_multiplier / 2000.0,
+    )
+    social_mgr = SocialNetworkManager(
+        citizen_ids=citizen_ids,
+        topology=req.network_topology,
+        k=req.network_k,
+        seed=final_seed,
+    )
 
     predictor = None
     model_path = os.path.join(os.path.dirname(__file__), "..", "..", "models", "collapse_predictor.pkl")
@@ -213,6 +366,8 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
     try:
         recent_approval_rate = 0.9
         current_risk_score = 0.0
+        stale_thresholds = None
+        stale_steps_remaining = 0
 
         for t in range(1, req.timesteps + 1):
             # Phase 6
@@ -222,14 +377,18 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
             active_spot_check_rate = req.spot_check_rate
             active_audit = is_mandatory_audit
             
-            if current_risk_score > 0.8:
-                active_spot_check_rate = max(0.5, req.spot_check_rate)
-                active_audit = True
-            elif current_risk_score > 0.5:
-                active_spot_check_rate = max(0.2, req.spot_check_rate)
+            if req.adaptive_interventions:
+                if current_risk_score > 0.8:
+                    active_spot_check_rate = max(0.5, req.spot_check_rate)
+                    active_audit = True
+                elif current_risk_score > 0.5:
+                    active_spot_check_rate = max(0.2, req.spot_check_rate)
 
             caseworker.step_burst()
             shock_event = oracle.check_and_apply_shock(t)
+            if shock_event is not None and req.shock_adaptation_delay > 0:
+                stale_thresholds = shock_event["old"]
+                stale_steps_remaining = req.shock_adaptation_delay
             step_events = []
             approvals_this_step = 0
 
@@ -243,7 +402,15 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
                 else:
                     case, ground_truth = oracle.generate_case(difficulty=req.difficulty)
 
-                decision, metadata = await caseworker.make_degraded_decision(case, ground_truth)
+                reference_truth = _model_reference_truth(
+                    oracle,
+                    case,
+                    ground_truth,
+                    None if is_adversary else stale_thresholds,
+                )
+                decision, metadata = await caseworker.make_degraded_decision(
+                    case, reference_truth, oracle.model_error_multiplier
+                )
 
                 neighbor_signal = social_mgr.get_neighbor_signal(citizen["agent_id"])
                 topology_strength = social_mgr.get_influence_strength(citizen["agent_id"])
@@ -305,19 +472,17 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
             }
 
             if predictor is not None and t >= 10:
-                past_m = ts_metrics[-10]
-                prob_curr = m.avg_review_probability
-                prob_slope = (prob_curr - past_m.avg_review_probability) / 10.0
-                avg_latency = sum(x.latency_skips for x in ts_metrics[-10:]) / 10.0
-                avg_conf = sum(x.avg_decision_confidence for x in ts_metrics[-10:]) / 10.0
-
-                features = np.array([[prob_curr, prob_slope, avg_latency, avg_conf]])
-                risk_score = predictor.predict_proba(features)[0][1]
+                risk_score = predictor.predict_proba(_predictor_features(ts_metrics))[0][1]
                 current_risk_score = float(risk_score)
                 ts_dict["risk_score"] = round(float(risk_score), 4)
 
             yield json.dumps({"event": "timestep", **ts_dict}) + "\n\n"
             await asyncio.sleep(0.01)
+
+            if stale_steps_remaining > 0:
+                stale_steps_remaining -= 1
+                if stale_steps_remaining == 0:
+                    stale_thresholds = None
 
         metrics = compute_driftwatch_metrics(
             all_events,
@@ -355,7 +520,10 @@ async def _run_driftwatch_sync(req: DriftwatchRequest) -> DriftwatchRunMetrics:
         shock_magnitude=req.shock_magnitude
     )
 
-    latency_skip_prob = min(0.5, caseworker._profile.base_latency_ms / 2000.0)
+    latency_skip_prob = min(
+        0.5,
+        caseworker._profile.base_latency_ms * oracle.latency_multiplier / 2000.0,
+    )
 
     citizens: list[dict] = []
     for i in range(req.population_size):
@@ -403,12 +571,17 @@ async def _run_driftwatch_sync(req: DriftwatchRequest) -> DriftwatchRunMetrics:
             )
 
         recent_approval_rate = 0.9
+        stale_thresholds = None
+        stale_steps_remaining = 0
 
         for t in range(1, req.timesteps + 1):
             is_mandatory_audit = (req.mandatory_audit_interval > 0 and t % req.mandatory_audit_interval == 0)
 
             caseworker.step_burst()
-            oracle.check_and_apply_shock(t)
+            shock_event = oracle.check_and_apply_shock(t)
+            if shock_event is not None and req.shock_adaptation_delay > 0:
+                stale_thresholds = shock_event["old"]
+                stale_steps_remaining = req.shock_adaptation_delay
             step_events = []
             approvals_this_step = 0
 
@@ -422,7 +595,15 @@ async def _run_driftwatch_sync(req: DriftwatchRequest) -> DriftwatchRunMetrics:
                 else:
                     case, ground_truth = oracle.generate_case(difficulty=req.difficulty)
 
-                decision, metadata = await caseworker.make_degraded_decision(case, ground_truth)
+                reference_truth = _model_reference_truth(
+                    oracle,
+                    case,
+                    ground_truth,
+                    None if is_adversary else stale_thresholds,
+                )
+                decision, metadata = await caseworker.make_degraded_decision(
+                    case, reference_truth, oracle.model_error_multiplier
+                )
 
                 neighbor_signal = social_mgr.get_neighbor_signal(citizen["agent_id"])
                 topology_strength = social_mgr.get_influence_strength(citizen["agent_id"])
@@ -465,6 +646,11 @@ async def _run_driftwatch_sync(req: DriftwatchRequest) -> DriftwatchRunMetrics:
 
             if len(step_events) > 0:
                 recent_approval_rate = approvals_this_step / len(step_events)
+
+            if stale_steps_remaining > 0:
+                stale_steps_remaining -= 1
+                if stale_steps_remaining == 0:
+                    stale_thresholds = None
 
     return compute_driftwatch_metrics(
         all_events,

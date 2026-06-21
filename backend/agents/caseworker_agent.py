@@ -450,7 +450,12 @@ class CaseworkerAgent:
     async def decide(self, case: dict[str, Any]) -> Decision:
         return await self.backend.decide(case)
 
-    async def make_degraded_decision(self, case: dict[str, Any], ground_truth: str) -> tuple[Decision, dict]:
+    async def make_degraded_decision(
+        self,
+        case: dict[str, Any],
+        ground_truth: str,
+        error_rate_multiplier: float = 1.0,
+    ) -> tuple[Decision, dict]:
         """Make a decision with quantization-specific errors injected.
 
         Phase 3: Also returns explanation_style and confidence_calibrated
@@ -472,6 +477,7 @@ class CaseworkerAgent:
             p_error = self._profile.burst_error_rate
         else:
             p_error = self._profile.base_error_rate
+        p_error = min(1.0, p_error * error_rate_multiplier)
 
         error_injected = False
         burst_error = False

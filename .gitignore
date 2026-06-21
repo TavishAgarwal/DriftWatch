@@ -133,6 +133,7 @@ backend/simulation_outputs/
 backend/agent_states/
 backend/snapshots/
 *.pkl
+!backend/models/collapse_predictor.pkl
 *.pickle
 *.npy
 *.npz

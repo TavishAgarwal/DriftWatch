@@ -44,6 +44,8 @@ class DomainModule(ABC):
     domain_name: str = "Base Domain"
     domain_description: str = ""
     reviewer_availability: float = 1.0  # no structural ceiling by default
+    model_error_multiplier: float = 1.0
+    latency_multiplier: float = 1.0
 
     def __init__(
         self,
@@ -98,3 +100,24 @@ class DomainModule(ABC):
     def _next_case_id(self) -> str:
         self._case_counter += 1
         return f"CASE_{self._case_counter:06d}"
+
+    def compute_ground_truth_with_thresholds(
+        self,
+        case: dict[str, Any],
+        thresholds: dict[str, Any],
+    ) -> str:
+        """Evaluate a case against an earlier policy snapshot.
+
+        Shock experiments use this to model a caseworker that has not yet
+        incorporated a newly-issued policy.  The active oracle thresholds are
+        restored immediately, so the authoritative ground truth remains the
+        post-shock policy.
+        """
+        current = getattr(self, "_current_thresholds", None)
+        if current is None:
+            return self.compute_ground_truth(case)
+        self._current_thresholds = thresholds.copy()
+        try:
+            return self.compute_ground_truth(case)
+        finally:
+            self._current_thresholds = current

@@ -47,11 +47,11 @@ interface RunResult {
 
 /* ─── Model backends ─── */
 const BACKENDS = [
-  { id: 'openai', label: 'GPT-4o (Closed)', color: '#ef4444', description: 'Large closed model via OpenAI API' },
-  { id: 'ollama_api', label: 'Llama 3.1 8B API (FP16)', color: '#06b6d4', description: 'Open-source model via Ollama' },
-  { id: 'ollama_local_fp16', label: 'Llama 3.1 FP16 (Local)', color: '#22c55e', description: 'Local model — full precision baseline' },
-  { id: 'ollama_local_int8', label: 'Llama 3.1 INT8 (Local)', color: '#c084fc', description: 'Local model — 8-bit quantized' },
-  { id: 'ollama_local_int4', label: 'Llama 3.1 INT4 (Local)', color: '#e879f9', description: 'Local model — 4-bit quantized' },
+  { id: 'openai', label: 'GPT-4o (Closed)', color: '#ef4444', description: 'Simulated closed-model degradation profile' },
+  { id: 'ollama_api', label: 'Llama 3.1 8B API (FP16)', color: '#06b6d4', description: 'Simulated open-source FP16 profile' },
+  { id: 'ollama_local_fp16', label: 'Llama 3.1 FP16 (Local)', color: '#22c55e', description: 'Simulated local FP16 profile' },
+  { id: 'ollama_local_int8', label: 'Llama 3.1 INT8 (Local)', color: '#c084fc', description: 'Simulated local INT8 profile' },
+  { id: 'ollama_local_int4', label: 'Llama 3.1 INT4 (Local)', color: '#e879f9', description: 'Simulated local INT4 profile' },
   { id: 'rule_based', label: 'Rule-Based (Fallback)', color: '#f59e0b', description: 'Deterministic rules — no LLM' },
 ];
 
@@ -129,6 +129,7 @@ export default function DriftwatchDashboard() {
   const [spotCheckRate, setSpotCheckRate] = useState(0.0);
   const [confidenceReviewThreshold, setConfidenceReviewThreshold] = useState(0.0);
   const [mandatoryAuditInterval, setMandatoryAuditInterval] = useState(0);
+  const [adaptiveInterventions, setAdaptiveInterventions] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   // Fetch available domains on mount
@@ -202,6 +203,8 @@ export default function DriftwatchDashboard() {
             spot_check_rate: spotCheckRate,
             confidence_review_threshold: confidenceReviewThreshold,
             mandatory_audit_interval: mandatoryAuditInterval,
+            adaptive_interventions: adaptiveInterventions,
+            shock_adaptation_delay: 2,
           }),
           signal: controller.signal,
         });
@@ -313,7 +316,7 @@ export default function DriftwatchDashboard() {
     shockInterval, selectedDomain, explanationStyle, confidenceCalibrated,
     languageMismatchRatio, adversaryRatio, adversaryEpisodes, networkTopology,
     networkK, socialInfluenceWeight, spotCheckRate, confidenceReviewThreshold,
-    mandatoryAuditInterval
+    mandatoryAuditInterval, adaptiveInterventions
   ]);
 
   const cancelSimulation = useCallback(() => {
@@ -773,13 +776,19 @@ export default function DriftwatchDashboard() {
                 <span style={{ color: 'var(--color-text-dim)' }}>Spot Check Rate</span>
                 <span style={{ fontFamily: 'var(--font-data)', color: 'var(--color-text-primary)' }}>{(spotCheckRate * 100).toFixed(0)}%</span>
               </div>
-              <input
-                type="range" min="0" max="0.2" step="0.05" value={spotCheckRate}
+              <select
+                aria-label="Spot Check Rate"
+                value={spotCheckRate}
                 onChange={e => setSpotCheckRate(Number(e.target.value))}
-                onInput={e => setSpotCheckRate(Number(e.currentTarget.value))}
                 disabled={running}
-                style={{ width: '100%', accentColor: '#3b82f6' }}
-              />
+                style={{ width: '100%', background: '#0b0f19', border: '1px solid #1e2d47', color: 'var(--color-text-primary)', padding: 7 }}
+              >
+                <option value={0}>Disabled</option>
+                <option value={0.05}>5%</option>
+                <option value={0.1}>10%</option>
+                <option value={0.15}>15%</option>
+                <option value={0.2}>20%</option>
+              </select>
             </div>
 
             <div>
@@ -814,6 +823,16 @@ export default function DriftwatchDashboard() {
               />
             </div>
           </div>
+
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--color-text-secondary)', marginTop: -10, marginBottom: 20 }}>
+            <input
+              type="checkbox"
+              checked={adaptiveInterventions}
+              onChange={e => setAdaptiveInterventions(e.target.checked)}
+              disabled={running}
+            />
+            Enable predictor-driven adaptive mitigations (off for controlled experiments)
+          </label>
 
           {/* Counterfactual toggle */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>

@@ -207,3 +207,6 @@ class GigPlatformDomain(DomainModule):
 
         ground_truth = self.compute_ground_truth(case)
         return case, ground_truth
+    model_error_multiplier = 0.90
+    latency_multiplier = 0.70
+    reviewer_availability = 0.90
