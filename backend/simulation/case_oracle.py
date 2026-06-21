@@ -58,74 +58,7 @@ class Case:
 # Ground-truth rules — deterministic, no model calls
 # ═════════════════════════════════════════════════════════════
 
-# Eligibility thresholds (per-capita monthly income in ₹)
-POVERTY_LINE_PER_CAPITA = 5_000       # below this → always eligible
-MODERATE_THRESHOLD_PER_CAPITA = 12_000 # below this → eligible with conditions
-HIGH_INCOME_PER_CAPITA = 18_000        # above this → ineligible
-MAX_PRIOR_BENEFITS_BEFORE_FLAG = 3     # more than this → flag for review
-SENIOR_AGE_THRESHOLD = 60
 
-
-def compute_ground_truth(case: Case) -> str:
-    """Compute the objectively correct decision for a case.
-
-    Returns
-    -------
-    str
-        One of ``"approve"``, ``"deny"``, or ``"flag"``.
-
-    Rules (applied in order, first match wins):
-    1. Disability flag → approve
-    2. Per-capita income < poverty line → approve
-    3. Prior benefits > 3 AND per-capita income > moderate → flag
-    4. Senior (≥60) AND per-capita income < moderate → approve
-    5. Unemployed AND per-capita income < moderate → approve
-    6. Dependents ≥ 2 AND per-capita income < moderate → approve
-    7. Per-capita income > high income threshold → deny
-    8. Medical category AND per-capita income < high → approve
-    9. Per-capita income < moderate → approve
-    10. Otherwise → deny
-    """
-    per_capita = case.income / max(1, case.household_size)
-
-    # Rule 1: Disability always approved
-    if case.disability_flag:
-        return "approve"
-
-    # Rule 2: Extreme poverty
-    if per_capita < POVERTY_LINE_PER_CAPITA:
-        return "approve"
-
-    # Rule 3: Excessive prior benefits with moderate+ income
-    if case.prior_benefits_count > MAX_PRIOR_BENEFITS_BEFORE_FLAG and per_capita >= MODERATE_THRESHOLD_PER_CAPITA:
-        return "flag"
-
-    # Rule 4: Senior citizen with limited income
-    if case.age >= SENIOR_AGE_THRESHOLD and per_capita < MODERATE_THRESHOLD_PER_CAPITA:
-        return "approve"
-
-    # Rule 5: Unemployed with limited income
-    if case.employment_status == "unemployed" and per_capita < MODERATE_THRESHOLD_PER_CAPITA:
-        return "approve"
-
-    # Rule 6: Multiple dependents with limited income
-    if case.dependents_under_18 >= 2 and per_capita < MODERATE_THRESHOLD_PER_CAPITA:
-        return "approve"
-
-    # Rule 7: High income
-    if per_capita >= HIGH_INCOME_PER_CAPITA:
-        return "deny"
-
-    # Rule 8: Medical category with non-high income
-    if case.claimed_category == "medical" and per_capita < HIGH_INCOME_PER_CAPITA:
-        return "approve"
-
-    # Rule 9: Below moderate threshold
-    if per_capita < MODERATE_THRESHOLD_PER_CAPITA:
-        return "approve"
-
-    # Rule 10: Default deny
-    return "deny"
 
 
 # ═════════════════════════════════════════════════════════════
@@ -147,10 +80,113 @@ class CaseOracle:
         Number of cases to generate per timestep (default 1).
     """
 
-    def __init__(self, seed: int = 42, cases_per_timestep: int = 1) -> None:
+    def __init__(self, seed: int = 42, cases_per_timestep: int = 1, shock_interval: int = 0, shock_magnitude: float = 0.30) -> None:
         self._rng = random.Random(seed)
         self._case_counter = 0
         self.cases_per_timestep = cases_per_timestep
+        self._shock_interval = shock_interval
+        self._shock_magnitude = shock_magnitude
+        self._shock_log: list[dict] = []
+
+        self._current_thresholds = {
+            "POVERTY_LINE_PER_CAPITA": 5_000,
+            "MODERATE_THRESHOLD_PER_CAPITA": 12_000,
+            "HIGH_INCOME_PER_CAPITA": 18_000,
+            "MAX_PRIOR_BENEFITS_BEFORE_FLAG": 3,
+            "SENIOR_AGE_THRESHOLD": 60,
+        }
+
+    def compute_ground_truth(self, case: Case) -> str:
+        """Compute the objectively correct decision for a case.
+
+        Returns
+        -------
+        str
+            One of ``"approve"``, ``"deny"``, or ``"flag"``.
+
+        Rules (applied in order, first match wins):
+        1. Disability flag → approve
+        2. Per-capita income < poverty line → approve
+        3. Prior benefits > 3 AND per-capita income > moderate → flag
+        4. Senior (≥60) AND per-capita income < moderate → approve
+        5. Unemployed AND per-capita income < moderate → approve
+        6. Dependents ≥ 2 AND per-capita income < moderate → approve
+        7. Per-capita income > high income threshold → deny
+        8. Medical category AND per-capita income < high → approve
+        9. Per-capita income < moderate → approve
+        10. Otherwise → deny
+        """
+        per_capita = case.income / max(1, case.household_size)
+        thresh = self._current_thresholds
+
+        # Rule 1: Disability always approved
+        if case.disability_flag:
+            return "approve"
+
+        # Rule 2: Extreme poverty
+        if per_capita < thresh["POVERTY_LINE_PER_CAPITA"]:
+            return "approve"
+
+        # Rule 3: Excessive prior benefits with moderate+ income
+        if case.prior_benefits_count > thresh["MAX_PRIOR_BENEFITS_BEFORE_FLAG"] and per_capita >= thresh["MODERATE_THRESHOLD_PER_CAPITA"]:
+            return "flag"
+
+        # Rule 4: Senior citizen with limited income
+        if case.age >= thresh["SENIOR_AGE_THRESHOLD"] and per_capita < thresh["MODERATE_THRESHOLD_PER_CAPITA"]:
+            return "approve"
+
+        # Rule 5: Unemployed with limited income
+        if case.employment_status == "unemployed" and per_capita < thresh["MODERATE_THRESHOLD_PER_CAPITA"]:
+            return "approve"
+
+        # Rule 6: Multiple dependents with limited income
+        if case.dependents_under_18 >= 2 and per_capita < thresh["MODERATE_THRESHOLD_PER_CAPITA"]:
+            return "approve"
+
+        # Rule 7: High income
+        if per_capita >= thresh["HIGH_INCOME_PER_CAPITA"]:
+            return "deny"
+
+        # Rule 8: Medical category with non-high income
+        if case.claimed_category == "medical" and per_capita < thresh["HIGH_INCOME_PER_CAPITA"]:
+            return "approve"
+
+        # Rule 9: Below moderate threshold
+        if per_capita < thresh["MODERATE_THRESHOLD_PER_CAPITA"]:
+            return "approve"
+
+        # Rule 10: Default deny
+        return "deny"
+
+    def check_and_apply_shock(self, timestep: int) -> dict | None:
+        """Apply a shock to the oracle rules if scheduled this timestep."""
+        if self._shock_interval > 0 and timestep % self._shock_interval == 0 and timestep > 0:
+            thresholds_to_shift = self._rng.sample(
+                ["POVERTY_LINE_PER_CAPITA", "MODERATE_THRESHOLD_PER_CAPITA", "HIGH_INCOME_PER_CAPITA", "MAX_PRIOR_BENEFITS_BEFORE_FLAG"],
+                k=self._rng.randint(2, 3)
+            )
+            old_thresholds = self._current_thresholds.copy()
+            for key in thresholds_to_shift:
+                direction = self._rng.choice([-1, 1])
+                val = self._current_thresholds[key]
+                if key == "MAX_PRIOR_BENEFITS_BEFORE_FLAG":
+                    shift = max(1, int(val * self._shock_magnitude))
+                    self._current_thresholds[key] = max(1, val + direction * shift)
+                else:
+                    self._current_thresholds[key] = int(val * (1.0 + direction * self._shock_magnitude))
+
+            # Ensure ordering is preserved
+            self._current_thresholds["POVERTY_LINE_PER_CAPITA"] = min(self._current_thresholds["POVERTY_LINE_PER_CAPITA"], self._current_thresholds["MODERATE_THRESHOLD_PER_CAPITA"] - 1000)
+            self._current_thresholds["MODERATE_THRESHOLD_PER_CAPITA"] = min(self._current_thresholds["MODERATE_THRESHOLD_PER_CAPITA"], self._current_thresholds["HIGH_INCOME_PER_CAPITA"] - 1000)
+
+            shock_record = {
+                "timestep": timestep,
+                "old": old_thresholds,
+                "new": self._current_thresholds.copy(),
+            }
+            self._shock_log.append(shock_record)
+            return shock_record
+        return None
 
     def generate_case(self, difficulty: float = 0.5) -> tuple[Case, str]:
         """Generate a single case with ground-truth decision.
@@ -196,17 +232,17 @@ class CaseOracle:
             else:
                 # Borderline — near thresholds
                 threshold = rng.choice([
-                    POVERTY_LINE_PER_CAPITA,
-                    MODERATE_THRESHOLD_PER_CAPITA,
-                    HIGH_INCOME_PER_CAPITA,
+                    self._current_thresholds["POVERTY_LINE_PER_CAPITA"],
+                    self._current_thresholds["MODERATE_THRESHOLD_PER_CAPITA"],
+                    self._current_thresholds["HIGH_INCOME_PER_CAPITA"],
                 ])
                 per_capita_target = threshold + rng.randint(-2_000, 2_000)
         else:
             # Hard: most cases near decision boundaries
             threshold = rng.choice([
-                POVERTY_LINE_PER_CAPITA,
-                MODERATE_THRESHOLD_PER_CAPITA,
-                HIGH_INCOME_PER_CAPITA,
+                self._current_thresholds["POVERTY_LINE_PER_CAPITA"],
+                self._current_thresholds["MODERATE_THRESHOLD_PER_CAPITA"],
+                self._current_thresholds["HIGH_INCOME_PER_CAPITA"],
             ])
             per_capita_target = threshold + rng.randint(-1_500, 1_500)
 
@@ -225,7 +261,7 @@ class CaseOracle:
             age=age,
         )
 
-        ground_truth = compute_ground_truth(case)
+        ground_truth = self.compute_ground_truth(case)
         return case, ground_truth
 
     def generate_batch(
