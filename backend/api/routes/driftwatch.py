@@ -212,10 +212,21 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
 
     try:
         recent_approval_rate = 0.9
+        current_risk_score = 0.0
 
         for t in range(1, req.timesteps + 1):
             # Phase 6
             is_mandatory_audit = (req.mandatory_audit_interval > 0 and t % req.mandatory_audit_interval == 0)
+            
+            # ML-Driven Interventions: Scale up based on predicted risk of collapse
+            active_spot_check_rate = req.spot_check_rate
+            active_audit = is_mandatory_audit
+            
+            if current_risk_score > 0.8:
+                active_spot_check_rate = max(0.5, req.spot_check_rate)
+                active_audit = True
+            elif current_risk_score > 0.5:
+                active_spot_check_rate = max(0.2, req.spot_check_rate)
 
             caseworker.step_burst()
             shock_event = oracle.check_and_apply_shock(t)
@@ -256,9 +267,9 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
                     neighbor_signal=neighbor_signal,
                     social_influence_weight=req.social_influence_weight * topology_strength,
                     decision_confidence=decision.confidence,
-                    spot_check_rate=req.spot_check_rate,
+                    spot_check_rate=active_spot_check_rate,
                     confidence_review_threshold=req.confidence_review_threshold,
-                    is_mandatory_audit=is_mandatory_audit,
+                    is_mandatory_audit=active_audit,
                 )
                 if is_adversary:
                     event.adversarial_submission = True
@@ -302,6 +313,7 @@ async def _run_driftwatch(req: DriftwatchRequest, sim_id: str):
 
                 features = np.array([[prob_curr, prob_slope, avg_latency, avg_conf]])
                 risk_score = predictor.predict_proba(features)[0][1]
+                current_risk_score = float(risk_score)
                 ts_dict["risk_score"] = round(float(risk_score), 4)
 
             yield json.dumps({"event": "timestep", **ts_dict}) + "\n\n"

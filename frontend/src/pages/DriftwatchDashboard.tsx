@@ -289,7 +289,7 @@ export default function DriftwatchDashboard() {
                 burstErrorContribution: evt.metrics.burst_error_contribution,
                 latencySkips: evt.metrics.latency_skips,
                 trustSkips: evt.metrics.trust_skips,
-                shockEvents: evt.metrics.shock_events,
+                shockEvents: evt.metrics.shock_events || [],
                 metrics: evt.metrics,
               });
               setResults([...allResults]);
@@ -992,7 +992,7 @@ export default function DriftwatchDashboard() {
                         contentStyle={{ background: '#0b0f19', border: '1px solid var(--color-border)', borderRadius: 8, fontFamily: 'var(--font-data)', fontSize: 11 }}
                         formatter={(value: unknown, name: unknown) => [`${(Number(value) * 100).toFixed(1)}%`, name as string]}
                       />
-                      <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)' }} />
+                      <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)', paddingTop: '20px' }} />
                       {results.map(r => {
                         const key = r.counterfactual ? `${r.backend}_cf` : r.backend;
                         return (
@@ -1008,7 +1008,7 @@ export default function DriftwatchDashboard() {
                           />
                         );
                       })}
-                      {results[0]?.shockEvents.map((evt, i) => (
+                      {results[0]?.shockEvents?.map((evt, i) => (
                         <ReferenceLine key={`shock_${i}`} x={evt.timestep} stroke="var(--color-alert)" strokeDasharray="3 3" label={{ position: 'top', value: 'SHOCK', fill: 'var(--color-alert)', fontSize: 10, fontFamily: 'var(--font-data)' }} />
                       ))}
                     </LineChart>
@@ -1037,7 +1037,7 @@ export default function DriftwatchDashboard() {
                         contentStyle={{ background: '#0b0f19', border: '1px solid var(--color-border)', borderRadius: 8, fontFamily: 'var(--font-data)', fontSize: 11 }}
                         formatter={(value: unknown, name: unknown) => [`${(Number(value) * 100).toFixed(1)}%`, name as string]}
                       />
-                      <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)' }} />
+                      <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)', paddingTop: '20px' }} />
                       {/* 10% threshold line */}
                       <Line
                         name="10% Threshold"
@@ -1096,7 +1096,7 @@ export default function DriftwatchDashboard() {
                         contentStyle={{ background: '#0b0f19', border: '1px solid var(--color-border)', borderRadius: 8, fontFamily: 'var(--font-data)', fontSize: 11 }}
                         formatter={(value: unknown, name: unknown) => [`${(Number(value) * 100).toFixed(1)}%`, name as string]}
                       />
-                      <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)' }} />
+                      <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)', paddingTop: '20px' }} />
                       {results.filter(r => !r.counterfactual).map(r => (
                         <React.Fragment key={`${r.backend}_skill_frag`}>
                           <Line
@@ -1120,7 +1120,7 @@ export default function DriftwatchDashboard() {
                           />
                         </React.Fragment>
                       ))}
-                      {results[0]?.shockEvents.map((evt, i) => (
+                      {results[0]?.shockEvents?.map((evt, i) => (
                         <ReferenceLine key={`shock_${i}`} x={evt.timestep} stroke="var(--color-alert)" strokeDasharray="3 3" />
                       ))}
                     </LineChart>
@@ -1147,7 +1147,7 @@ export default function DriftwatchDashboard() {
                         contentStyle={{ background: '#0b0f19', border: '1px solid var(--color-border)', borderRadius: 8, fontFamily: 'var(--font-data)', fontSize: 11 }}
                         formatter={(value: unknown, name: unknown) => [`${(Number(value) * 100).toFixed(1)}%`, name as string]}
                       />
-                      <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)' }} />
+                      <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)', paddingTop: '20px' }} />
                       {results.map(r => {
                         const key = r.counterfactual ? `${r.backend}_cf` : r.backend;
                         return (
@@ -1163,7 +1163,7 @@ export default function DriftwatchDashboard() {
                           />
                         );
                       })}
-                      {results[0]?.shockEvents.map((evt, i) => (
+                      {results[0]?.shockEvents?.map((evt, i) => (
                         <ReferenceLine key={`shock_${i}`} x={evt.timestep} stroke="var(--color-alert)" strokeDasharray="3 3" label={{ position: 'top', value: 'SHOCK', fill: 'var(--color-alert)', fontSize: 10, fontFamily: 'var(--font-data)' }} />
                       ))}
                     </LineChart>
@@ -1191,7 +1191,7 @@ export default function DriftwatchDashboard() {
                       <Tooltip
                         contentStyle={{ background: '#0b0f19', border: '1px solid var(--color-border)', borderRadius: 8, fontFamily: 'var(--font-data)', fontSize: 11 }}
                       />
-                      <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)' }} />
+                      <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: 10, fontFamily: 'var(--font-data)', paddingTop: '20px' }} />
                       {results.filter(r => !r.counterfactual).flatMap(r => [
                         <Area key={`${r.backend}_latency`} type="monotone" dataKey={`${r.backend}_latency_skips`} stackId={r.backend} stroke={r.color} fill={r.color} fillOpacity={0.6} name={`${r.label} (Latency Skip)`} />,
                         <Area key={`${r.backend}_trust`} type="monotone" dataKey={`${r.backend}_trust_skips`} stackId={r.backend} stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} name={`${r.label} (Trust Skip)`} />
