@@ -1,5 +1,10 @@
 # Quantization and the Compute Diffusion Paradox: Mechanics of Oversight Collapse in Human-AI Systems
 
+**Authors**: Varun Pathak  
+**Affiliations**: Independent Researcher  
+**Track**: Technical Safety (Small AI, Open-Source Models, On-Device AI)  
+**Region**: Global / Virtual  
+
 ## Abstract
 Quantized and on-device AI can broaden access while changing the conditions under which humans oversee automated decisions. Driftwatch is a reproducible multi-agent simulation of that interaction across closed, open-source API, and local FP16/INT8/INT4 model profiles. It separates burst errors from baseline errors, trust skips from latency skips, review willingness from review skill, and adds multilingual mismatch, adversaries, social contagion, and three interventions. In an integrated INT4 microfinance run, oversight debt reached 32.44 and final silent errors 14.4%, versus 9.26 and 4.0% for a simpler closed-model baseline. Interventions reduced silent errors relative to an otherwise identical no-intervention run, but did not eliminate collapse. Results are simulation findings, not measured claims about named production models.
 

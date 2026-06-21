@@ -48,6 +48,26 @@ Driftwatch measures this process across three different AI model tiers to test w
 └────────────────────────────────────────────────────────┘
 ```
 
+## Advanced Simulation Mechanics
+
+The engine includes several interconnected sub-systems that model complex societal dynamics:
+
+- **Phase 3: Depth Variables**
+  - **Language Mismatch**: Models non-native speakers who face a "complexity tax" making errors harder to detect.
+  - **Confidence Calibration**: Simulates how highly-confident (but wrong) AI output drastically reduces human error detection.
+  - **Explanation Style**: Toggles between detailed rationales (higher trust, faster skill decay) and terse outputs.
+
+- **Phase 4: Strategic Adversaries**
+  - Introduces intelligent bad actors who probe the system for weaknesses. When the AI makes silent errors, adversaries detect the vulnerability and systematically exploit it with fraudulent submissions.
+
+- **Phase 5: Social Contagion**
+  - Uses network topologies (Isolated, Ring, Small-World, Scale-Free, Fully Connected) to model how trust in the AI spreads through social connections. A neighbor catching an AI error can trigger a localized spike in oversight, while systemic trust accelerates decay.
+
+- **Phase 6: Mitigation Interventions**
+  - **Spot Checks**: Randomly forcing human review to break automation bias.
+  - **Confidence Thresholds**: Routing low-confidence AI decisions directly to mandatory review.
+  - **Mandatory Audits**: Periodic deep-dives that reset trust levels and help recover lost oversight skills.
+
 ## Quickstart
 
 ### Prerequisites
