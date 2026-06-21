@@ -49,10 +49,14 @@ class Decision:
         Free-text explanation from the model (or rule engine).
     confidence : float
         Model's self-reported confidence, 0.0–1.0.
+    fallback_used : bool
+        True if this decision was produced by the rule-based fallback
+        instead of the intended model backend.
     """
     outcome: str        # "approve" | "deny" | "flag"
     reasoning: str
     confidence: float
+    fallback_used: bool = False
 
     def __post_init__(self) -> None:
         valid = {"approve", "deny", "flag"}
@@ -69,6 +73,14 @@ class Decision:
 # ---------------------------------------------------------------------------
 class ModelBackend(ABC):
     """Abstract interface for a caseworker model backend."""
+
+    # Tracks whether this backend has fallen back to rule-based
+    _fallback_active: bool = False
+
+    @property
+    def fallback_active(self) -> bool:
+        """True if this backend is using rule-based fallback."""
+        return self._fallback_active
 
     @property
     @abstractmethod
@@ -157,7 +169,9 @@ class OpenAIBackend(ModelBackend):
     async def decide(self, case: dict[str, Any]) -> Decision:
         client = self._get_client()
         if client is None:
-            return _rule_based_decide(case)
+            self._fallback_active = True
+            decision = _rule_based_decide(case)
+            return Decision(decision.outcome, decision.reasoning, decision.confidence, fallback_used=True)
 
         prompt = _build_caseworker_prompt(case)
         try:
@@ -175,7 +189,9 @@ class OpenAIBackend(ModelBackend):
             return _parse_model_response(raw)
         except Exception as exc:
             logger.warning("OpenAI caseworker error: %s — falling back to rules", exc)
-            return _rule_based_decide(case)
+            self._fallback_active = True
+            decision = _rule_based_decide(case)
+            return Decision(decision.outcome, decision.reasoning, decision.confidence, fallback_used=True)
 
 
 # ---------------------------------------------------------------------------
@@ -211,8 +227,10 @@ class OllamaAPIBackend(ModelBackend):
             raw = body.get("response", "{}")
             return _parse_model_response(raw)
         except Exception as exc:
-            logger.warning("Ollama API caseworker error: %s — falling back to rules", exc)
-            return _rule_based_decide(case)
+            logger.warning("Ollama API caseworker error: %r — falling back to rules", exc)
+            self._fallback_active = True
+            decision = _rule_based_decide(case)
+            return Decision(decision.outcome, decision.reasoning, decision.confidence, fallback_used=True)
 
 
 # ---------------------------------------------------------------------------
@@ -255,8 +273,10 @@ class OllamaLocalBackend(ModelBackend):
             raw = body.get("response", "{}")
             return _parse_model_response(raw)
         except Exception as exc:
-            logger.warning("Ollama local caseworker error: %s — falling back to rules", exc)
-            return _rule_based_decide(case)
+            logger.warning("Ollama local caseworker error: %r — falling back to rules", exc)
+            self._fallback_active = True
+            decision = _rule_based_decide(case)
+            return Decision(decision.outcome, decision.reasoning, decision.confidence, fallback_used=True)
 
 
 # ---------------------------------------------------------------------------
@@ -422,6 +442,11 @@ class CaseworkerAgent:
                     return True
         return False
 
+    @property
+    def fallback_active(self) -> bool:
+        """True if the configured backend has fallen back to rule-based."""
+        return self.backend.fallback_active
+
     async def decide(self, case: dict[str, Any]) -> Decision:
         return await self.backend.decide(case)
 
@@ -489,6 +514,7 @@ class CaseworkerAgent:
                     outcome=decision.outcome,
                     reasoning=decision.reasoning,
                     confidence=self._rng.uniform(0.88, 0.99),
+                    fallback_used=decision.fallback_used,
                 )
 
         # Phase 3: Terse explanations strip reasoning
@@ -497,6 +523,7 @@ class CaseworkerAgent:
                 outcome=decision.outcome,
                 reasoning=decision.reasoning[:40] + "..." if len(decision.reasoning) > 40 else decision.reasoning,
                 confidence=decision.confidence,
+                fallback_used=decision.fallback_used,
             )
 
         metadata = {
@@ -505,5 +532,6 @@ class CaseworkerAgent:
             "burst_error": burst_error,
             "explanation_style": self.explanation_style,
             "confidence_calibrated": self.confidence_calibrated,
+            "fallback_used": decision.fallback_used,
         }
         return decision, metadata

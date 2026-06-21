@@ -129,7 +129,6 @@ export default function DriftwatchDashboard() {
   const [spotCheckRate, setSpotCheckRate] = useState(0.0);
   const [confidenceReviewThreshold, setConfidenceReviewThreshold] = useState(0.0);
   const [mandatoryAuditInterval, setMandatoryAuditInterval] = useState(0);
-
   const abortRef = useRef<AbortController | null>(null);
 
   // Fetch available domains on mount
@@ -547,7 +546,7 @@ export default function DriftwatchDashboard() {
                 <span style={{ fontFamily: 'var(--font-data)', color: 'var(--color-text-primary)' }}>{population.toLocaleString()}</span>
               </div>
               <input
-                type="range" min="50" max="5000" step="50" value={population}
+                type="range" min="10" max="5000" step="10" value={population}
                 onChange={e => setPopulation(Number(e.target.value))}
                 onInput={e => setPopulation(Number(e.currentTarget.value))}
                 disabled={running}
@@ -560,7 +559,7 @@ export default function DriftwatchDashboard() {
                 <span style={{ fontFamily: 'var(--font-data)', color: 'var(--color-text-primary)' }}>{timesteps}</span>
               </div>
               <input
-                type="range" min="10" max="100" step="5" value={timesteps}
+                type="range" min="5" max="100" step="5" value={timesteps}
                 onChange={e => setTimesteps(Number(e.target.value))}
                 onInput={e => setTimesteps(Number(e.currentTarget.value))}
                 disabled={running}

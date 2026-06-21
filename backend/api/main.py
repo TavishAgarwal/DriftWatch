@@ -9,6 +9,14 @@ from __future__ import annotations
 
 import os
 
+try:
+    from dotenv import load_dotenv
+except ImportError:  # Dependency-light test/runtime environments.
+    load_dotenv = None
+
+if load_dotenv is not None:
+    load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
