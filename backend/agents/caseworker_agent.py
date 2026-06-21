@@ -25,9 +25,12 @@ from __future__ import annotations
 import json
 import logging
 import os
+import random
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any
+
+from backend.simulation.backend_config import get_backend_profile, BackendProfile
 
 logger = logging.getLogger("driftwatch.caseworker")
 
@@ -320,6 +323,9 @@ _BACKENDS: dict[str, type[ModelBackend]] = {
     "openai": OpenAIBackend,
     "ollama_api": OllamaAPIBackend,
     "ollama_local": OllamaLocalBackend,
+    "ollama_local_fp16": OllamaLocalBackend,
+    "ollama_local_int8": OllamaLocalBackend,
+    "ollama_local_int4": OllamaLocalBackend,
     "rule_based": RuleBasedBackend,
 }
 
@@ -350,18 +356,154 @@ class CaseworkerAgent:
     """AI Caseworker that makes administrative decisions using a
     pluggable model backend.
 
+    Phase 3 additions:
+      - explanation_style: "terse" or "detailed"
+      - confidence_calibrated: True (states uncertainty when warranted)
+        or False (always sounds equally confident)
+
     Usage
     -----
         agent = CaseworkerAgent("openai")
         decision = await agent.decide(case_dict)
     """
 
-    def __init__(self, backend_name: str | None = None) -> None:
+    def __init__(
+        self,
+        backend_name: str | None = None,
+        quantization: str = "none",
+        seed: int = 42,
+        explanation_style: str = "detailed",
+        confidence_calibrated: bool = True,
+        live_backend: bool = False,
+    ) -> None:
         self.backend = get_caseworker_backend(backend_name)
+        # Handle cases where backend_name encodes quantization (e.g., ollama_local_int4)
+        b_name = backend_name or "rule_based"
+        if b_name.startswith("ollama_local_"):
+            q_part = b_name.split("_")[-1].upper()
+            quant = q_part
+            base_backend = "ollama_local"
+        else:
+            quant = quantization
+            base_backend = b_name
+
+        self._profile = get_backend_profile(base_backend, quant)
+        self._rng = random.Random(seed)
+        self.burst_remaining = 0
+        # Phase 3: explainability settings
+        self.explanation_style = explanation_style
+        self.confidence_calibrated = confidence_calibrated
+        # Full population simulations must be reproducible and runnable without
+        # provider credentials.  Live adapters remain available through decide()
+        # when explicitly requested, while the simulation evaluates degradation
+        # against the domain oracle's known ground truth.
+        self.live_backend = live_backend
 
     @property
     def backend_name(self) -> str:
-        return self.backend.name
+        return self._profile.name
+
+    @property
+    def in_burst(self) -> bool:
+        return self.burst_remaining > 0
+
+    def step_burst(self) -> bool:
+        """Advance the burst state machine by one timestep.
+        Returns True if in burst this timestep.
+        """
+        if self.burst_remaining > 0:
+            self.burst_remaining -= 1
+            return True
+        else:
+            if self._rng.random() < self._profile.burst_probability:
+                self.burst_remaining = self._rng.randint(*self._profile.burst_duration_range)
+                if self.burst_remaining > 0:
+                    self.burst_remaining -= 1 # count current step as 1
+                    return True
+        return False
 
     async def decide(self, case: dict[str, Any]) -> Decision:
         return await self.backend.decide(case)
+
+    async def make_degraded_decision(self, case: dict[str, Any], ground_truth: str) -> tuple[Decision, dict]:
+        """Make a decision with quantization-specific errors injected.
+
+        Phase 3: Also returns explanation_style and confidence_calibrated
+        in metadata, and adjusts confidence reporting based on calibration
+        setting.
+        """
+        if self.live_backend:
+            decision = await self.decide(case)
+        else:
+            decision = Decision(
+                outcome=ground_truth,
+                reasoning="Correct decision before modeled degradation",
+                confidence=0.90,
+            )
+        in_burst = self.in_burst
+
+        # Calculate error probabilities
+        if in_burst:
+            p_error = self._profile.burst_error_rate
+        else:
+            p_error = self._profile.base_error_rate
+
+        error_injected = False
+        burst_error = False
+
+        if self._rng.random() < p_error:
+            # Inject an error by picking a wrong outcome
+            possible_outcomes = ["approve", "deny", "flag"]
+            possible_outcomes.remove(ground_truth)
+            wrong_outcome = self._rng.choice(possible_outcomes)
+
+            error_injected = True
+            burst_error = in_burst
+
+            if in_burst:
+                # Highly confident error
+                conf = self._rng.uniform(self._profile.burst_confidence_floor, 1.0)
+                reasoning = f"Confident override ({wrong_outcome})"
+            else:
+                # Normal low-confidence error
+                conf = self._rng.uniform(0.4, 0.7)
+                reasoning = f"Marginal decision ({wrong_outcome})"
+
+            # Phase 3: Uncalibrated confidence makes errors HARDER to spot
+            # because the model sounds just as confident on wrong answers.
+            # When calibrated, errors have lower stated confidence.
+            if not self.confidence_calibrated:
+                # Override: always report high confidence even on errors
+                conf = self._rng.uniform(0.85, 0.98)
+
+            decision = Decision(
+                outcome=wrong_outcome,
+                reasoning=reasoning,
+                confidence=conf
+            )
+        else:
+            # Correct decision — calibration affects confidence reporting
+            if not self.confidence_calibrated:
+                # Always high confidence even when it shouldn't be
+                decision = Decision(
+                    outcome=decision.outcome,
+                    reasoning=decision.reasoning,
+                    confidence=self._rng.uniform(0.88, 0.99),
+                )
+
+        # Phase 3: Terse explanations strip reasoning
+        if self.explanation_style == "terse":
+            decision = Decision(
+                outcome=decision.outcome,
+                reasoning=decision.reasoning[:40] + "..." if len(decision.reasoning) > 40 else decision.reasoning,
+                confidence=decision.confidence,
+            )
+
+        metadata = {
+            "in_burst": in_burst,
+            "error_injected": error_injected,
+            "burst_error": burst_error,
+            "explanation_style": self.explanation_style,
+            "confidence_calibrated": self.confidence_calibrated,
+        }
+        return decision, metadata

@@ -6,6 +6,12 @@ Implements the core oversight-decay mechanic: each citizen has a
 and a ``review_skill`` (chance they catch an error when reviewing).
 Both drift over time based on the caseworker's track record.
 
+Phase 3 additions:
+  - Language mismatch penalty on effective review_skill
+  - Explainability/confidence-calibration effect on error detection
+  - Exponential skill atrophy (accelerates with sustained low engagement)
+  - Independent skill recovery tracking after shock re-engagement
+
 Configurable nudge constants are at the top of this module so they
 can be tuned without touching logic.
 
@@ -25,6 +31,7 @@ Usage
 
 from __future__ import annotations
 
+import math
 import random
 from dataclasses import dataclass
 
@@ -74,6 +81,30 @@ MAX_REVIEW_SKILL: float = 0.99
 DEFAULT_INITIAL_REVIEW_PROBABILITY: float = 0.9
 DEFAULT_INITIAL_REVIEW_SKILL: float = 0.8
 
+# ── Phase 3: Language mismatch ────────────────────────────────
+# Penalty applied to effective review_skill when citizen language
+# does not match the caseworker explanation language.
+# This is a COMPREHENSION penalty, NOT a willingness penalty.
+LANGUAGE_MISMATCH_SKILL_PENALTY: float = 0.25
+
+# ── Phase 3: Explainability / confidence calibration ──────────
+# When explanation style is "terse", effective skill is reduced
+# because there's less information for the citizen to evaluate.
+TERSE_EXPLANATION_SKILL_PENALTY: float = 0.10
+
+# When confidence is uncalibrated (model sounds equally confident
+# regardless of actual reliability), catching errors is harder.
+UNCALIBRATED_CONFIDENCE_SKILL_PENALTY: float = 0.15
+
+# ── Phase 3: Exponential skill atrophy ────────────────────────
+# Base decay rate for exponential atrophy.
+SKILL_ATROPHY_BASE_RATE: float = 0.008
+# Exponent scaling: how much consecutive low-engagement accelerates decay.
+# decay = base_rate * (1 + acceleration * consecutive_low_steps)
+SKILL_ATROPHY_ACCELERATION: float = 0.15
+# Recovery rate after shock-induced re-engagement (per step while reviewing).
+SKILL_RECOVERY_AFTER_SHOCK: float = 0.012
+
 
 # ═════════════════════════════════════════════════════════════
 # OversightEvent dataclass
@@ -101,6 +132,28 @@ class OversightEvent:
         Citizen's review_skill AFTER this event's update.
     model_backend : str
         Name of the model backend that made the decision.
+    skip_reason : str
+        Why citizen skipped review (trust/latency/availability/none).
+    latency_skip_probability : float
+        The latency skip probability used.
+    in_burst : bool
+        Whether a hallucination burst was active.
+    error_injected : bool
+        Whether this decision had an error injected.
+    burst_error : bool
+        Whether this was a burst-induced error.
+    language_match : bool
+        Whether citizen language matched explanation language.
+    effective_skill : float
+        Actual review_skill used for this interaction (after penalties).
+    explanation_style : str
+        "terse" or "detailed".
+    confidence_calibrated : bool
+        Whether the model's confidence was calibrated.
+    skill_atrophy_rate : float
+        The instantaneous skill decay rate applied this step.
+    initial_review_skill : float
+        The citizen's review_skill at the START of this step (before update).
     """
     timestep: int
     citizen_id: str
@@ -110,6 +163,22 @@ class OversightEvent:
     review_probability: float
     review_skill: float
     model_backend: str
+    skip_reason: str
+    latency_skip_probability: float
+    in_burst: bool
+    error_injected: bool
+    burst_error: bool
+    # Phase 3 fields
+    language_match: bool = True
+    effective_skill: float = 0.0
+    explanation_style: str = "detailed"
+    confidence_calibrated: bool = True
+    skill_atrophy_rate: float = 0.0
+    initial_review_skill: float = 0.0
+    # Phase 4 fields
+    adversarial_submission: bool = False
+    # Phase 6 fields
+    decision_confidence: float = 1.0
 
 
 # ═════════════════════════════════════════════════════════════
@@ -124,6 +193,23 @@ def update_citizen_oversight(
     rng: random.Random,
     *,
     counterfactual_freeze: bool = False,
+    latency_skip_probability: float = 0.0,
+    in_burst: bool = False,
+    error_injected: bool = False,
+    burst_error: bool = False,
+    reviewer_availability: float = 1.0,
+    # Phase 3 parameters
+    language_match: bool = True,
+    explanation_style: str = "detailed",
+    confidence_calibrated: bool = True,
+    # Phase 5 parameters
+    neighbor_signal: float = 0.0,
+    social_influence_weight: float = 0.0,
+    # Phase 6 parameters
+    decision_confidence: float = 1.0,
+    spot_check_rate: float = 0.0,
+    confidence_review_threshold: float = 0.0,
+    is_mandatory_audit: bool = False,
 ) -> OversightEvent:
     """Run one oversight step for a single citizen.
 
@@ -131,8 +217,9 @@ def update_citizen_oversight(
     ----------
     citizen : dict
         Mutable agent dict. Must contain ``agent_id``,
-        ``review_probability``, ``review_skill``, and
-        ``consecutive_low_review_steps``.
+        ``review_probability``, ``review_skill``,
+        ``consecutive_low_review_steps``, and
+        ``initial_review_skill`` (Phase 3).
     decision_outcome : str
         The caseworker's decision ("approve"/"deny"/"flag").
     ground_truth : str
@@ -146,6 +233,14 @@ def update_citizen_oversight(
     counterfactual_freeze : bool
         If True, review_probability is frozen at its current value
         (no decay or boost). Used for counterfactual comparison.
+    reviewer_availability : float
+        Structural ceiling on actual review capacity.
+    language_match : bool
+        Whether citizen's language matches explanation language.
+    explanation_style : str
+        "terse" or "detailed".
+    confidence_calibrated : bool
+        Whether the model reports calibrated confidence.
 
     Returns
     -------
@@ -155,16 +250,65 @@ def update_citizen_oversight(
     review_prob = citizen["review_probability"]
     review_skill = citizen["review_skill"]
     consecutive_low = citizen.get("consecutive_low_review_steps", 0)
+    citizen_initial_skill = citizen.get("initial_review_skill", review_skill)
+
+    # Record pre-update skill for tracking
+    skill_before_update = review_skill
 
     is_correct = (decision_outcome == ground_truth)
 
+    # ── Phase 3: Compute effective review skill ──
+    # Start with raw skill, then apply penalties for language
+    # mismatch, terse explanations, and uncalibrated confidence.
+    # These are comprehension penalties — they don't change the
+    # stored skill, only what's used for the catch roll this step.
+    effective_skill = review_skill
+
+    if not language_match:
+        effective_skill -= LANGUAGE_MISMATCH_SKILL_PENALTY
+
+    if explanation_style == "terse":
+        effective_skill -= TERSE_EXPLANATION_SKILL_PENALTY
+
+    if not confidence_calibrated:
+        effective_skill -= UNCALIBRATED_CONFIDENCE_SKILL_PENALTY
+
+    effective_skill = max(MIN_REVIEW_SKILL, min(MAX_REVIEW_SKILL, effective_skill))
+
     # ── Does the citizen review this decision? ──
-    reviewed = rng.random() < review_prob
+    trust_would_review = rng.random() < review_prob
+    latency_would_skip = rng.random() < latency_skip_probability
+    structural_availability = rng.random() < reviewer_availability
+
+    # Phase 6 intervention logic
+    forced_by_spot_check = rng.random() < spot_check_rate
+    forced_by_confidence = decision_confidence < confidence_review_threshold
+    forced_by_audit = is_mandatory_audit
+
+    if forced_by_audit or forced_by_spot_check or forced_by_confidence:
+        reviewed = True
+        if forced_by_audit:
+            # Audits trigger skill recovery
+            consecutive_low = 0
+            review_skill = citizen_initial_skill
+    else:
+        reviewed = trust_would_review and structural_availability and not latency_would_skip
+
+    if not trust_would_review:
+        skip_reason = "trust"
+    elif not structural_availability:
+        skip_reason = "availability"
+    elif latency_would_skip:
+        skip_reason = "latency"
+    else:
+        skip_reason = "none"
 
     caught = False
+    atrophy_rate_this_step = 0.0
 
     if reviewed:
-        if not is_correct and rng.random() < review_skill:
+        # Use effective_skill (with penalties) for the catch roll
+        if not is_correct and rng.random() < effective_skill:
             # Citizen caught the error
             caught = True
             if not counterfactual_freeze:
@@ -176,9 +320,17 @@ def update_citizen_oversight(
             if is_correct and not counterfactual_freeze:
                 # Everything looked fine → trust increases → review less
                 review_prob = max(MIN_REVIEW_PROB, review_prob - REVIEW_PROB_DECAY_ON_CORRECT)
-            # Skill gets a tiny recovery boost from being exercised
+
+            # Phase 3: Skill recovery while actively reviewing
+            # Recovery rate is higher right after a shock re-engagement
             if not counterfactual_freeze:
-                review_skill = min(MAX_REVIEW_SKILL, review_skill + REVIEW_SKILL_RECOVERY_RATE)
+                # Use the faster shock-recovery rate if skill is below
+                # the citizen's original level (they're recovering)
+                if review_skill < citizen_initial_skill:
+                    recovery = SKILL_RECOVERY_AFTER_SHOCK
+                else:
+                    recovery = REVIEW_SKILL_RECOVERY_RATE
+                review_skill = min(MAX_REVIEW_SKILL, review_skill + recovery)
 
         # Reset consecutive low counter since citizen IS reviewing
         consecutive_low = 0
@@ -189,9 +341,26 @@ def update_citizen_oversight(
         else:
             consecutive_low = 0
 
-        # Passive skill decay when not reviewing for several consecutive steps
+        # Phase 3: Exponential skill atrophy
+        # Decay accelerates with sustained non-engagement
         if consecutive_low >= CONSECUTIVE_LOW_STEPS_TRIGGER and not counterfactual_freeze:
-            review_skill = max(MIN_REVIEW_SKILL, review_skill - REVIEW_SKILL_PASSIVE_DECAY)
+            # Exponential: rate increases with consecutive low steps
+            atrophy_rate_this_step = SKILL_ATROPHY_BASE_RATE * (
+                1.0 + SKILL_ATROPHY_ACCELERATION * consecutive_low
+            )
+            review_skill = max(
+                MIN_REVIEW_SKILL,
+                review_skill - atrophy_rate_this_step
+            )
+
+    # ── Phase 5: Social Contagion Anchoring ──
+    # Nudge review_probability toward the neighbor's alarm state.
+    if social_influence_weight > 0.0 and not counterfactual_freeze:
+        # Expected baseline error catch rate. If neighbors complain less than this, trust rises.
+        # If neighbors complain more than this, trust drops (review probability increases).
+        baseline_complaint_expectation = 0.26
+        social_delta = social_influence_weight * (neighbor_signal - baseline_complaint_expectation)
+        review_prob = max(MIN_REVIEW_PROB, min(MAX_REVIEW_PROB, review_prob + social_delta))
 
     # ── Write updated state back to citizen dict ──
     citizen["review_probability"] = review_prob
@@ -207,4 +376,17 @@ def update_citizen_oversight(
         review_probability=review_prob,
         review_skill=review_skill,
         model_backend=model_backend,
+        skip_reason=skip_reason,
+        latency_skip_probability=latency_skip_probability,
+        in_burst=in_burst,
+        error_injected=error_injected,
+        burst_error=burst_error,
+        # Phase 3 fields
+        language_match=language_match,
+        effective_skill=effective_skill,
+        explanation_style=explanation_style,
+        confidence_calibrated=confidence_calibrated,
+        skill_atrophy_rate=atrophy_rate_this_step,
+        initial_review_skill=citizen_initial_skill,
+        decision_confidence=decision_confidence,
     )
